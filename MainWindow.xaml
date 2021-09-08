@@ -18,7 +18,7 @@
             </Menu>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Visible" Name="primaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <skia:SKElement Name="mainCanvas" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseMove="MainCanvas_OnMouseMove" PaintSurface="MainCanvas_OnPaintSurface"/>
+            <skia:SKElement Name="mainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" PaintSurface="MainCanvas_OnPaintSurface"/>
         </ScrollViewer>
     </Grid>
     

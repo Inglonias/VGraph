@@ -21,8 +21,9 @@ namespace VGraph
     /// </summary>
     public partial class MainWindow : Window
     {
+        //Default values are best estimates for 1/4 inch squares on 8.5 x 11.
         int squareWidth = 30;
-        int squareHeight = 40;
+        int squareHeight = 39;
         int squareSize = 24;
         int margin = 48;
 
