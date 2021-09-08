@@ -14,11 +14,26 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <Menu HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <MenuItem Header="_File" VerticalAlignment="Stretch"></MenuItem>
+                <MenuItem Header="_File">
+                    <MenuItem Header="New"></MenuItem>
+                    <MenuItem Header="Open"></MenuItem>
+                    <MenuItem Header="Save"></MenuItem>
+                    <MenuItem Header="Export"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="Exit"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="Undo"></MenuItem>
+                    <MenuItem Header="Redo"></MenuItem>
+                    <Separator />
+                    <MenuItem Header="Cut"></MenuItem>
+                    <MenuItem Header="Copy"></MenuItem>
+                    <MenuItem Header="Paste"></MenuItem>
+                </MenuItem>
             </Menu>
         </DockPanel>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" Name="primaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <skia:SKElement Name="mainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" PaintSurface="MainCanvas_OnPaintSurface"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" x:Name="PrimaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <skia:SKElement Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
         </ScrollViewer>
     </Grid>
     
