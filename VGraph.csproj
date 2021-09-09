@@ -83,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\config\PageData.cs" />
+    <Compile Include="src\ui\MenuBarControl.xaml.cs">
+      <DependentUpon>MenuBarControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="src\ui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,11 +95,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\dataLayers\GridBackground.cs" />
+    <Compile Include="src\dataLayers\GridBackgroundLayer.cs" />
+    <Compile Include="src\dataLayers\IDataLayer.cs" />
+    <Compile Include="src\dataLayers\LineLayer.cs" />
+    <Compile Include="src\dataLayers\CursorLayer.cs" />
     <Compile Include="src\ui\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\ui\MenuBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
