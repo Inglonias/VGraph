@@ -109,6 +109,9 @@ namespace VGraph.src.dataLayers
 
         public void AddNewLine(SKPointI start, SKPointI end)
         {
+            if (start.Equals(end)) {
+                return;
+            }
             LineList.Add(new LineSegment(start, end));
             RedrawRequired = true;
         }
@@ -138,7 +141,7 @@ namespace VGraph.src.dataLayers
 
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
-                SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 3, Color = SKColors.Blue, IsAntialias = true };
+                SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {

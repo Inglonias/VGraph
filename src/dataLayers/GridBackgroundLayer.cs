@@ -27,7 +27,7 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
-            SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64,64,64,128) };
+            SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
 
             for (int x = 0; x < PageData.Instance.SquaresWide; x++)
             {
@@ -40,7 +40,7 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 64) };
+            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 32) };
             int quarterMargin = PageData.Instance.Margin / 4;
             SKRectI borderSquare = new SKRectI(quarterMargin, quarterMargin, PageData.Instance.GetTotalWidth() - quarterMargin, PageData.Instance.GetTotalHeight() - quarterMargin);
             gridCanvas.DrawRect(borderSquare, borderBrush);
