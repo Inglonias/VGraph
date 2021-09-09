@@ -40,9 +40,15 @@ namespace VGraph.src.dataLayers
                 }
             }
 
+            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 64) };
+            int quarterMargin = PageData.Instance.Margin / 4;
+            SKRectI borderSquare = new SKRectI(quarterMargin, quarterMargin, PageData.Instance.GetTotalWidth() - quarterMargin, PageData.Instance.GetTotalHeight() - quarterMargin);
+            gridCanvas.DrawRect(borderSquare, borderBrush);
+
             //Dispose of them.
             gridCanvas.Dispose();
             brush.Dispose();
+            borderBrush.Dispose();
 
             GridBitmap = grid;
             return GridBitmap;
