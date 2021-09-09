@@ -138,7 +138,7 @@ namespace VGraph.src.dataLayers
 
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
-                SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue };
+                SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 3, Color = SKColors.Blue };
 
                 foreach (LineSegment line in LineList)
                 {

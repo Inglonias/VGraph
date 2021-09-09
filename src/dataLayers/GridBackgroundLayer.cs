@@ -27,7 +27,7 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
-            SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1 };
+            SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64,64,64,128) };
 
             for (int x = 0; x < PageData.Instance.SquaresWide; x++)
             {
