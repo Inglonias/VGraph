@@ -18,8 +18,10 @@ namespace VGraph.src.dataLayers
 
         public class LineSegment
         {
+            private const double SELECT_RADIUS = 10;
             public SKPointI StartPointGrid { get; private set; }
             public SKPointI EndPointGrid { get; private set; }
+            public bool IsSelected { get; set; } = false;
 
             public LineSegment(int x1, int y1, int x2, int y2)
             {
@@ -97,6 +99,12 @@ namespace VGraph.src.dataLayers
                 return distance;
             }
 
+            public bool WasLineSelected(double dist)
+            {
+                IsSelected = dist < SELECT_RADIUS;
+                return IsSelected;
+            }
+
             private string PrintCoords(SKPointI p)
             {
                 return "(" + p.X + ", " + p.Y + ")";
@@ -122,20 +130,27 @@ namespace VGraph.src.dataLayers
             RedrawRequired = true;
         }
 
+        public void DeselectLines()
+        {
+            foreach (LineSegment l in LineList)
+            {
+                l.IsSelected = false;
+            }
+            RedrawRequired = true;
+        }
         public void WhichLineGotClicked(Point point)
         {
-            double minVal = 0;
-            int minIndex = -1;
+            DeselectLines();
+            RedrawRequired = true;
             for (int i = 0; i < LineList.Count; i++)
             {
-                double currentVal = LineList[i].LinePointDistance(point);
-                if (currentVal < minVal || minIndex == -1)
+                var dist = LineList[i].LinePointDistance(point);
+                if (LineList[i].WasLineSelected(dist))
                 {
-                    minVal = currentVal;
-                    minIndex = i;
+                    Console.WriteLine("Closest line is index " + i + " at a distance of " + dist);
+                    return;
                 }
             }
-            Console.WriteLine("Closest line is index " + minIndex + " at a distance of " + minVal);
         }
 
         public SKBitmap GenerateLayerBitmap()
@@ -147,23 +162,32 @@ namespace VGraph.src.dataLayers
 
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
+                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Red, IsAntialias = true };
                 SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
-                    canvas.DrawLine(canvasPoints[START], canvasPoints[END], brush);
+                    if (line.IsSelected)
+                    {
+                        canvas.DrawLine(canvasPoints[START], canvasPoints[END], selectedBrush);
+                    }
+                    else
+                    {
+                        canvas.DrawLine(canvasPoints[START], canvasPoints[END], brush);
+                    }
                 }
 
                 //Dispose of them.
                 canvas.Dispose();
+                selectedBrush.Dispose();
                 brush.Dispose();
 
                 if (LastBitmap != null)
                 {
                     LastBitmap.Dispose();
                 }
-
+                RedrawRequired = false;
                 LastBitmap = bitmap;
             }
 
@@ -173,6 +197,11 @@ namespace VGraph.src.dataLayers
         public bool IsRedrawRequired()
         {
             return RedrawRequired;
+        }
+
+        public SKPointI GetRenderPoint()
+        {
+            return new SKPointI(0, 0);
         }
     }
 }

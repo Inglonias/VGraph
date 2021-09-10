@@ -78,20 +78,13 @@ namespace VGraph
             e.Surface.Canvas.Clear(SKColors.White);
             foreach (IDataLayer l in PageData.Instance.GetDataLayers())
             {
+                bool specialRender = false;
                 if (l is GridBackgroundLayer)
                 {
                     MainCanvas.Width = l.GenerateLayerBitmap().Width;
                     MainCanvas.Height = l.GenerateLayerBitmap().Height;
                 }
-                if (!(l is CursorLayer))
-                {
-                    e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), 0, 0);
-                }
-                else
-                {
-                    CursorLayer cl = (CursorLayer)l;
-                    e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), cl.GetRenderPoint());
-                }
+                e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
             }
         }
 
@@ -112,13 +105,13 @@ namespace VGraph
                     ClickedOnce = false;
                     Console.WriteLine("Click again at X: " + target.X + " Y: " + target.Y);
                     LLines.AddNewLine(new SKPointI(DotX, DotY), new SKPointI(target.X, target.Y));
-                    MainCanvas.InvalidateVisual();
                 }
             }
             else
             {
                 LLines.WhichLineGotClicked(e.GetPosition(MainCanvas));
             }
+            MainCanvas.InvalidateVisual();
         }
     }
 }

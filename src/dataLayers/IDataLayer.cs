@@ -14,5 +14,10 @@ namespace VGraph.src.dataLayers
         /// </summary>
         /// <returns>An SKBitmap representing the current data layer.</returns>
         SKBitmap GenerateLayerBitmap();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>World coordinates to render this layer at.</returns>
+        SKPointI GetRenderPoint();
     }
 }

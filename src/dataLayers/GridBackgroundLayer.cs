@@ -69,5 +69,10 @@ namespace VGraph.src.dataLayers
         {
             RedrawRequired = true;
         }
+
+        public SKPointI GetRenderPoint()
+        {
+            return new SKPointI(0, 0);
+        }
     }
 }
