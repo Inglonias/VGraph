@@ -92,23 +92,11 @@ namespace VGraph
             if (e.ChangedButton == MouseButton.Right)
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
-                if (!ClickedOnce)
-                {
-                    ClickedOnce = true;
-                    Console.WriteLine("Click at X: " + target.X + " Y: " + target.Y);
-                    DotX = target.X;
-                    DotY = target.Y;
-                }
-                else
-                {
-                    ClickedOnce = false;
-                    Console.WriteLine("Click again at X: " + target.X + " Y: " + target.Y);
-                    LLines.AddNewLine(new SKPointI(DotX, DotY), new SKPointI(target.X, target.Y));
-                }
+                LLines.HandleCreationClick(target);
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
-                LLines.WhichLineGotClicked(e.GetPosition(MainCanvas));
+                LLines.HandleSelectionClick(e.GetPosition(MainCanvas));
             }
             MainCanvas.InvalidateVisual();
         }

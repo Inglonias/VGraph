@@ -12,9 +12,13 @@ namespace VGraph.src.dataLayers
         public List<LineSegment> LineList { get; } = new List<LineSegment>();
         private SKBitmap LastBitmap;
         private bool RedrawRequired;
+        public bool PreviewPointActive = false;
 
+        private const int PREVIEW_RADIUS = 4;
         private const int START = 0;
         private const int END = 1;
+
+        private SKPointI PreviewPoint;
 
         public class LineSegment
         {
@@ -138,7 +142,7 @@ namespace VGraph.src.dataLayers
             }
             RedrawRequired = true;
         }
-        public void WhichLineGotClicked(Point point)
+        public void HandleSelectionClick(Point point)
         {
             DeselectLines();
             RedrawRequired = true;
@@ -151,6 +155,21 @@ namespace VGraph.src.dataLayers
                     return;
                 }
             }
+        }
+
+        public void HandleCreationClick(SKPointI point)
+        {
+            if (PreviewPointActive)
+            {
+                AddNewLine(PreviewPoint, point);
+                PreviewPointActive = false;
+            }
+            else
+            {
+                PreviewPointActive = true;
+                PreviewPoint = point;
+            }
+            RedrawRequired = true;
         }
 
         public void DeleteSelectedLine()
@@ -175,8 +194,10 @@ namespace VGraph.src.dataLayers
 
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
+
+                SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Green };
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Red, IsAntialias = true };
-                SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue, IsAntialias = true };
+                SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {
@@ -187,14 +208,20 @@ namespace VGraph.src.dataLayers
                     }
                     else
                     {
-                        canvas.DrawLine(canvasPoints[START], canvasPoints[END], brush);
+                        canvas.DrawLine(canvasPoints[START], canvasPoints[END], standardBrush);
                     }
+                }
+
+                if (PreviewPointActive)
+                {
+                    canvas.DrawCircle(PreviewPoint, PREVIEW_RADIUS, previewBrush);
                 }
 
                 //Dispose of them.
                 canvas.Dispose();
+                previewBrush.Dispose();
                 selectedBrush.Dispose();
-                brush.Dispose();
+                standardBrush.Dispose();
 
                 if (LastBitmap != null)
                 {
