@@ -75,22 +75,21 @@ namespace VGraph
             {
                 return;
             }
+
+            MainCanvas.Width = LGrid.GenerateLayerBitmap().Width;
+            MainCanvas.Height = LGrid.GenerateLayerBitmap().Height;
+
             e.Surface.Canvas.Clear(SKColors.White);
+
             foreach (IDataLayer l in PageData.Instance.GetDataLayers())
             {
-                bool specialRender = false;
-                if (l is GridBackgroundLayer)
-                {
-                    MainCanvas.Width = l.GenerateLayerBitmap().Width;
-                    MainCanvas.Height = l.GenerateLayerBitmap().Height;
-                }
                 e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
             }
         }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (PageData.Instance.LineModeActive)
+            if (e.ChangedButton == MouseButton.Right)
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
                 if (!ClickedOnce)
@@ -107,7 +106,7 @@ namespace VGraph
                     LLines.AddNewLine(new SKPointI(DotX, DotY), new SKPointI(target.X, target.Y));
                 }
             }
-            else
+            else if (e.ChangedButton == MouseButton.Left)
             {
                 LLines.WhichLineGotClicked(e.GetPosition(MainCanvas));
             }

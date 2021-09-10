@@ -17,18 +17,6 @@ namespace VGraph.src.ui
             InitializeComponent();
         }
 
-        private void LineModeItem_OnUncheck(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Unchecked");
-            PageData.Instance.LineModeActive = false;
-        }
-
-        private void LineModeItem_OnCheck(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("Checked");
-            PageData.Instance.LineModeActive = true;
-        }
-
         private void MenuBar_OnNewGrid(object sender, RoutedEventArgs e)
         {
             NewGridWindow ngw = new NewGridWindow();

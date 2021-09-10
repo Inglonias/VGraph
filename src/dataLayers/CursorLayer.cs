@@ -66,18 +66,16 @@ namespace VGraph.src.dataLayers
             if (Bitmap == null)
             {
                 Bitmap = new SKBitmap(RADIUS * 2, RADIUS * 2);
-                if (PageData.Instance.LineModeActive)
-                {
-                    //Disposables
-                    SKCanvas canvas = new SKCanvas(Bitmap);
-                    SKPaint brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
 
-                    canvas.DrawCircle(new SKPointI(RADIUS, RADIUS), RADIUS, brush);
+                //Disposables
+                SKCanvas canvas = new SKCanvas(Bitmap);
+                SKPaint brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
 
-                    //Dispose of them.
-                    canvas.Dispose();
-                    brush.Dispose();
-                }
+                canvas.DrawCircle(new SKPointI(RADIUS, RADIUS), RADIUS, brush);
+
+                //Dispose of them.
+                canvas.Dispose();
+                brush.Dispose();
             }
             return Bitmap;
         }

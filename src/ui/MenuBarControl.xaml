@@ -14,7 +14,7 @@
             <Separator />
             <MenuItem Header="Exit"></MenuItem>
         </MenuItem>
-        <MenuItem Header="_Edit">
+        <!--<MenuItem Header="_Edit">
             <MenuItem Header="Undo"></MenuItem>
             <MenuItem Header="Redo"></MenuItem>
             <Separator />
@@ -24,7 +24,7 @@
         </MenuItem>
         <MenuItem Header="_Tools">
             <MenuItem Header="Line Mode" IsCheckable="True" IsChecked="True" Unchecked="LineModeItem_OnUncheck" Checked="LineModeItem_OnCheck"></MenuItem>
-        </MenuItem>
+        </MenuItem>-->
     </Menu>
 
 </UserControl>

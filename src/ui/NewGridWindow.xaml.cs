@@ -24,6 +24,10 @@ namespace VGraph.src.ui
         public NewGridWindow()
         {
             InitializeComponent();
+            GridSquaresWide.Text = Convert.ToString(PageData.Instance.SquaresWide);
+            GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
+            GridSquareSize.Text = Convert.ToString(PageData.Instance.SquareSize);
+            PageMargin.Text = Convert.ToString(PageData.Instance.Margin);
         }
 
         private void NewGridWindow_OnOK(object sender, RoutedEventArgs e)

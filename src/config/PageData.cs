@@ -12,8 +12,6 @@ namespace VGraph.src.config
         public int SquareSize { get; set; } = 24;
         public int Margin { get; set; } = 48;
 
-        public bool LineModeActive { get; set; } = true;
-
         private readonly List<IDataLayer> DataLayerList = new List<IDataLayer>();
 
         /// <summary>

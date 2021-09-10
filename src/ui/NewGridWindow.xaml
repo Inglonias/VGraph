@@ -23,8 +23,8 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Grid Size:" FontSize="14"/>
             <Label Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="x"          FontSize="14"/>
-            <TextBox Grid.Column="1" Text="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquaresWide" FontSize="14"/>
-            <TextBox Grid.Column="3" Text="39" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquaresTall" FontSize="14"/>
+            <TextBox Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquaresWide" FontSize="14"/>
+            <TextBox Grid.Column="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquaresTall" FontSize="14"/>
         </Grid>
         <Grid Name="SquareSizeContainer" Grid.Row="1" Margin="4" Height="40">
             <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
 
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Square Size (px):" FontSize="14"/>
-            <TextBox Grid.Column="1" Text="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquareSize" FontSize="14"/>
+            <TextBox Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="GridSquareSize" FontSize="14"/>
         </Grid>
         <Grid Name="PageMarginContainer" Grid.Row="2" Margin="4" Height="40">
             <Grid.ColumnDefinitions>
@@ -42,7 +42,7 @@
 
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Page margin (px):" FontSize="14"/>
-            <TextBox Grid.Column="1" Text="48" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="PageMargin" FontSize="14"/>
+            <TextBox Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="PageMargin" FontSize="14"/>
         </Grid>
         <Grid Name="ButtonContainer" Grid.Row="4">
             <Grid.ColumnDefinitions>
