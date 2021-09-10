@@ -84,5 +84,9 @@ namespace VGraph.src.dataLayers
         {
             return true;
         }
+
+        public void ForceRedraw()
+        {
+        }
     }
 }

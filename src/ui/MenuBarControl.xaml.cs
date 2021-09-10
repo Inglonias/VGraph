@@ -58,7 +58,8 @@ namespace VGraph.src.ui
         {
             SaveFileDialog d = new SaveFileDialog
             {
-                DefaultExt = ".png"
+                DefaultExt = ".png",
+                Filter = "Portable network graphic (.png)|*.png"
             };
             Nullable<bool> result = d.ShowDialog();
 

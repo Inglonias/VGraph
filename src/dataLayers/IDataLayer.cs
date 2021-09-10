@@ -23,5 +23,9 @@ namespace VGraph.src.dataLayers
         /// </summary>
         /// <returns>World coordinates to render this layer at.</returns>
         SKPointI GetRenderPoint();
+        /// <summary>
+        /// Force a layer to redraw at the next PaintSurface event.
+        /// </summary>
+        void ForceRedraw();
     }
 }

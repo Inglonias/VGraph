@@ -158,13 +158,13 @@ namespace VGraph.src.dataLayers
                 return;
             }
             LineList.Add(new LineSegment(start, end, needToConvert));
-            RedrawRequired = true;
+            ForceRedraw();
         }
 
         public void ClearAllLines()
         {
             LineList.Clear();
-            RedrawRequired = true;
+            ForceRedraw();
         }
 
         public void DeselectLines()
@@ -173,12 +173,12 @@ namespace VGraph.src.dataLayers
             {
                 l.IsSelected = false;
             }
-            RedrawRequired = true;
+            ForceRedraw();
         }
         public void HandleSelectionClick(Point point)
         {
             DeselectLines();
-            RedrawRequired = true;
+            ForceRedraw();
             for (int i = 0; i < LineList.Count; i++)
             {
                 var dist = LineList[i].LinePointDistance(point);
@@ -204,7 +204,7 @@ namespace VGraph.src.dataLayers
                 PreviewPointActive = true;
                 PreviewPoint = point;
             }
-            RedrawRequired = true;
+            ForceRedraw();
         }
 
         public void DeleteSelectedLine()
@@ -214,7 +214,7 @@ namespace VGraph.src.dataLayers
                 if (l.IsSelected)
                 {
                     LineList.Remove(l);
-                    RedrawRequired = true;
+                    ForceRedraw();
                     break;
                 }
             }
@@ -277,6 +277,11 @@ namespace VGraph.src.dataLayers
         public SKPointI GetRenderPoint()
         {
             return new SKPointI(0, 0);
+        }
+
+        public void ForceRedraw()
+        {
+            RedrawRequired = true;
         }
     }
 }

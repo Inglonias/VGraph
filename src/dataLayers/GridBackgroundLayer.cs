@@ -65,7 +65,7 @@ namespace VGraph.src.dataLayers
             return RedrawRequired;
         }
 
-        public void RequireLayerRedraw()
+        public void ForceRedraw()
         {
             RedrawRequired = true;
         }

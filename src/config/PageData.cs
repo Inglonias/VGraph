@@ -79,6 +79,11 @@ namespace VGraph.src.config
                 {
                     lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid, false);
                 }
+
+                foreach (IDataLayer l in DataLayerList)
+                {
+                    l.ForceRedraw();
+                }
             }
             catch (Exception)
             {

@@ -29,7 +29,7 @@ namespace VGraph.src.ui
             GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[0];
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[1];
 
-            gbl.RequireLayerRedraw();
+            gbl.ForceRedraw();
             ll.ClearAllLines();
 
             Close();
