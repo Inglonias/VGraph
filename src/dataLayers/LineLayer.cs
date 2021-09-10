@@ -24,7 +24,7 @@ namespace VGraph.src.dataLayers
         public class LineSegment
         {
             [JsonIgnore]
-            private const double SELECT_RADIUS = 10;
+            public readonly static double SELECT_RADIUS = 2;
             public SKPointI StartPointGrid { get; set; }
             public SKPointI EndPointGrid { get; set; }
             [JsonIgnore]
@@ -91,12 +91,12 @@ namespace VGraph.src.dataLayers
             /// <returns>Minimum Euclidian distance to the line segment</returns>
             public double LinePointDistance(Point pointC)
             {
-                SKPointI[] canvasPoints = GetCanvasPoints();
+                SKPointI[] canvasPoints = GetCanvasPoints();        
 
-                //Heron's formula. This is one I had not heard of before!
                 Point pointA = new Point(canvasPoints[START].X, canvasPoints[START].Y);
                 Point pointB = new Point(canvasPoints[END].X, canvasPoints[END].Y);
 
+                //Heron's formula. This is one I had not heard of before!
                 double abX = Math.Abs(pointB.X - pointA.X);
                 double abY = Math.Abs(pointB.Y - pointA.Y);
                 double abLength = Math.Sqrt(Math.Pow(abX, 2) + Math.Pow(abY, 2));
@@ -119,8 +119,19 @@ namespace VGraph.src.dataLayers
                 return distance;
             }
 
-            public bool WasLineSelected(double dist)
+            public bool WasLineSelected(double dist, Point clickPoint)
             {
+                //Sanity check for co-linear clicks.
+                SKPointI[] endpoints = GetCanvasPoints();
+                double minX = Math.Min(endpoints[START].X, endpoints[END].X) - SELECT_RADIUS;
+                double maxX = Math.Max(endpoints[START].X, endpoints[END].X) + SELECT_RADIUS;
+                double minY = Math.Min(endpoints[START].Y, endpoints[END].Y) - SELECT_RADIUS;
+                double maxY = Math.Max(endpoints[START].Y, endpoints[END].Y) + SELECT_RADIUS;
+                if ((clickPoint.X < minX) || (clickPoint.Y < minY) || (clickPoint.X > maxX) || (clickPoint.Y > maxY))
+                {
+                    IsSelected = false;
+                    return IsSelected;
+                }
                 IsSelected = dist < SELECT_RADIUS;
                 return IsSelected;
             }
@@ -171,10 +182,12 @@ namespace VGraph.src.dataLayers
             for (int i = 0; i < LineList.Count; i++)
             {
                 var dist = LineList[i].LinePointDistance(point);
-                if (LineList[i].WasLineSelected(dist))
+                if (dist < LineSegment.SELECT_RADIUS)
                 {
-                    Console.WriteLine("Closest line is index " + i + " at a distance of " + dist);
-                    return;
+                    if (LineList[i].WasLineSelected(dist, point))
+                    {
+                        return;
+                    }
                 }
             }
         }
