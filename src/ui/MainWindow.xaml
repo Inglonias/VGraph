@@ -7,7 +7,7 @@
     xmlns:ui="clr-namespace:VGraph.src.ui"
         x:Class="VGraph.MainWindow" 
     mc:Ignorable="d"
-        Title="VGraph" Height="450" Width="800">
+        Title="VGraph" Height="450" Width="800" KeyDown="VGraphWindow_OnKeyDown">
     <Grid x:Name="primaryGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>

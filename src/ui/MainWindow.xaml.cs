@@ -112,5 +112,14 @@ namespace VGraph
             }
             MainCanvas.InvalidateVisual();
         }
+
+        private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                LLines.DeleteSelectedLine();
+                MainCanvas.InvalidateVisual();
+            }
+        }
     }
 }

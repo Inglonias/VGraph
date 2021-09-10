@@ -153,6 +153,19 @@ namespace VGraph.src.dataLayers
             }
         }
 
+        public void DeleteSelectedLine()
+        {
+            foreach (LineSegment l in LineList)
+            {
+                if (l.IsSelected)
+                {
+                    LineList.Remove(l);
+                    RedrawRequired = true;
+                    break;
+                }
+            }
+        }
+
         public SKBitmap GenerateLayerBitmap()
         {
             if (LastBitmap == null || RedrawRequired)
