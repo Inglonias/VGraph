@@ -116,6 +116,12 @@ namespace VGraph.src.dataLayers
             RedrawRequired = true;
         }
 
+        public void ClearAllLines()
+        {
+            LineList.Clear();
+            RedrawRequired = true;
+        }
+
         public void WhichLineGotClicked(Point point)
         {
             double minVal = 0;
@@ -152,6 +158,11 @@ namespace VGraph.src.dataLayers
                 //Dispose of them.
                 canvas.Dispose();
                 brush.Dispose();
+
+                if (LastBitmap != null)
+                {
+                    LastBitmap.Dispose();
+                }
 
                 LastBitmap = bitmap;
             }

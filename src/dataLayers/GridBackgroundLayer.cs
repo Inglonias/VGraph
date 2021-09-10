@@ -6,8 +6,9 @@ namespace VGraph.src.dataLayers
 {
     public class GridBackgroundLayer : IDataLayer
     {
+        private bool RedrawRequired = true;
 
-        SKBitmap GridBitmap;
+        private SKBitmap GridBitmap;
 
         public GridBackgroundLayer()
         {
@@ -15,7 +16,7 @@ namespace VGraph.src.dataLayers
 
         public SKBitmap GenerateLayerBitmap()
         {
-            if (GridBitmap != null)
+            if (!RedrawRequired)
             {
                 return GridBitmap;
             }
@@ -50,13 +51,23 @@ namespace VGraph.src.dataLayers
             brush.Dispose();
             borderBrush.Dispose();
 
+            if (GridBitmap != null)
+            {
+                GridBitmap.Dispose();
+            }
             GridBitmap = grid;
+            RedrawRequired = false;
             return GridBitmap;
         }
 
         public bool IsRedrawRequired()
         {
-            return false; //The background grid should never need to be redrawn.
+            return RedrawRequired;
+        }
+
+        public void RequireLayerRedraw()
+        {
+            RedrawRequired = true;
         }
     }
 }

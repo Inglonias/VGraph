@@ -7,7 +7,7 @@
              d:DesignHeight="20" d:DesignWidth="800">
     <Menu HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <MenuItem Header="_File">
-            <MenuItem Header="New"></MenuItem>
+            <MenuItem Header="New" Click="MenuBar_OnNewGrid"></MenuItem>
             <MenuItem Header="Open"></MenuItem>
             <MenuItem Header="Save"></MenuItem>
             <MenuItem Header="Export"></MenuItem>

@@ -1,4 +1,7 @@
-﻿namespace VGraph.src.config
+﻿using System.Collections.Generic;
+using VGraph.src.dataLayers;
+
+namespace VGraph.src.config
 {
     //Singleton containing commonly used and modified properties.
     public class PageData
@@ -10,6 +13,8 @@
         public int Margin { get; set; } = 48;
 
         public bool LineModeActive { get; set; } = true;
+
+        private readonly List<IDataLayer> DataLayerList = new List<IDataLayer>();
 
         /// <summary>
         /// Calculate the total width of the canvas in pixels.
@@ -27,6 +32,10 @@
         public int GetTotalHeight()
         {
             return (SquaresTall * SquareSize) + (Margin * 2);
+        }
+
+        public List<IDataLayer> GetDataLayers() {
+            return DataLayerList;
         }
 
         // Explicit static constructor to tell C# compiler

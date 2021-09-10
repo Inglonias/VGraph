@@ -17,7 +17,7 @@
             <ui:MenuBarControl x:Name="MainMenuBar"/>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Visible" x:Name="PrimaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <skia:SKElement x:Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
+            <skia:SKElement x:Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" Width="Auto" Height="Auto" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
         </ScrollViewer>
     </Grid>
 

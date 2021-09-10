@@ -87,6 +87,9 @@
     <Compile Include="src\ui\MenuBarControl.xaml.cs">
       <DependentUpon>MenuBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\ui\NewGridWindow.xaml.cs">
+      <DependentUpon>NewGridWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="src\ui\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,6 +107,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="src\ui\MenuBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\NewGridWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

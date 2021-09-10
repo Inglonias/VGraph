@@ -28,5 +28,11 @@ namespace VGraph.src.ui
             Console.WriteLine("Checked");
             PageData.Instance.LineModeActive = true;
         }
+
+        private void MenuBar_OnNewGrid(object sender, RoutedEventArgs e)
+        {
+            NewGridWindow ngw = new NewGridWindow();
+            ngw.Show();
+        }
     }
 }

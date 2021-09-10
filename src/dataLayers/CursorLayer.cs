@@ -8,6 +8,7 @@ namespace VGraph.src.dataLayers
     internal class CursorLayer : IDataLayer
     {
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
+        private SKBitmap Bitmap;
 
         private const int RADIUS = 4;
 
@@ -52,23 +53,33 @@ namespace VGraph.src.dataLayers
             return new SKPointI(targetX, targetY);
         }
 
+        public SKPointI GetRenderPoint()
+        {
+            return new SKPointI(CursorPoint.X - RADIUS, CursorPoint.Y - RADIUS);
+        }
+
         public SKBitmap GenerateLayerBitmap()
         {
-            SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
-            if (PageData.Instance.LineModeActive)
+
+            //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
+            //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+            if (Bitmap == null)
             {
-                //Disposables
-                SKCanvas canvas = new SKCanvas(bitmap);
-                SKPaint brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
+                Bitmap = new SKBitmap(RADIUS * 2, RADIUS * 2);
+                if (PageData.Instance.LineModeActive)
+                {
+                    //Disposables
+                    SKCanvas canvas = new SKCanvas(Bitmap);
+                    SKPaint brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
 
-                canvas.DrawCircle(CursorPoint, RADIUS, brush);
+                    canvas.DrawCircle(new SKPointI(RADIUS, RADIUS), RADIUS, brush);
 
-                //Dispose of them.
-                canvas.Dispose();
-                brush.Dispose();
+                    //Dispose of them.
+                    canvas.Dispose();
+                    brush.Dispose();
+                }
             }
-
-            return bitmap;
+            return Bitmap;
         }
 
         public bool IsRedrawRequired()

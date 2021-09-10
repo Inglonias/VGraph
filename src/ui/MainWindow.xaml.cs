@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -33,7 +31,6 @@ namespace VGraph
         private readonly LineLayer LLines;
         private readonly CursorLayer LCursor;
 
-        public List<IDataLayer> LayerList { get; } = new List<IDataLayer>();
 
         public MainWindow()
         {
@@ -50,20 +47,11 @@ namespace VGraph
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
         }
 
-        public IDataLayer GetDataLayer(Layers l)
-        {
-            return GetDataLayer((int)l);
-        }
-        private IDataLayer GetDataLayer(int i)
-        {
-            return LayerList.ElementAt(i);
-        }
-
         private void OrderAllLayers()
         {
-            LayerList.Add(LGrid);
-            LayerList.Add(LLines);
-            LayerList.Add(LCursor);
+            PageData.Instance.GetDataLayers().Add(LGrid);
+            PageData.Instance.GetDataLayers().Add(LLines);
+            PageData.Instance.GetDataLayers().Add(LCursor);
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -75,7 +63,7 @@ namespace VGraph
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
             bool anyLayerRedraw = false;
-            foreach (IDataLayer l in LayerList)
+            foreach (IDataLayer l in PageData.Instance.GetDataLayers())
             {
                 if (l.IsRedrawRequired())
                 {
@@ -88,9 +76,22 @@ namespace VGraph
                 return;
             }
             e.Surface.Canvas.Clear(SKColors.White);
-            foreach (IDataLayer l in LayerList)
+            foreach (IDataLayer l in PageData.Instance.GetDataLayers())
             {
-                e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), 0, 0);
+                if (l is GridBackgroundLayer)
+                {
+                    MainCanvas.Width = l.GenerateLayerBitmap().Width;
+                    MainCanvas.Height = l.GenerateLayerBitmap().Height;
+                }
+                if (!(l is CursorLayer))
+                {
+                    e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), 0, 0);
+                }
+                else
+                {
+                    CursorLayer cl = (CursorLayer)l;
+                    e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), cl.GetRenderPoint());
+                }
             }
         }
 
