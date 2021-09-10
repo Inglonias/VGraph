@@ -41,9 +41,11 @@ namespace VGraph.src.ui
 
         private void MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog d = new SaveFileDialog();
-            d.DefaultExt = ".vgp";
-            d.Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json";
+            SaveFileDialog d = new SaveFileDialog
+            {
+                DefaultExt = ".vgp",
+                Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json"
+            };
             Nullable<bool> result = d.ShowDialog();
 
             if (result == true)
@@ -54,8 +56,10 @@ namespace VGraph.src.ui
 
         private void MenuBar_OnExportFile(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog d = new SaveFileDialog();
-            d.DefaultExt = ".bmp";
+            SaveFileDialog d = new SaveFileDialog
+            {
+                DefaultExt = ".png"
+            };
             Nullable<bool> result = d.ShowDialog();
 
             if (result == true)

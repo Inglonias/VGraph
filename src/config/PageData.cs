@@ -61,7 +61,7 @@ namespace VGraph.src.config
 
         public bool FileOpen(string fileName)
         {
-            VgpFile saveFile = null;
+            VgpFile saveFile;
             try
             {
                 string jsonString = File.ReadAllText(fileName);
@@ -80,10 +80,8 @@ namespace VGraph.src.config
                     lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid, false);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
                 return false;
             }
 
@@ -92,16 +90,15 @@ namespace VGraph.src.config
 
         public bool FileSave(string fileName)
         {
-            VgpFile saveFile = new VgpFile();
-            saveFile.SquaresWide = SquaresWide;
-            saveFile.SquaresTall = SquaresTall;
-            saveFile.SquareSize = SquareSize;
-            saveFile.Margin = Margin;
-
             LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
-
-            saveFile.Lines = lineLayer.LineList;
-
+            VgpFile saveFile = new VgpFile
+            {
+                SquaresWide = SquaresWide,
+                SquaresTall = SquaresTall,
+                SquareSize = SquareSize,
+                Margin = Margin,
+                Lines = lineLayer.LineList
+            };
             string jsonString = JsonSerializer.Serialize(saveFile);
             try
             {
@@ -129,6 +126,5 @@ namespace VGraph.src.config
             }
             return composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
         }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Text.Json;
 using SkiaSharp;
 
 using VGraph.src.config;
@@ -56,7 +55,7 @@ namespace VGraph.src.dataLayers
 
                 //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
                 //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
-                private void GenerateGridPoints(SKPointI start, SKPointI end)
+            private void GenerateGridPoints(SKPointI start, SKPointI end)
             {
                 //Subtract out the margin.
                 int startX = start.X - PageData.Instance.Margin;
