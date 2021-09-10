@@ -8,11 +8,11 @@
     <Menu HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <MenuItem Header="_File">
             <MenuItem Header="New" Click="MenuBar_OnNewGrid"></MenuItem>
-            <MenuItem Header="Open"></MenuItem>
-            <MenuItem Header="Save"></MenuItem>
-            <MenuItem Header="Export"></MenuItem>
+            <MenuItem Header="Open" Click="MenuBar_OnOpenFile"></MenuItem>
+            <MenuItem Header="Save" Click="MenuBar_OnSaveFile"></MenuItem>
+            <MenuItem Header="Export" Click="MenuBar_OnExportFile"></MenuItem>
             <Separator />
-            <MenuItem Header="Exit"></MenuItem>
+            <MenuItem Header="Exit" Click="MenuBar_OnExit"></MenuItem>
         </MenuItem>
         <!--<MenuItem Header="_Edit">
             <MenuItem Header="Undo"></MenuItem>

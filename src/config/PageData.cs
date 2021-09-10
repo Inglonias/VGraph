@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using SkiaSharp;
+using System.Collections.Generic;
 using VGraph.src.dataLayers;
 
 namespace VGraph.src.config
 {
-    //Singleton containing commonly used and modified properties.
+    //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
         //Default values are a best guess for 4 squares per inch, at a size of 8.5" x 11"
@@ -47,6 +48,31 @@ namespace VGraph.src.config
         }
 
         public static PageData Instance { get; } = new PageData();
+
+        public bool FileOpen(string fileName)
+        {
+            return false;
+        }
+
+        public bool FileSave(string fileName)
+        {
+            return false;
+        }
+
+        public bool FileExport(string fileName)
+        {
+            SKFileWStream exportedImage = new SKFileWStream(fileName);
+            SKBitmap composite = new SKBitmap(GetTotalWidth(), GetTotalHeight());
+            SKCanvas canvas = new SKCanvas(composite);
+            foreach (IDataLayer l in DataLayerList)
+            {
+                if (!(l is CursorLayer))
+                {
+                    canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
+                }
+            }
+            return composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
+        }
 
     }
 }
