@@ -1,9 +1,19 @@
 ﻿using SkiaSharp;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using VGraph.src.dataLayers;
+using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.config
 {
+    public enum Layers
+    {
+        Grid = 0,
+        Lines = 1,
+        Cursor = 2
+    }
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
@@ -51,12 +61,58 @@ namespace VGraph.src.config
 
         public bool FileOpen(string fileName)
         {
-            return false;
+            VgpFile saveFile = null;
+            try
+            {
+                string jsonString = File.ReadAllText(fileName);
+                saveFile = JsonSerializer.Deserialize<VgpFile>(jsonString);
+                SquaresWide = saveFile.SquaresWide;
+                SquaresTall = saveFile.SquaresTall;
+                SquareSize = saveFile.SquareSize;
+                Margin = saveFile.Margin;
+
+                LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
+
+                lineLayer.ClearAllLines();
+
+                foreach (LineSegment l in saveFile.Lines)
+                {
+                    lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid, false);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
+
+            return true;
         }
 
         public bool FileSave(string fileName)
         {
-            return false;
+            VgpFile saveFile = new VgpFile();
+            saveFile.SquaresWide = SquaresWide;
+            saveFile.SquaresTall = SquaresTall;
+            saveFile.SquareSize = SquareSize;
+            saveFile.Margin = Margin;
+
+            LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
+
+            saveFile.Lines = lineLayer.LineList;
+
+            string jsonString = JsonSerializer.Serialize(saveFile);
+            try
+            {
+                File.WriteAllText(fileName, jsonString);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public bool FileExport(string fileName)

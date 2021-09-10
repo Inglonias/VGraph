@@ -10,23 +10,11 @@ using VGraph.src.dataLayers;
 namespace VGraph
 {
 
-    public enum Layers
-    {
-        Grid = 0,
-        Lines = 1,
-        Cursor = 2
-    }
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private int DotX = 0;
-        private int DotY = 0;
-
-        private bool ClickedOnce = false;
-
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly CursorLayer LCursor;

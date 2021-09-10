@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Text.Json;
 using SkiaSharp;
 
 using VGraph.src.config;
+using System.Text.Json.Serialization;
 
 namespace VGraph.src.dataLayers
 {
@@ -22,24 +24,39 @@ namespace VGraph.src.dataLayers
 
         public class LineSegment
         {
+            [JsonIgnore]
             private const double SELECT_RADIUS = 10;
-            public SKPointI StartPointGrid { get; private set; }
-            public SKPointI EndPointGrid { get; private set; }
+            public SKPointI StartPointGrid { get; set; }
+            public SKPointI EndPointGrid { get; set; }
+            [JsonIgnore]
             public bool IsSelected { get; set; } = false;
+
+            public LineSegment()
+            {
+
+            }
 
             public LineSegment(int x1, int y1, int x2, int y2)
             {
                 GenerateGridPoints(new SKPointI(x1, y1), new SKPointI(x2, y2));
             }
 
-            public LineSegment(SKPointI startPoint, SKPointI endPoint)
+            public LineSegment(SKPointI startPoint, SKPointI endPoint, bool needToConvert)
             {
-                GenerateGridPoints(startPoint, endPoint);
+                if (needToConvert)
+                {
+                    GenerateGridPoints(startPoint, endPoint);
+                }
+                else
+                {
+                    StartPointGrid = startPoint;
+                    EndPointGrid = endPoint;
+                }
             }
 
-            //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
-            //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
-            private void GenerateGridPoints(SKPointI start, SKPointI end)
+                //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
+                //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
+                private void GenerateGridPoints(SKPointI start, SKPointI end)
             {
                 //Subtract out the margin.
                 int startX = start.X - PageData.Instance.Margin;
@@ -121,10 +138,16 @@ namespace VGraph.src.dataLayers
 
         public void AddNewLine(SKPointI start, SKPointI end)
         {
-            if (start.Equals(end)) {
+            AddNewLine(start, end, true);
+        }
+
+        public void AddNewLine(SKPointI start, SKPointI end, bool needToConvert)
+        {
+            if (start.Equals(end))
+            {
                 return;
             }
-            LineList.Add(new LineSegment(start, end));
+            LineList.Add(new LineSegment(start, end, needToConvert));
             RedrawRequired = true;
         }
 
