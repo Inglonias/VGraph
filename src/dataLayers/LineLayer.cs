@@ -24,7 +24,7 @@ namespace VGraph.src.dataLayers
         public class LineSegment
         {
             [JsonIgnore]
-            public readonly static double SELECT_RADIUS = 2;
+            public readonly static double SELECT_RADIUS = 5;
             public SKPointI StartPointGrid { get; set; }
             public SKPointI EndPointGrid { get; set; }
             [JsonIgnore]
