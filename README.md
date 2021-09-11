@@ -1,3 +1,5 @@
+![Logo](https://user-images.githubusercontent.com/2125926/132928948-69e2d47c-3ad5-429e-b5b5-3df1fe094d62.png)
+
 # VGraph
 A digital piece of grid paper
 
