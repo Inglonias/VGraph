@@ -129,7 +129,10 @@ namespace VGraph.src.config
                     canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
                 }
             }
-            return composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
+            bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
+            composite.Dispose();
+            exportedImage.Dispose();
+            return result;
         }
     }
 }
