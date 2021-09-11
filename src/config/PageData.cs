@@ -17,11 +17,11 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
-        //Default values are a best guess for 4 squares per inch, at a size of 8.5" x 11"
-        public int SquaresWide { get; set; } = 30;
-        public int SquaresTall { get; set; } = 39;
+        //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
+        public int SquaresWide { get; set; } = 32;
+        public int SquaresTall { get; set; } = 42;
         public int SquareSize { get; set; } = 24;
-        public int Margin { get; set; } = 48;
+        public int Margin { get; set; } = 24;
 
         private readonly List<IDataLayer> DataLayerList = new List<IDataLayer>();
 
