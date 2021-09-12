@@ -183,6 +183,32 @@ namespace VGraph.src.dataLayers
             }
             ForceRedraw();
         }
+
+        public void DeleteSelectedLines()
+        {
+            for (int i = LineList.Count - 1; i >= 0; i--)
+            {
+                if (LineList[i].IsSelected)
+                {
+                    LineList.RemoveAt(i);
+                    ForceRedraw();
+                }
+            }
+        }
+
+        public void MoveSelectedLines(int x, int y)
+        {
+            foreach (LineSegment l in LineList)
+            {
+                if (l.IsSelected)
+                {
+                    l.StartPointGrid = new SKPointI(l.StartPointGrid.X + x, l.StartPointGrid.Y + y);
+                    l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
+                    ForceRedraw();
+                }
+            }
+        }
+
         public void HandleSelectionClick(Point point)
         {
             DeselectLines();
@@ -226,18 +252,6 @@ namespace VGraph.src.dataLayers
             {
                 PreviewPointActive = true;
                 PreviewPoint = point;
-            }
-            ForceRedraw();
-        }
-
-        public void DeleteSelectedLines()
-        {
-            for (int i = LineList.Count - 1; i >= 0 ; i--)
-            {
-                if (LineList[i].IsSelected)
-                {
-                    LineList.RemoveAt(i);
-                }
             }
             ForceRedraw();
         }
