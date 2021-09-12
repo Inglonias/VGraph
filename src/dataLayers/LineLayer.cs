@@ -274,7 +274,7 @@ namespace VGraph.src.dataLayers
             return RedrawRequired;
         }
 
-        public SKPointI GetRenderPoint()
+        public SKPoint GetRenderPoint()
         {
             return new SKPointI(0, 0);
         }

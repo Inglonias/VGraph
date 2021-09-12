@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 using SkiaSharp;
@@ -17,7 +18,6 @@ namespace VGraph
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly CursorLayer LCursor;
-
 
         public MainWindow()
         {
@@ -43,7 +43,16 @@ namespace VGraph
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
-            LCursor.CursorPoint = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
+            LCursor.CanvasPoint = e.GetPosition(MainCanvas);
+            if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
+            {
+                LCursor.StopClickDrag();
+                LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
+            }
+            else
+            {
+                LCursor.StartClickDrag();
+            }
             MainCanvas.InvalidateVisual();
         }
 

@@ -22,7 +22,7 @@ namespace VGraph.src.dataLayers
         /// The background and line layers currently return (0, 0) here, but the cursor layer is a special case.
         /// </summary>
         /// <returns>World coordinates to render this layer at.</returns>
-        SKPointI GetRenderPoint();
+        SKPoint GetRenderPoint();
         /// <summary>
         /// Force a layer to redraw at the next PaintSurface event.
         /// </summary>
