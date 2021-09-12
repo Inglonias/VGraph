@@ -26,7 +26,7 @@ namespace VGraph.src.ui
             ngw.Show();
         }
 
-        private bool MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
+        private void MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog d = new OpenFileDialog
             {
@@ -37,12 +37,11 @@ namespace VGraph.src.ui
 
             if (result == true)
             {
-                result = PageData.Instance.FileOpen(d.FileName);
+                PageData.Instance.FileOpen(d.FileName);
             }
-            return (bool)result;
         }
 
-        private bool MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
+        private void MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -53,12 +52,11 @@ namespace VGraph.src.ui
 
             if (result == true)
             {
-                result = PageData.Instance.FileSave(d.FileName);
+                PageData.Instance.FileSave(d.FileName);
             }
-            return (bool)result;
         }
 
-        private bool MenuBar_OnExportFile(object sender, RoutedEventArgs e)
+        private void MenuBar_OnExportFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -69,9 +67,8 @@ namespace VGraph.src.ui
 
             if (result == true)
             {
-                result = PageData.Instance.FileExport(d.FileName);
+                PageData.Instance.FileExport(d.FileName);
             }
-            return (bool)result;
         }
 
         private void MenuBar_OnExit(object sender, RoutedEventArgs e)
