@@ -26,54 +26,57 @@ namespace VGraph.src.ui
             ngw.Show();
         }
 
-        private void MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
+        private bool MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog d = new OpenFileDialog
             {
                 DefaultExt = ".vgp",
                 Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json"
             };
-            Nullable<bool> result = d.ShowDialog();
+            bool? result = d.ShowDialog();
 
             if (result == true)
             {
-                PageData.Instance.FileOpen(d.FileName);
+                result = PageData.Instance.FileOpen(d.FileName);
             }
+            return (bool)result;
         }
 
-        private void MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
+        private bool MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog d = new SaveFileDialog
             {
                 DefaultExt = ".vgp",
                 Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json"
             };
-            Nullable<bool> result = d.ShowDialog();
+            bool? result = d.ShowDialog();
 
             if (result == true)
             {
-                PageData.Instance.FileSave(d.FileName);
+                result = PageData.Instance.FileSave(d.FileName);
             }
+            return (bool)result;
         }
 
-        private void MenuBar_OnExportFile(object sender, RoutedEventArgs e)
+        private bool MenuBar_OnExportFile(object sender, RoutedEventArgs e)
         {
             SaveFileDialog d = new SaveFileDialog
             {
                 DefaultExt = ".png",
                 Filter = "Portable network graphic (.png)|*.png"
             };
-            Nullable<bool> result = d.ShowDialog();
+            bool? result = d.ShowDialog();
 
             if (result == true)
             {
-                PageData.Instance.FileExport(d.FileName);
+                result = PageData.Instance.FileExport(d.FileName);
             }
+            return (bool)result;
         }
 
         private void MenuBar_OnExit(object sender, RoutedEventArgs e)
         {
-            System.Environment.Exit(0);
+            Environment.Exit(0);
         }
     }
 }
