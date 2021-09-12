@@ -46,7 +46,11 @@ namespace VGraph
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
-                LCursor.StopClickDrag();
+                SKRect selectionBox = LCursor.StopClickDrag();
+                if (!selectionBox.Equals(SKRect.Empty))
+                {
+                    LLines.HandleBoxSelect(selectionBox);
+                }
                 LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
             }
             else
@@ -101,7 +105,7 @@ namespace VGraph
         {
             if (e.Key == Key.Delete)
             {
-                LLines.DeleteSelectedLine();
+                LLines.DeleteSelectedLines();
                 MainCanvas.InvalidateVisual();
             }
         }

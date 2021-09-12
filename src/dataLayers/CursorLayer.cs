@@ -71,6 +71,14 @@ namespace VGraph.src.dataLayers
             if (ClickDragActive)
             {
                 ClickDragActive = false;
+
+                float left  = Convert.ToSingle(Math.Min(CanvasPoint.X, ClickDragPoint.X));
+                float right = Convert.ToSingle(Math.Max(CanvasPoint.X, ClickDragPoint.X));
+                float top    = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
+                float bottom = Convert.ToSingle(Math.Max(CanvasPoint.Y, ClickDragPoint.Y));
+
+                SKRect rVal = new SKRect(left, top, right, bottom);
+                return rVal;
             }
             return SKRect.Empty;
         }

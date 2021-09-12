@@ -127,13 +127,21 @@ namespace VGraph.src.dataLayers
                 double maxX = Math.Max(endpoints[START].X, endpoints[END].X) + SELECT_RADIUS;
                 double minY = Math.Min(endpoints[START].Y, endpoints[END].Y) - SELECT_RADIUS;
                 double maxY = Math.Max(endpoints[START].Y, endpoints[END].Y) + SELECT_RADIUS;
+
+                bool rVal;
                 if ((clickPoint.X < minX) || (clickPoint.Y < minY) || (clickPoint.X > maxX) || (clickPoint.Y > maxY))
                 {
-                    IsSelected = false;
-                    return IsSelected;
+                    rVal = false;
+                    return rVal;
                 }
-                IsSelected = dist < SELECT_RADIUS;
-                return IsSelected;
+                rVal = dist < SELECT_RADIUS;
+                return rVal;
+            }
+
+            public bool WasLineSelected(SKRect boundingBox)
+            {
+                SKPointI[] endpoints = GetCanvasPoints();
+                return (boundingBox.Contains(endpoints[START]) && boundingBox.Contains(endpoints[END]));
             }
 
             private string PrintCoords(SKPointI p)
@@ -181,13 +189,28 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
             for (int i = 0; i < LineList.Count; i++)
             {
-                var dist = LineList[i].LinePointDistance(point);
+                double dist = LineList[i].LinePointDistance(point);
                 if (dist < LineSegment.SELECT_RADIUS)
                 {
                     if (LineList[i].WasLineSelected(dist, point))
                     {
+                        LineList[i].IsSelected = true;
                         return;
                     }
+                }
+            }
+        }
+
+        public void HandleBoxSelect(SKRect boundingBox)
+        {
+            DeselectLines();
+            ForceRedraw();
+            foreach (LineSegment l in LineList)
+            {
+                l.IsSelected = false;
+                if (l.WasLineSelected(boundingBox))
+                {
+                    l.IsSelected = true;
                 }
             }
         }
@@ -207,17 +230,16 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
-        public void DeleteSelectedLine()
+        public void DeleteSelectedLines()
         {
-            foreach (LineSegment l in LineList)
+            for (int i = LineList.Count - 1; i >= 0 ; i--)
             {
-                if (l.IsSelected)
+                if (LineList[i].IsSelected)
                 {
-                    LineList.Remove(l);
-                    ForceRedraw();
-                    break;
+                    LineList.RemoveAt(i);
                 }
             }
+            ForceRedraw();
         }
 
         public SKBitmap GenerateLayerBitmap()
