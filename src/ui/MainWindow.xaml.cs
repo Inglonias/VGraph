@@ -103,11 +103,30 @@ namespace VGraph
 
         private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete)
+            switch (e.Key)
             {
-                LLines.DeleteSelectedLines();
-                MainCanvas.InvalidateVisual();
+                case Key.Delete:
+                    LLines.DeleteSelectedLines();
+                    MainCanvas.InvalidateVisual();
+                    break;
+
+                case Key.W:
+                    LLines.MoveSelectedLines(0, -1);
+                    break;
+
+                case Key.D:
+                    LLines.MoveSelectedLines(1, 0);
+                    break;
+
+                case Key.S:
+                    LLines.MoveSelectedLines(0, 1);
+                    break;
+
+                case Key.A:
+                    LLines.MoveSelectedLines(-1, 0);
+                    break;
             }
+            MainCanvas.InvalidateVisual();
         }
     }
 }
