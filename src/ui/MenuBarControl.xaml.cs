@@ -28,9 +28,11 @@ namespace VGraph.src.ui
 
         private void MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog d = new OpenFileDialog();
-            d.DefaultExt = ".vgp";
-            d.Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json";
+            OpenFileDialog d = new OpenFileDialog
+            {
+                DefaultExt = ".vgp",
+                Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json"
+            };
             Nullable<bool> result = d.ShowDialog();
 
             if (result == true)
