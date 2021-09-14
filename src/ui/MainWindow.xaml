@@ -1,4 +1,4 @@
-﻿<Window x:Name="VGraphMainWindow"
+﻿<Window Name="VGraphMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,17 +8,23 @@
         x:Class="VGraph.MainWindow" 
     mc:Ignorable="d"
         Title="VGraph" Height="450" Width="800" KeyDown="VGraphWindow_OnKeyDown">
-    <Grid x:Name="primaryGrid">
+    <Grid Name="primaryGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition/>
+            <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <ui:MenuBarControl x:Name="MainMenuBar"/>
         </DockPanel>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" x:Name="PrimaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <skia:SKElement x:Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" Width="Auto" Height="Auto" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" Name="PrimaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+            <skia:SKElement Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" Width="Auto" Height="Auto" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
         </ScrollViewer>
+        <StatusBar HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Name="CursorStatusBar">
+            <StatusBarItem>
+                <TextBlock Name="CursorStatusTextBlock"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 
 </Window>

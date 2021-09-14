@@ -20,6 +20,14 @@ namespace VGraph.src.dataLayers
         {
         }
 
+        public SKPointI GetCursorGridPoints()
+        {
+            //Subtract out the margin.
+            int cursorX = CursorPoint.X - PageData.Instance.Margin;
+            int cursorY = CursorPoint.Y - PageData.Instance.Margin;
+            return new SKPointI(cursorX / PageData.Instance.SquareSize, cursorY / PageData.Instance.SquareSize);
+        }
+
         /// <summary>
         /// This method rounds a point on the main canvas to the main canvas grid such that the return value is equal to a multiple of PageData.Instance.SquareSize + PageData.Instance.Margin
         /// </summary>

@@ -58,6 +58,9 @@ namespace VGraph
                 LCursor.StartClickDrag();
             }
             MainCanvas.InvalidateVisual();
+
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
+            CursorStatusBar.InvalidateVisual();
         }
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
