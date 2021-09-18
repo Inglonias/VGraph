@@ -122,6 +122,10 @@ namespace VGraph.src.config
             SKFileWStream exportedImage = new SKFileWStream(fileName);
             SKBitmap composite = new SKBitmap(GetTotalWidth(), GetTotalHeight());
             SKCanvas canvas = new SKCanvas(composite);
+            using (SKPaint whiteBrush = new SKPaint { Color = SKColors.White, Style = SKPaintStyle.Fill })
+            {
+                canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
+            }
             foreach (IDataLayer l in DataLayerList)
             {
                 if (!(l is CursorLayer))
