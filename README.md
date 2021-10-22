@@ -8,6 +8,7 @@ There are many times when I have found myself wanting to use grid paper to make 
 
 ## Features
 * Draw straight lines between any two square corners
+* Approximate circles with both slopes and 90 degree corners
 * Export your paper to a PNG file
 * Save files in JSON format for later use.
 
