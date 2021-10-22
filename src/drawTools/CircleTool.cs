@@ -1,5 +1,5 @@
 using System;
-
+using System.Collections.Generic;
 using SkiaSharp;
 using static VGraph.src.dataLayers.LineLayer;
 
@@ -7,38 +7,46 @@ namespace VGraph.src.drawTools
 {
     public class CircleTool : IDrawTool
     {
-        private const int SEGMENTS_PER_QUAD = 12;
 
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
+            double fuzzRating = 0.3;
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
-            SKPointI north = new SKPointI(start.X, start.Y - radius);
-            SKPointI south = new SKPointI(start.X, start.Y + radius);
-            SKPointI east = new SKPointI(start.X + radius, start.Y);
-            SKPointI west = new SKPointI(start.X - radius, start.Y);
-            //Special case for itty-bitty circles.
             if (radius == 0) {
                 return null;
             }
+            //Radius of 1 needs four vertices to be sensible.
+            int numVertices = Math.Max(4,Convert.ToInt32(Math.Pow(radius, 3)));
+
+            //We need an even number of points to ensure a symmetrical circle.
+            if (numVertices % 2 == 1)
+            {
+                numVertices++;
+            }
+
+            
 
             List<SKPointI> vertices = new List<SKPointI>();
-            double angleSpacing = (Math.Pi / 2) / SEGMENTS_PER_QUAD;
-            for (int i = 0; i < SEGMENTS_PER_QUAD; i++) {
+            double angleSpacing = (Math.PI * 2) / numVertices;
+            for (int i = 0; i < numVertices; i++) {
                 double angle = i * angleSpacing;
                 double rawX = radius * Math.Cos(angle);
                 double rawY = radius * Math.Sin(angle);
-                SKPointI roundedCoord = new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY));
-                if (!vertices.Contains(roundedCoord))
+                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < fuzzRating )
                 {
-                    vertices.Add(roundedCoord);
+                    vertices.Add(new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY)));
                 }
             }
+
             List<LineSegment> lines = new List<LineSegment>();
+            //Add the first element to the back of the list to ensure the circle closes.
+            vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));
             for (int i = 1; i < vertices.Count; i++) {
-                LineSegment l = new LineSegment(vertices[i - 1], vertices[i], false);
+                SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
+                SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
+                LineSegment l = new LineSegment(offsetStart, offsetEnd, false);
                 lines.Add(l);
             }
-
             return lines.ToArray();
         }
     }
