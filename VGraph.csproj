@@ -118,6 +118,10 @@
     </ApplicationDefinition>
     <Compile Include="src\config\PageData.cs" />
     <Compile Include="src\config\VgpFile.cs" />
+    <Compile Include="src\drawTools\BoxTool.cs" />
+    <Compile Include="src\drawTools\CircleTool.cs" />
+    <Compile Include="src\drawTools\IDrawTool.cs" />
+    <Compile Include="src\drawTools\LineTool.cs" />
     <Compile Include="src\ui\MenuBarControl.xaml.cs">
       <DependentUpon>MenuBarControl.xaml</DependentUpon>
     </Compile>
