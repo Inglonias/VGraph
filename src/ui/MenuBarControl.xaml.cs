@@ -75,5 +75,10 @@ namespace VGraph.src.ui
         {
             Environment.Exit(0);
         }
+
+        private void ToolMenu_OnChecked(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }

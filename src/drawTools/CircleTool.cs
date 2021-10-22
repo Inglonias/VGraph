@@ -44,7 +44,7 @@ namespace VGraph.src.drawTools
             for (int i = 1; i < vertices.Count; i++) {
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
                 SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
-                LineSegment l = new LineSegment(offsetStart, offsetEnd, false);
+                LineSegment l = new LineSegment(offsetStart, offsetEnd);
                 lines.Add(l);
             }
             return lines.ToArray();
