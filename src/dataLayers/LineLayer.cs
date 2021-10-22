@@ -14,9 +14,9 @@ namespace VGraph.src.dataLayers
     {
         public static Dictionary<string, IDrawTool> Tools = new Dictionary<string, IDrawTool>();
 
-        public const string LINE_TOOL = "LineTool"; 
-        public const string BOX_TOOL = "BoxTool"; 
-        public const string CIRCLE_TOOL = "CircleTool"; 
+        public const string LINE_TOOL = "Line Tool";
+        public const string BOX_TOOL = "Box Tool";
+        public const string CIRCLE_TOOL = "Circle Tool";
 
         public List<LineSegment> LineList { get; } = new List<LineSegment>();
         private SKBitmap LastBitmap;

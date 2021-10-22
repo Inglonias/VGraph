@@ -46,6 +46,11 @@ namespace VGraph.src.config
             return DataLayers;
         }
 
+        public IDataLayer GetDataLayer(string key)
+        {
+            return DataLayers[key];
+        }
+
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
         static PageData()
