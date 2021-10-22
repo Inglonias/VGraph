@@ -128,6 +128,14 @@ namespace VGraph
                 case Key.A:
                     LLines.MoveSelectedLines(-1, 0);
                     break;
+
+                case Key.Add:
+                    PageData.Instance.ZoomIn();
+                    break;
+
+                case Key.Subtract:
+                    PageData.Instance.ZoomOut();
+                    break;
             }
             MainCanvas.InvalidateVisual();
         }

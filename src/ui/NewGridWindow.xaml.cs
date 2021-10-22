@@ -22,17 +22,25 @@ namespace VGraph.src.ui
 
         private void NewGridWindow_OnOK(object sender, RoutedEventArgs e)
         {
-            PageData.Instance.SquaresWide = Convert.ToInt32(GridSquaresWide.Text);
-            PageData.Instance.SquaresTall = Convert.ToInt32(GridSquaresTall.Text);
-            PageData.Instance.SquareSize  = Convert.ToInt32(GridSquareSize.Text);
-            PageData.Instance.Margin      = Convert.ToInt32(PageMargin.Text);
-            GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[0];
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[1];
+            try
+            {
+                PageData.Instance.SquaresWide = Convert.ToInt32(GridSquaresWide.Text);
+                PageData.Instance.SquaresTall = Convert.ToInt32(GridSquaresTall.Text);
+                PageData.Instance.SquareSize = Convert.ToInt32(GridSquareSize.Text);
+                PageData.Instance.TrueSquareSize = Convert.ToInt32(GridSquareSize.Text);
+                PageData.Instance.Margin = Convert.ToInt32(PageMargin.Text);
+                GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[0];
+                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[1];
 
-            gbl.ForceRedraw();
-            ll.ClearAllLines();
+                gbl.ForceRedraw();
+                ll.ClearAllLines();
 
-            Close();
+                Close();
+            }
+            catch (FormatException ex)
+            {
+
+            }
         }
 
         private void NewGridWindow_OnCancel(object sender, RoutedEventArgs e)

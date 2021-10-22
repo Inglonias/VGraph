@@ -22,6 +22,7 @@ namespace VGraph.src.config
         public int SquaresTall { get; set; } = 42;
         public int SquareSize { get; set; } = 24;
         public int Margin { get; set; } = 24;
+        public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
 
         private readonly List<IDataLayer> DataLayerList = new List<IDataLayer>();
 
@@ -43,7 +44,8 @@ namespace VGraph.src.config
             return (SquaresTall * SquareSize) + (Margin * 2);
         }
 
-        public List<IDataLayer> GetDataLayers() {
+        public List<IDataLayer> GetDataLayers()
+        {
             return DataLayerList;
         }
 
@@ -69,6 +71,7 @@ namespace VGraph.src.config
                 SquaresWide = saveFile.SquaresWide;
                 SquaresTall = saveFile.SquaresTall;
                 SquareSize = saveFile.SquareSize;
+                TrueSquareSize = saveFile.SquareSize;
                 Margin = saveFile.Margin;
 
                 LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
@@ -100,7 +103,7 @@ namespace VGraph.src.config
             {
                 SquaresWide = SquaresWide,
                 SquaresTall = SquaresTall,
-                SquareSize = SquareSize,
+                SquareSize = TrueSquareSize,
                 Margin = Margin,
                 Lines = lineLayer.LineList
             };
@@ -119,6 +122,11 @@ namespace VGraph.src.config
 
         public bool FileExport(string fileName)
         {
+            SquareSize = TrueSquareSize;
+            foreach (IDataLayer l in DataLayerList)
+            {
+                l.ForceRedraw();
+            }
             SKFileWStream exportedImage = new SKFileWStream(fileName);
             SKBitmap composite = new SKBitmap(GetTotalWidth(), GetTotalHeight());
             SKCanvas canvas = new SKCanvas(composite);
@@ -137,6 +145,24 @@ namespace VGraph.src.config
             composite.Dispose();
             exportedImage.Dispose();
             return result;
+        }
+
+        public void ZoomIn()
+        {
+            SquareSize += 4;
+            foreach (IDataLayer l in DataLayerList)
+            {
+                l.ForceRedraw();
+            }
+        }
+
+        public void ZoomOut()
+        {
+            SquareSize = Math.Max(4, SquareSize - 4);
+            foreach (IDataLayer l in DataLayerList)
+            {
+                l.ForceRedraw();
+            }
         }
     }
 }
