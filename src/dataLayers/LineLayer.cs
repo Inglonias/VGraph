@@ -19,6 +19,7 @@ namespace VGraph.src.dataLayers
         private const int END = 1;
 
         private SKPointI PreviewPoint;
+        private SKPointI PreviewGridPoint;
 
         public class LineSegment
         {
@@ -168,6 +169,12 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
+        public void AddNewLine(LineSegment l)
+        {
+            LineList.Add(l);
+            ForceRedraw();
+        }
+
         public void ClearAllLines()
         {
             LineList.Clear();
@@ -254,17 +261,23 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public void HandleCreationClick(SKPointI point)
+        public void HandleCreationClick(SKPointI point, SKPointI gridPoint)
         {
+            IDrawTool selectedTool = new LineTool();
             if (PreviewPointActive)
             {
-                AddNewLine(PreviewPoint, point);
+                LineSegment[] lines = selectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
+                foreach (LineSegment l in lines)
+                {
+                    AddNewLine(l);
+                }
                 PreviewPointActive = false;
             }
             else
             {
                 PreviewPointActive = true;
                 PreviewPoint = point;
+                PreviewGridPoint = gridPoint;
             }
             ForceRedraw();
         }

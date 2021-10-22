@@ -8,7 +8,7 @@ namespace VGraph.src.drawTools
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
             LineSegment[] rVal = new LineSegment[1];
-            rVal[0] = new LineSegment(start, end);
+            rVal[0] = new LineSegment(start, end, false);
 
             return rVal;
         }

@@ -95,7 +95,8 @@ namespace VGraph
             if (e.ChangedButton == MouseButton.Right)
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
-                LLines.HandleCreationClick(target);
+                SKPointI targetGrid = LCursor.GetCursorGridPoints();
+                LLines.HandleCreationClick(target, targetGrid);
             }
             else if (e.ChangedButton == MouseButton.Left)
             {

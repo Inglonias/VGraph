@@ -35,7 +35,7 @@ namespace VGraph.src.drawTools
             }
             List<LineSegment> lines = new List<LineSegment>();
             for (int i = 1; i < vertices.Count; i++) {
-                LineSegment l = new LineSegment(vertices[i - 1], vertices[i]);
+                LineSegment l = new LineSegment(vertices[i - 1], vertices[i], false);
                 lines.Add(l);
             }
 

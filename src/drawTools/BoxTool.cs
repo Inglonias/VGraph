@@ -12,10 +12,10 @@ namespace VGraph.src.drawTools
             SKPointI topRightCorner = new SKPointI(end.X, start.Y);
             SKPointI bottomLeftCorner = new SKPointI(start.X, end.Y);
 
-            rVal[0] = new LineSegment(start, topRightCorner);
-            rVal[1] = new LineSegment(topRightCorner, end);
-            rVal[2] = new LineSegment(end, bottomLeftCorner);
-            rVal[3] = new LineSegment(bottomLeftCorner, start);
+            rVal[0] = new LineSegment(start, topRightCorner, false);
+            rVal[1] = new LineSegment(topRightCorner, end, false);
+            rVal[2] = new LineSegment(end, bottomLeftCorner, false);
+            rVal[3] = new LineSegment(bottomLeftCorner, start, false);
 
             return rVal;
         }
