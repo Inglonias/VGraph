@@ -202,13 +202,12 @@ namespace VGraph.src.dataLayers
             {
                 if (l.IsSelected)
                 {
-                    bool moveValid = true;
                     int targetStartX = l.StartPointGrid.X + x;
                     int targetStartY = l.StartPointGrid.Y + y;
                     int targetEndX = l.EndPointGrid.X + x;
                     int targetEndY = l.EndPointGrid.Y + y;
 
-                    moveValid = (Math.Min(targetStartX, targetEndX) >= 0) &&
+                    bool moveValid = (Math.Min(targetStartX, targetEndX) >= 0) &&
                                 (Math.Min(targetStartY, targetEndY) >= 0) &&
                                 (Math.Max(targetStartX, targetEndX) <= PageData.Instance.SquaresWide) &&
                                 (Math.Max(targetStartY, targetEndY) <= PageData.Instance.SquaresTall);
