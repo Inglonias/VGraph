@@ -7,6 +7,10 @@ namespace VGraph.src.drawTools
     {
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
+            if (start.Equals(end))
+            {
+                return null;
+            }
             LineSegment[] rVal = new LineSegment[4];
 
             SKPointI topRightCorner = new SKPointI(end.X, start.Y);

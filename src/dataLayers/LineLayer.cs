@@ -304,9 +304,12 @@ namespace VGraph.src.dataLayers
             if (PreviewPointActive)
             {
                 LineSegment[] lines = SelectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
-                foreach (LineSegment l in lines)
+                if (lines != null)
                 {
-                    AddNewLine(l);
+                    foreach (LineSegment l in lines)
+                    {
+                        AddNewLine(l);
+                    }
                 }
                 PreviewPointActive = false;
             }
