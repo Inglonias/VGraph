@@ -8,15 +8,12 @@ using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.config
 {
-    public enum Layers
-    {
-        Grid = 0,
-        Lines = 1,
-        Cursor = 2
-    }
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
+        public const string GRID_LAYER   = "Grid Layer";
+        public const string LINE_LAYER   = "Line Layer";
+        public const string CURSOR_LAYER = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; } = 32;
         public int SquaresTall { get; set; } = 42;
@@ -24,7 +21,7 @@ namespace VGraph.src.config
         public int Margin { get; set; } = 24;
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
 
-        private readonly List<IDataLayer> DataLayerList = new List<IDataLayer>();
+        private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
         /// <summary>
         /// Calculate the total width of the canvas in pixels.
@@ -44,9 +41,14 @@ namespace VGraph.src.config
             return (SquaresTall * SquareSize) + (Margin * 2);
         }
 
-        public List<IDataLayer> GetDataLayers()
+        public Dictionary<string, IDataLayer> GetDataLayers()
         {
-            return DataLayerList;
+            return DataLayers;
+        }
+
+        public IDataLayer GetDataLayer(string key)
+        {
+            return DataLayers[key];
         }
 
         // Explicit static constructor to tell C# compiler
@@ -74,18 +76,18 @@ namespace VGraph.src.config
                 TrueSquareSize = saveFile.SquareSize;
                 Margin = saveFile.Margin;
 
-                LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
+                LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
 
                 lineLayer.ClearAllLines();
 
                 foreach (LineSegment l in saveFile.Lines)
                 {
-                    lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid, false);
+                    lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid);
                 }
 
-                foreach (IDataLayer l in DataLayerList)
+                foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {
-                    l.ForceRedraw();
+                    l.Value.ForceRedraw();
                 }
             }
             catch (Exception)
@@ -98,7 +100,7 @@ namespace VGraph.src.config
 
         public bool FileSave(string fileName)
         {
-            LineLayer lineLayer = (LineLayer)DataLayerList[Convert.ToInt32(Layers.Lines)];
+            LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
             VgpFile saveFile = new VgpFile
             {
                 SquaresWide = SquaresWide,
@@ -123,9 +125,9 @@ namespace VGraph.src.config
         public bool FileExport(string fileName)
         {
             SquareSize = TrueSquareSize;
-            foreach (IDataLayer l in DataLayerList)
+            foreach (KeyValuePair<string,IDataLayer> l in DataLayers)
             {
-                l.ForceRedraw();
+                l.Value.ForceRedraw();
             }
             SKFileWStream exportedImage = new SKFileWStream(fileName);
             SKBitmap composite = new SKBitmap(GetTotalWidth(), GetTotalHeight());
@@ -134,11 +136,11 @@ namespace VGraph.src.config
             {
                 canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
             }
-            foreach (IDataLayer l in DataLayerList)
+            foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
-                if (!(l is CursorLayer))
+                if (!(l.Value is CursorLayer))
                 {
-                    canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
+                    canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
                 }
             }
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
@@ -150,18 +152,18 @@ namespace VGraph.src.config
         public void ZoomIn()
         {
             SquareSize += 4;
-            foreach (IDataLayer l in DataLayerList)
+            foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
-                l.ForceRedraw();
+                l.Value.ForceRedraw();
             }
         }
 
         public void ZoomOut()
         {
             SquareSize = Math.Max(4, SquareSize - 4);
-            foreach (IDataLayer l in DataLayerList)
+            foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
-                l.ForceRedraw();
+                l.Value.ForceRedraw();
             }
         }
     }

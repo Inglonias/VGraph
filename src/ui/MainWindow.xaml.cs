@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -36,9 +37,9 @@ namespace VGraph
 
         private void OrderAllLayers()
         {
-            PageData.Instance.GetDataLayers().Add(LGrid);
-            PageData.Instance.GetDataLayers().Add(LLines);
-            PageData.Instance.GetDataLayers().Add(LCursor);
+            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]   = LGrid;
+            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]   = LLines;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -66,9 +67,9 @@ namespace VGraph
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
             bool anyLayerRedraw = false;
-            foreach (IDataLayer l in PageData.Instance.GetDataLayers())
+            foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                if (l.IsRedrawRequired())
+                if (l.Value.IsRedrawRequired())
                 {
                     anyLayerRedraw = true;
                 }
@@ -84,9 +85,9 @@ namespace VGraph
 
             e.Surface.Canvas.Clear(SKColors.White);
 
-            foreach (IDataLayer l in PageData.Instance.GetDataLayers())
+            foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                e.Surface.Canvas.DrawBitmap(l.GenerateLayerBitmap(), l.GetRenderPoint());
+                e.Surface.Canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
             }
         }
 
@@ -95,7 +96,8 @@ namespace VGraph
             if (e.ChangedButton == MouseButton.Right)
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
-                LLines.HandleCreationClick(target);
+                SKPointI targetGrid = LCursor.GetCursorGridPoints();
+                LLines.HandleCreationClick(target, targetGrid);
             }
             else if (e.ChangedButton == MouseButton.Left)
             {

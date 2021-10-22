@@ -21,10 +21,12 @@
             <MenuItem Header="Cut"></MenuItem>
             <MenuItem Header="Copy"></MenuItem>
             <MenuItem Header="Paste"></MenuItem>
-        </MenuItem>
-        <MenuItem Header="_Tools">
-            <MenuItem Header="Line Mode" IsCheckable="True" IsChecked="True" Unchecked="LineModeItem_OnUncheck" Checked="LineModeItem_OnCheck"></MenuItem>
         </MenuItem>-->
+        <MenuItem Header="_Tools">
+            <MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
+            <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
+            <MenuItem x:Name="Circle_Tool" Header="Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
+        </MenuItem>
     </Menu>
 
 </UserControl>

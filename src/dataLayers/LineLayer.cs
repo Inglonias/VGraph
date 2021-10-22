@@ -5,11 +5,19 @@ using SkiaSharp;
 
 using VGraph.src.config;
 using System.Text.Json.Serialization;
+using VGraph.src.drawTools;
 
 namespace VGraph.src.dataLayers
 {
+
     public class LineLayer : IDataLayer
     {
+        public static Dictionary<string, IDrawTool> Tools = new Dictionary<string, IDrawTool>();
+
+        public const string LINE_TOOL = "Line Tool";
+        public const string BOX_TOOL = "Box Tool";
+        public const string CIRCLE_TOOL = "Circle Tool";
+
         public List<LineSegment> LineList { get; } = new List<LineSegment>();
         private SKBitmap LastBitmap;
         private bool RedrawRequired;
@@ -19,6 +27,9 @@ namespace VGraph.src.dataLayers
         private const int END = 1;
 
         private SKPointI PreviewPoint;
+        private SKPointI PreviewGridPoint;
+
+        public IDrawTool SelectedTool { get; set; }
 
         public class LineSegment
         {
@@ -34,39 +45,45 @@ namespace VGraph.src.dataLayers
 
             }
 
-            public LineSegment(int x1, int y1, int x2, int y2)
+            //public LineSegment(int x1, int y1, int x2, int y2)
+            //{
+            //    GenerateGridPoints(new SKPointI(x1, y1), new SKPointI(x2, y2));
+            //}
+
+            //public LineSegment(SKPointI startPoint, SKPointI endPoint, bool needToConvert)
+            //{
+            //    if (needToConvert)
+            //    {
+            //        GenerateGridPoints(startPoint, endPoint);
+            //    }
+            //    else
+            //    {
+            //        StartPointGrid = startPoint;
+            //        EndPointGrid = endPoint;
+            //    }
+            //}
+
+            public LineSegment(SKPointI startPoint, SKPointI endPoint)
             {
-                GenerateGridPoints(new SKPointI(x1, y1), new SKPointI(x2, y2));
+                StartPointGrid = startPoint;
+                EndPointGrid = endPoint;
             }
 
-            public LineSegment(SKPointI startPoint, SKPointI endPoint, bool needToConvert)
-            {
-                if (needToConvert)
-                {
-                    GenerateGridPoints(startPoint, endPoint);
-                }
-                else
-                {
-                    StartPointGrid = startPoint;
-                    EndPointGrid = endPoint;
-                }
-            }
+            //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
+            //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
+            //private void GenerateGridPoints(SKPointI start, SKPointI end)
+            //{
+            //    //Subtract out the margin.
+            //    int startX = start.X - PageData.Instance.Margin;
+            //    int startY = start.Y - PageData.Instance.Margin;
+            //    int endX = end.X - PageData.Instance.Margin;
+            //    int endY = end.Y - PageData.Instance.Margin;
 
-                //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
-                //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
-            private void GenerateGridPoints(SKPointI start, SKPointI end)
-            {
-                //Subtract out the margin.
-                int startX = start.X - PageData.Instance.Margin;
-                int startY = start.Y - PageData.Instance.Margin;
-                int endX = end.X - PageData.Instance.Margin;
-                int endY = end.Y - PageData.Instance.Margin;
+            //    StartPointGrid = new SKPointI(startX / PageData.Instance.SquareSize, startY / PageData.Instance.SquareSize);
+            //    EndPointGrid = new SKPointI(endX / PageData.Instance.SquareSize, endY / PageData.Instance.SquareSize);
 
-                StartPointGrid = new SKPointI(startX / PageData.Instance.SquareSize, startY / PageData.Instance.SquareSize);
-                EndPointGrid = new SKPointI(endX / PageData.Instance.SquareSize, endY / PageData.Instance.SquareSize);
-
-                Console.WriteLine("Line created. Grid points are " + PrintCoords(StartPointGrid) + " and " + PrintCoords(EndPointGrid));
-            }
+            //    Console.WriteLine("Line created. Grid points are " + PrintCoords(StartPointGrid) + " and " + PrintCoords(EndPointGrid));
+            //}
 
             public SKPointI[] GetCanvasPoints()
             {
@@ -90,7 +107,7 @@ namespace VGraph.src.dataLayers
             /// <returns>Minimum Euclidian distance to the line segment</returns>
             public double LinePointDistance(Point pointC)
             {
-                SKPointI[] canvasPoints = GetCanvasPoints();        
+                SKPointI[] canvasPoints = GetCanvasPoints();
 
                 Point pointA = new Point(canvasPoints[START].X, canvasPoints[START].Y);
                 Point pointB = new Point(canvasPoints[END].X, canvasPoints[END].Y);
@@ -143,28 +160,52 @@ namespace VGraph.src.dataLayers
                 return (boundingBox.Contains(endpoints[START]) && boundingBox.Contains(endpoints[END]));
             }
 
-            private string PrintCoords(SKPointI p)
-            {
-                return "(" + p.X + ", " + p.Y + ")";
-            }
+            //private string PrintCoords(SKPointI p)
+            //{
+            //    return "(" + p.X + ", " + p.Y + ")";
+            //}
         }
 
         public LineLayer()
         {
+            LineLayer.InitializeTools();
+            SelectedTool = Tools[LINE_TOOL];
+        }
+
+        public static void InitializeTools()
+        {
+            Tools[LINE_TOOL] = new LineTool();
+            Tools[BOX_TOOL] = new BoxTool();
+            Tools[CIRCLE_TOOL] = new CircleTool();
+        }
+        public void SelectTool(string tool)
+        {
+            SelectedTool = Tools[tool];
         }
 
         public void AddNewLine(SKPointI start, SKPointI end)
-        {
-            AddNewLine(start, end, true);
-        }
-
-        public void AddNewLine(SKPointI start, SKPointI end, bool needToConvert)
         {
             if (start.Equals(end))
             {
                 return;
             }
-            LineList.Add(new LineSegment(start, end, needToConvert));
+            LineList.Add(new LineSegment(start, end));
+            ForceRedraw();
+        }
+
+        //public void AddNewLine(SKPointI start, SKPointI end, bool needToConvert)
+        //{
+        //    if (start.Equals(end))
+        //    {
+        //        return;
+        //    }
+        //    LineList.Add(new LineSegment(start, end, needToConvert));
+        //    ForceRedraw();
+        //}
+
+        public void AddNewLine(LineSegment l)
+        {
+            LineList.Add(l);
             ForceRedraw();
         }
 
@@ -216,7 +257,7 @@ namespace VGraph.src.dataLayers
                         l.StartPointGrid = new SKPointI(l.StartPointGrid.X + x, l.StartPointGrid.Y + y);
                         l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
                     }
-                    
+
                 }
             }
             ForceRedraw();
@@ -254,17 +295,22 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public void HandleCreationClick(SKPointI point)
+        public void HandleCreationClick(SKPointI point, SKPointI gridPoint)
         {
             if (PreviewPointActive)
             {
-                AddNewLine(PreviewPoint, point);
+                LineSegment[] lines = SelectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
+                foreach (LineSegment l in lines)
+                {
+                    AddNewLine(l);
+                }
                 PreviewPointActive = false;
             }
             else
             {
                 PreviewPointActive = true;
                 PreviewPoint = point;
+                PreviewGridPoint = gridPoint;
             }
             ForceRedraw();
         }

@@ -29,15 +29,15 @@ namespace VGraph.src.ui
                 PageData.Instance.SquareSize = Math.Max(4, Convert.ToInt32(GridSquareSize.Text));
                 PageData.Instance.TrueSquareSize = Math.Max(4, Convert.ToInt32(GridSquareSize.Text));
                 PageData.Instance.Margin = Math.Max(0, Convert.ToInt32(PageMargin.Text));
-                GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[0];
-                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[1];
+                GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
+                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
 
                 gbl.ForceRedraw();
                 ll.ClearAllLines();
 
                 Close();
             }
-            catch (FormatException ex)
+            catch (FormatException)
             {
 
             }
