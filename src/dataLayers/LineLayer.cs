@@ -17,6 +17,7 @@ namespace VGraph.src.dataLayers
         public const string LINE_TOOL = "Line Tool";
         public const string BOX_TOOL = "Box Tool";
         public const string CIRCLE_TOOL = "Circle Tool";
+        public const string BOXY_CIRCLE_TOOL = "Boxy Circle Tool";
 
         public List<LineSegment> LineList { get; } = new List<LineSegment>();
         private SKBitmap LastBitmap;
@@ -177,6 +178,9 @@ namespace VGraph.src.dataLayers
             Tools[LINE_TOOL] = new LineTool();
             Tools[BOX_TOOL] = new BoxTool();
             Tools[CIRCLE_TOOL] = new CircleTool();
+            CircleTool boxyTool = new CircleTool();
+            boxyTool.FuzzRating = 1.0;
+            Tools[BOXY_CIRCLE_TOOL] = boxyTool;
         }
         public void SelectTool(string tool)
         {

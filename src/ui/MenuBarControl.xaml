@@ -26,6 +26,7 @@
             <MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
             <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
             <MenuItem x:Name="Circle_Tool" Header="Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
+            <MenuItem x:Name="Boxy_Circle_Tool" Header="Boxy Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
         </MenuItem>
     </Menu>
 

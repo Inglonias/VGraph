@@ -7,10 +7,14 @@ namespace VGraph.src.drawTools
 {
     public class CircleTool : IDrawTool
     {
+        public double FuzzRating { get; set; }
 
+        public CircleTool()
+        {
+            FuzzRating = 0.3;
+        }
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
-            double fuzzRating = 0.25;
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
             if (radius == 0) {
                 return null;
@@ -24,20 +28,17 @@ namespace VGraph.src.drawTools
                 numVertices++;
             }
 
-            
-
             List<SKPointI> vertices = new List<SKPointI>();
             double angleSpacing = (Math.PI * 2) / numVertices;
             for (int i = 0; i < numVertices; i++) {
                 double angle = i * angleSpacing;
                 double rawX = radius * Math.Cos(angle);
                 double rawY = radius * Math.Sin(angle);
-                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < fuzzRating )
+                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < FuzzRating )
                 {
                     vertices.Add(new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY)));
                 }
             }
-
             List<LineSegment> lines = new List<LineSegment>();
             //Add the first element to the back of the list to ensure the circle closes.
             vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));

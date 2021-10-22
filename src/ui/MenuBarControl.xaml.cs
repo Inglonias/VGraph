@@ -91,6 +91,7 @@ namespace VGraph.src.ui
             toolMenuItems.Add(Line_Tool);
             toolMenuItems.Add(Box_Tool);
             toolMenuItems.Add(Circle_Tool);
+            toolMenuItems.Add(Boxy_Circle_Tool);
 
             foreach (MenuItem m in toolMenuItems)
             {
