@@ -15,7 +15,6 @@ namespace VGraph.src.dataLayers
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
 
-        private const int PREVIEW_RADIUS = 4;
         private const int START = 0;
         private const int END = 1;
 
@@ -272,6 +271,7 @@ namespace VGraph.src.dataLayers
 
         public SKBitmap GenerateLayerBitmap()
         {
+            int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             if (LastBitmap == null || RedrawRequired)
             {
                 RedrawRequired = false;
@@ -281,8 +281,8 @@ namespace VGraph.src.dataLayers
                 SKCanvas canvas = new SKCanvas(bitmap);
 
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Green };
-                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Red, IsAntialias = true };
-                SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = SKColors.Blue, IsAntialias = true };
+                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Red, IsAntialias = true };
+                SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {
@@ -299,7 +299,8 @@ namespace VGraph.src.dataLayers
 
                 if (PreviewPointActive)
                 {
-                    canvas.DrawCircle(PreviewPoint, PREVIEW_RADIUS, previewBrush);
+                    int previewRadius = Math.Max(1, drawRadius);
+                    canvas.DrawCircle(PreviewPoint, previewRadius, previewBrush);
                 }
 
                 //Dispose of them.

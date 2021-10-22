@@ -14,8 +14,6 @@ namespace VGraph.src.dataLayers
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
         private SKBitmap Bitmap;
 
-        private const int RADIUS = 4;
-
         public CursorLayer()
         {
         }
@@ -80,9 +78,9 @@ namespace VGraph.src.dataLayers
             {
                 ClickDragActive = false;
 
-                float left  = Convert.ToSingle(Math.Min(CanvasPoint.X, ClickDragPoint.X));
+                float left = Convert.ToSingle(Math.Min(CanvasPoint.X, ClickDragPoint.X));
                 float right = Convert.ToSingle(Math.Max(CanvasPoint.X, ClickDragPoint.X));
-                float top    = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
+                float top = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
                 float bottom = Convert.ToSingle(Math.Max(CanvasPoint.Y, ClickDragPoint.Y));
 
                 SKRect rVal = new SKRect(left, top, right, bottom);
@@ -99,7 +97,8 @@ namespace VGraph.src.dataLayers
                 float renderY = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
                 return new SKPoint(renderX, renderY);
             }
-            return new SKPointI(CursorPoint.X - RADIUS, CursorPoint.Y - RADIUS);
+            int radius = Math.Max(1, PageData.Instance.SquareSize / 6);
+            return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
         }
 
         public SKBitmap GenerateLayerBitmap()
@@ -107,8 +106,9 @@ namespace VGraph.src.dataLayers
             //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
             //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
 
-            int canvasWidth = RADIUS * 2;
-            int canvasHeight = RADIUS * 2;
+            int radius = Math.Max(1, PageData.Instance.SquareSize / 6);
+            int canvasWidth = radius * 2;
+            int canvasHeight = radius * 2;
 
             if (ClickDragActive)
             {
@@ -128,24 +128,24 @@ namespace VGraph.src.dataLayers
             SKPaint brush;
             if (ClickDragActive)
             {
-                float strokeSize = Math.Max(RADIUS / 2, 1);
+                float strokeSize = Math.Max(radius / 2, 1);
                 brush = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Black, StrokeWidth = strokeSize };
-                float right  = Convert.ToSingle(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
+                float right = Convert.ToSingle(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
-                SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(RADIUS / 2, 1), bottom - Math.Max(RADIUS / 2, 1));
+                SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
                 canvas.DrawRect(rect, brush);
             }
             else
             {
-               brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
-               canvas.DrawCircle(new SKPointI(RADIUS, RADIUS), RADIUS, brush);
+                brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
+                canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 
             //Dispose of them.
             canvas.Dispose();
             brush.Dispose();
-            
+
             return Bitmap;
         }
 
