@@ -16,8 +16,9 @@ namespace VGraph.src.drawTools
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
+            List<LineSegment> lines = new List<LineSegment>();
             if (radius == 0) {
-                return null;
+                return lines;
             }
             //Radius of 1 needs four vertices to be sensible.
             int numVertices = 360;
@@ -39,7 +40,6 @@ namespace VGraph.src.drawTools
                     vertices.Add(new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY)));
                 }
             }
-            List<LineSegment> lines = new List<LineSegment>();
             //Add the first element to the back of the list to ensure the circle closes.
             vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));
             for (int i = 1; i < vertices.Count; i++) {
