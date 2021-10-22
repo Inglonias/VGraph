@@ -10,13 +10,13 @@ namespace VGraph.src.drawTools
 
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
-            double fuzzRating = 0.3;
+            double fuzzRating = 0.25;
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
             if (radius == 0) {
                 return null;
             }
             //Radius of 1 needs four vertices to be sensible.
-            int numVertices = Math.Max(4,Convert.ToInt32(Math.Pow(radius, 3)));
+            int numVertices = 360;
 
             //We need an even number of points to ensure a symmetrical circle.
             if (numVertices % 2 == 1)
