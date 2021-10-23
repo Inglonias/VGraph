@@ -21,13 +21,7 @@ namespace VGraph.src.drawTools
                 return null;
             }
             //Radius of 1 needs four vertices to be sensible.
-            int numVertices = 360;
-
-            //We need an even number of points to ensure a symmetrical circle.
-            if (numVertices % 2 == 1)
-            {
-                numVertices++;
-            }
+            int numVertices = 64 * radius;
 
             List<SKPointI> vertices = new List<SKPointI>();
             double angleSpacing = (Math.PI * 2) / numVertices;
