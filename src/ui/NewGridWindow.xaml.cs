@@ -26,8 +26,8 @@ namespace VGraph.src.ui
             {
                 PageData.Instance.SquaresWide = Math.Max(1, Convert.ToInt32(GridSquaresWide.Text));
                 PageData.Instance.SquaresTall = Math.Max(1, Convert.ToInt32(GridSquaresTall.Text));
-                PageData.Instance.SquareSize = Math.Max(4, Convert.ToInt32(GridSquareSize.Text));
-                PageData.Instance.TrueSquareSize = Math.Max(4, Convert.ToInt32(GridSquareSize.Text));
+                PageData.Instance.SquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
+                PageData.Instance.TrueSquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.Margin = Math.Max(0, Convert.ToInt32(PageMargin.Text));
                 GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
                 LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];

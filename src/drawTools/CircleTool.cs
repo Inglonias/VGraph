@@ -17,7 +17,7 @@ namespace VGraph.src.drawTools
         {
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
             List<LineSegment> lines = new List<LineSegment>();
-            if (radius == 0) {
+            if (radius < 1) {
                 return null;
             }
             //Radius of 1 needs four vertices to be sensible.

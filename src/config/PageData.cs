@@ -151,7 +151,7 @@ namespace VGraph.src.config
 
         public void ZoomIn()
         {
-            SquareSize += 4;
+            SquareSize = Math.Min(128, SquareSize + 4);
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 l.Value.ForceRedraw();
