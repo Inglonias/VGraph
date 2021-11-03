@@ -178,9 +178,7 @@ namespace VGraph.src.dataLayers
             Tools[LINE_TOOL] = new LineTool();
             Tools[BOX_TOOL] = new BoxTool();
             Tools[CIRCLE_TOOL] = new CircleTool();
-            CircleTool boxyTool = new CircleTool();
-            boxyTool.FuzzRating = 1.0;
-            Tools[BOXY_CIRCLE_TOOL] = boxyTool;
+            Tools[BOXY_CIRCLE_TOOL] = new CircleTool(1.0);
         }
         public void SelectTool(string tool)
         {

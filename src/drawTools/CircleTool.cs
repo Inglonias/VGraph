@@ -13,6 +13,12 @@ namespace VGraph.src.drawTools
         {
             FuzzRating = 0.3;
         }
+
+        public CircleTool(double fuzz)
+        {
+            FuzzRating = fuzz;
+        }
+
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
             int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
