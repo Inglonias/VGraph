@@ -18,6 +18,7 @@ namespace VGraph
     {
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
+        private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
 
         public MainWindow()
@@ -25,6 +26,7 @@ namespace VGraph
             //Default values are best estimates for 1/4 inch squares on 8.5 x 11.
             LGrid = new GridBackgroundLayer();
             LLines = new LineLayer();
+            LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
 
             OrderAllLayers();
@@ -37,9 +39,10 @@ namespace VGraph
 
         private void OrderAllLayers()
         {
-            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]   = LGrid;
-            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]   = LLines;
-            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
+            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]    = LGrid;
+            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]    = LLines;
+            PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER]  = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -97,7 +100,7 @@ namespace VGraph
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
                 SKPointI targetGrid = LCursor.GetCursorGridPoints();
-                LLines.HandleCreationClick(target, targetGrid);
+                LPreview.HandleCreationClick(target, targetGrid);
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
