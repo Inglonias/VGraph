@@ -6,6 +6,8 @@ namespace VGraph.src.dataLayers
 {
     public class GridBackgroundLayer : IDataLayer
     {
+        bool IDataLayer.DrawInExport => true;
+
         private bool RedrawRequired = true;
 
         private SKBitmap GridBitmap;

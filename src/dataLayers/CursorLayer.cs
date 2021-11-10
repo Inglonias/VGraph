@@ -7,11 +7,14 @@ namespace VGraph.src.dataLayers
 {
     internal class CursorLayer : IDataLayer
     {
+        bool IDataLayer.DrawInExport => false;
+
         public bool ClickDragActive { get; private set; } = false;
         public Point CanvasPoint { get; set; } = new Point(0, 0);
         private Point ClickDragPoint = new Point(0, 0);
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
+
         private SKBitmap Bitmap;
 
         public CursorLayer()

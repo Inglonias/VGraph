@@ -4,6 +4,8 @@ namespace VGraph.src.dataLayers
 {
     public interface IDataLayer
     {
+        bool DrawInExport { get; }
+
         /// <summary>
         /// This method should be used to determine if a data layer should be redrawn or not.
         /// If any layer needs to be redrawn, then the entire main canvas is redrawn.

@@ -65,7 +65,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -131,10 +131,12 @@
     </ApplicationDefinition>
     <Compile Include="src\config\PageData.cs" />
     <Compile Include="src\config\VgpFile.cs" />
+    <Compile Include="src\dataLayers\PreviewLayer.cs" />
     <Compile Include="src\drawTools\BoxTool.cs" />
     <Compile Include="src\drawTools\CircleTool.cs" />
     <Compile Include="src\drawTools\IDrawTool.cs" />
     <Compile Include="src\drawTools\LineTool.cs" />
+    <Compile Include="src\LineSegment.cs" />
     <Compile Include="src\ui\MenuBarControl.xaml.cs">
       <DependentUpon>MenuBarControl.xaml</DependentUpon>
     </Compile>
