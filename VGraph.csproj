@@ -136,7 +136,7 @@
     <Compile Include="src\drawTools\CircleTool.cs" />
     <Compile Include="src\drawTools\IDrawTool.cs" />
     <Compile Include="src\drawTools\LineTool.cs" />
-    <Compile Include="src\LineSegment.cs" />
+    <Compile Include="src\objects\LineSegment.cs" />
     <Compile Include="src\ui\MenuBarControl.xaml.cs">
       <DependentUpon>MenuBarControl.xaml</DependentUpon>
     </Compile>

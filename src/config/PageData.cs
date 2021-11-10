@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.config
@@ -80,10 +81,7 @@ namespace VGraph.src.config
 
                 lineLayer.ClearAllLines();
 
-                foreach (LineSegment l in saveFile.Lines)
-                {
-                    lineLayer.AddNewLine(l.StartPointGrid, l.EndPointGrid);
-                }
+                lineLayer.AddNewLines(saveFile.Lines.ToArray());
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {
