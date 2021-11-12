@@ -6,6 +6,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using System.Text.Json.Serialization;
 using VGraph.src.drawTools;
+using VGraph.src.objects;
 
 namespace VGraph.src.dataLayers
 {
