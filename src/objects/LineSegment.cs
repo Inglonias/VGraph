@@ -147,6 +147,65 @@ namespace VGraph.src.objects
             return (boundingBox.Contains(endpoints[START]) && boundingBox.Contains(endpoints[END]));
         }
 
+        public LineSegment MergeLines(LineSegment target)
+        {
+            SKPointI endpointA;
+            SKPointI endpointB;
+            if (this.StartPointGrid == target.StartPointGrid)
+            {
+                endpointA = this.EndPointGrid;
+                endpointB = target.EndPointGrid;
+            }
+            else if (this.EndPointGrid == target.StartPointGrid)
+            {
+                endpointA = this.StartPointGrid;
+                endpointB = target.EndPointGrid;
+            }
+            else if (this.StartPointGrid == target.EndPointGrid)
+            {
+                endpointA = this.EndPointGrid;
+                endpointB = target.StartPointGrid;
+            }
+            else if (this.EndPointGrid == target.EndPointGrid)
+            {
+                endpointA = this.StartPointGrid;
+                endpointB = target.StartPointGrid;
+            }
+            else
+            {
+                return null;
+            }
+            double? slopeA = null;
+            double? slopeB = null;
+
+            try
+            {
+                double riseA = this.EndPointGrid.Y - this.StartPointGrid.Y;
+                double runA = this.EndPointGrid.X - this.StartPointGrid.X;
+                slopeA = riseA / runA;
+            }
+            catch (DivideByZeroException) { }
+            try
+            {
+                double riseB = target.EndPointGrid.Y - target.StartPointGrid.Y;
+                double runB = target.EndPointGrid.X - target.StartPointGrid.X;
+                slopeB = riseB / runB;
+            }
+            catch (DivideByZeroException) { }
+
+            if (slopeA == null ^ slopeB == null)
+            {
+                return null;
+            }
+
+            if ((slopeA == null && slopeB == null) || (slopeA == slopeB))
+            {
+                return new LineSegment(endpointA, endpointB);
+            }
+
+            return null;
+        }
+
         public override bool Equals(object o)
         {
             if ((o == null) || !this.GetType().Equals(o.GetType()))

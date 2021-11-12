@@ -127,5 +127,11 @@ namespace VGraph.src.ui
             Undo_Button.IsEnabled = ll.CanUndo();
             Redo_Button.IsEnabled = ll.CanRedo();
         }
+
+        private void MenuBar_OnMerge(object sender, RoutedEventArgs e)
+        {
+            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            ll.MergeAllLines();
+        }
     }
 }

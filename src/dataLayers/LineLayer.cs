@@ -146,6 +146,25 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
+        public void MergeAllLines()
+        {
+            UndoHistory.Push(LineList.ToArray());
+            List<LineSegment> finalList = new List<LineSegment>();
+            for (int i = 0; i < LineList.Count - 1; i++)
+            {
+                for (int j = i + 1; j < LineList.Count; j++)
+                {
+                    LineSegment mergeResult = LineList[i].MergeLines(LineList[j]);
+                    if (mergeResult != null)
+                    {
+                        LineList[i] = mergeResult;
+                        LineList.RemoveAt(j);
+                    }
+                }
+                finalList.Add(LineList[i]);
+            }
+        }
+
         public void DeselectLines()
         {
             foreach (LineSegment l in LineList)

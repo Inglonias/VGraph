@@ -28,10 +28,7 @@
                 <MenuItem Header="Paste" IsEnabled="False"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Tools">
-                <!--<MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
-                <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
-                <MenuItem x:Name="Circle_Tool" Header="Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
-                <MenuItem x:Name="Boxy_Circle_Tool" Header="Boxy Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>-->
+                <MenuItem Header="Merge Lines" ToolTip="This will merge any adjacent, co-linear lines together, creating a single large line in their place" Click="MenuBar_OnMerge"/>
             </MenuItem>
         </Menu>
         <ToolBarPanel Height="44px" Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
