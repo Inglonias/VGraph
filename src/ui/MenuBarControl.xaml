@@ -4,30 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="20" d:DesignWidth="800">
-    <Menu HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <MenuItem Header="_File">
-            <MenuItem Header="New" Click="MenuBar_OnNewGrid"></MenuItem>
-            <MenuItem Header="Open" Click="MenuBar_OnOpenFile"></MenuItem>
-            <MenuItem Header="Save" Click="MenuBar_OnSaveFile"></MenuItem>
-            <MenuItem Header="Export" Click="MenuBar_OnExportFile"></MenuItem>
-            <Separator />
-            <MenuItem Header="Exit" Click="MenuBar_OnExit"></MenuItem>
-        </MenuItem>
-        <!--<MenuItem Header="_Edit">
-            <MenuItem Header="Undo"></MenuItem>
-            <MenuItem Header="Redo"></MenuItem>
-            <Separator />
-            <MenuItem Header="Cut"></MenuItem>
-            <MenuItem Header="Copy"></MenuItem>
-            <MenuItem Header="Paste"></MenuItem>
-        </MenuItem>-->
-        <MenuItem Header="_Tools">
-            <MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
-            <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
-            <MenuItem x:Name="Circle_Tool" Header="Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
-            <MenuItem x:Name="Boxy_Circle_Tool" Header="Boxy Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
-        </MenuItem>
-    </Menu>
+             d:DesignHeight="64" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px"/>
+            <RowDefinition Height="44px"/>
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch" Grid.Row="0" Background="#FFF0F0F0">
+            <MenuItem Header="_File">
+                <MenuItem Header="New" Click="MenuBar_OnNewGrid"></MenuItem>
+                <MenuItem Header="Open" Click="MenuBar_OnOpenFile"></MenuItem>
+                <MenuItem Header="Save" Click="MenuBar_OnSaveFile"></MenuItem>
+                <MenuItem Header="Export" Click="MenuBar_OnExportFile"></MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" Click="MenuBar_OnExit"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <!--<MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
+                <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
+                <MenuItem x:Name="Circle_Tool" Header="Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>
+                <MenuItem x:Name="Boxy_Circle_Tool" Header="Boxy Circle Tool" IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>-->
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel Height="44px" Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <ToggleButton x:Name="Line_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,1,1,1" Click="ToolMenu_OnChecked" IsChecked="True">
+            </ToggleButton>
+            <ToggleButton x:Name="Box_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+            </ToggleButton>
+            <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+            </ToggleButton>
+            <ToggleButton x:Name="Boxy_Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+            </ToggleButton>
+        </ToolBarPanel>
+    </Grid>
 
 </UserControl>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Controls.Primitives;
 using Microsoft.Win32;
 
 using VGraph.src.config;
@@ -18,7 +18,6 @@ namespace VGraph.src.ui
         public MenuBarControl()
         {
             InitializeComponent();
-            Line_Tool.IsChecked = true;
         }
 
         private void MenuBar_OnNewGrid(object sender, RoutedEventArgs e)
@@ -79,23 +78,24 @@ namespace VGraph.src.ui
 
         private void ToolMenu_OnChecked(object sender, RoutedEventArgs e)
         {
-            MenuItem toolClicked = (MenuItem)sender;
-            string targetTool = (string)toolClicked.Header;
+            ToggleButton toolClicked = (ToggleButton)sender;
+            string targetTool = (string)toolClicked.Name.Replace("_", " ");
             SelectTool(targetTool);
+            InvalidateVisual();
         }
 
         private void SelectTool(string tool)
         {
-            List<MenuItem> toolMenuItems = new List<MenuItem>();
+            List<ToggleButton> toolMenuItems = new List<ToggleButton>();
 
             toolMenuItems.Add(Line_Tool);
             toolMenuItems.Add(Box_Tool);
             toolMenuItems.Add(Circle_Tool);
             toolMenuItems.Add(Boxy_Circle_Tool);
 
-            foreach (MenuItem m in toolMenuItems)
+            foreach (ToggleButton m in toolMenuItems)
             {
-                m.IsChecked = m.Header.Equals(tool);
+                m.IsChecked = m.Name.Replace("_"," ").Equals(tool);
             }
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.SelectTool(tool);

@@ -10,7 +10,7 @@
         Title="VGraph" Height="450" Width="800" KeyDown="VGraphWindow_OnKeyDown">
     <Grid Name="primaryGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="64"/>
             <RowDefinition/>
             <RowDefinition Height="24"/>
         </Grid.RowDefinitions>
