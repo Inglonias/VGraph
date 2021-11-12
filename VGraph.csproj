@@ -226,4 +226,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>if not exist "lib" mkdir lib;
+move *.xml ./lib;
+move *.dll ./lib;</PostBuildEvent>
+  </PropertyGroup>
 </Project>
