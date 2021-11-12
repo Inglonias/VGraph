@@ -128,9 +128,21 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
+        public bool CanUndo()
+        {
+            return UndoHistory.Count > 0;
+        }
+
+        public bool CanRedo()
+        {
+            return RedoHistory.Count > 0;
+        }
+
         public void ClearAllLines()
         {
             LineList.Clear();
+            UndoHistory.Clear();
+            RedoHistory.Clear();
             ForceRedraw();
         }
 

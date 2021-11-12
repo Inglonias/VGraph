@@ -20,8 +20,8 @@
                 <MenuItem Header="Exit" Click="MenuBar_OnExit"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Header="Undo" Click="MenuBar_OnUndo"></MenuItem>
-                <MenuItem Header="Redo" Click="MenuBar_OnRedo"></MenuItem>
+                <MenuItem x:Name="Undo_Button" Header="Undo" Click="MenuBar_OnUndo"></MenuItem>
+                <MenuItem x:Name="Redo_Button" Header="Redo" Click="MenuBar_OnRedo"></MenuItem>
                 <Separator />
                 <MenuItem Header="Cut"></MenuItem>
                 <MenuItem Header="Copy"></MenuItem>

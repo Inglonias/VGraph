@@ -102,6 +102,7 @@ namespace VGraph
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
                 SKPointI targetGrid = LCursor.GetCursorGridPoints();
                 LPreview.HandleCreationClick(target, targetGrid);
+                MainMenuBar.CheckEditButtonValidity();
             }
             else if (e.ChangedButton == MouseButton.Left)
             {

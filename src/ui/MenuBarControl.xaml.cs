@@ -19,6 +19,7 @@ namespace VGraph.src.ui
         public MenuBarControl()
         {
             InitializeComponent();
+            CheckEditButtonValidity();
         }
 
         private void MenuBar_OnNewGrid(object sender, RoutedEventArgs e)
@@ -106,14 +107,25 @@ namespace VGraph.src.ui
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.UndoLastAction();
+            CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
+            InvalidateVisual();
         }
 
         private void MenuBar_OnRedo(object sender, RoutedEventArgs e)
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.RedoLastAction();
+            CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
+            InvalidateVisual();
+        }
+
+        public void CheckEditButtonValidity()
+        {
+            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            Undo_Button.IsEnabled = ll.CanUndo();
+            Redo_Button.IsEnabled = ll.CanRedo();
         }
     }
 }
