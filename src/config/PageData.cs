@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using SkiaSharp.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,7 @@ namespace VGraph.src.config
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
+
 
         /// <summary>
         /// Calculate the total width of the canvas in pixels.
@@ -82,7 +84,7 @@ namespace VGraph.src.config
 
                 lineLayer.ClearAllLines();
 
-                lineLayer.AddNewLines(saveFile.Lines.ToArray());
+                lineLayer.AddNewLines(saveFile.Lines.ToArray(), false);
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {

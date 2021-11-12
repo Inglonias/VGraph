@@ -15,6 +15,7 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class MenuBarControl : UserControl
     {
+        public MainWindow MainWindowParent { get; set; }
         public MenuBarControl()
         {
             InitializeComponent();
@@ -99,6 +100,20 @@ namespace VGraph.src.ui
             }
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.SelectTool(tool);
+        }
+
+        private void MenuBar_OnUndo(object sender, RoutedEventArgs e)
+        {
+            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            ll.UndoLastAction();
+            MainWindowParent.MainCanvas.InvalidateVisual();
+        }
+
+        private void MenuBar_OnRedo(object sender, RoutedEventArgs e)
+        {
+            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            ll.RedoLastAction();
+            MainWindowParent.MainCanvas.InvalidateVisual();
         }
     }
 }

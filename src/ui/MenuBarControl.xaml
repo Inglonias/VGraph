@@ -19,6 +19,14 @@
                 <Separator />
                 <MenuItem Header="Exit" Click="MenuBar_OnExit"></MenuItem>
             </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="Undo" Click="MenuBar_OnUndo"></MenuItem>
+                <MenuItem Header="Redo" Click="MenuBar_OnRedo"></MenuItem>
+                <Separator />
+                <MenuItem Header="Cut"></MenuItem>
+                <MenuItem Header="Copy"></MenuItem>
+                <MenuItem Header="Paste"></MenuItem>
+            </MenuItem>
             <MenuItem Header="_Tools">
                 <!--<MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
                 <MenuItem x:Name="Box_Tool"    Header="Box Tool"       IsCheckable="True" IsChecked="False" Checked="ToolMenu_OnChecked"></MenuItem>

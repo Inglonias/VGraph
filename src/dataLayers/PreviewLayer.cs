@@ -89,7 +89,7 @@ namespace VGraph.src.dataLayers
                 LineSegment[] lines = lLines.SelectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
                 if (lines != null)
                 {
-                    lLines.AddNewLines(lines);
+                    lLines.AddNewLines(lines, true);
                     ForceRedraw();
                 }
             }
