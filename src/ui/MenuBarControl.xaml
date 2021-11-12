@@ -28,12 +28,16 @@
         </Menu>
         <ToolBarPanel Height="44px" Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
             <ToggleButton x:Name="Line_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,1,1,1" Click="ToolMenu_OnChecked" IsChecked="True">
+                <Image Source="/VGraph;component/images/Line.png"></Image>
             </ToggleButton>
             <ToggleButton x:Name="Box_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="/VGraph;component/images/Box.png"></Image>
             </ToggleButton>
             <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="/VGraph;component/images/Circle.png"></Image>
             </ToggleButton>
             <ToggleButton x:Name="Boxy_Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="/VGraph;component/images/Boxy Circle.png"></Image>
             </ToggleButton>
         </ToolBarPanel>
     </Grid>
