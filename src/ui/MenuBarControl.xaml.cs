@@ -79,7 +79,7 @@ namespace VGraph.src.ui
         private void ToolMenu_OnChecked(object sender, RoutedEventArgs e)
         {
             ToggleButton toolClicked = (ToggleButton)sender;
-            string targetTool = (string)toolClicked.Name.Replace("_", " ");
+            string targetTool = (string)toolClicked.Name;
             SelectTool(targetTool);
             InvalidateVisual();
         }
@@ -95,7 +95,7 @@ namespace VGraph.src.ui
 
             foreach (ToggleButton m in toolMenuItems)
             {
-                m.IsChecked = m.Name.Replace("_"," ").Equals(tool);
+                m.IsChecked = m.Name.Equals(tool);
             }
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.SelectTool(tool);
