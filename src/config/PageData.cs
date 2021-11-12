@@ -12,9 +12,10 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
-        public const string GRID_LAYER   = "Grid Layer";
-        public const string LINE_LAYER   = "Line Layer";
-        public const string CURSOR_LAYER = "Cursor Layer";
+        public const string GRID_LAYER    = "Grid Layer";
+        public const string LINE_LAYER    = "Line Layer";
+        public const string PREVIEW_LAYER = "Preview Layer";
+        public const string CURSOR_LAYER  = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; } = 32;
         public int SquaresTall { get; set; } = 42;

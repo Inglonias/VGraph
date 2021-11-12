@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkiaSharp;
 using VGraph.src.config;
+using VGraph.src.objects;
 
 namespace VGraph.src.dataLayers
 {
