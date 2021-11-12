@@ -23,9 +23,9 @@
                 <MenuItem x:Name="Undo_Button" Header="Undo" Click="MenuBar_OnUndo"></MenuItem>
                 <MenuItem x:Name="Redo_Button" Header="Redo" Click="MenuBar_OnRedo"></MenuItem>
                 <Separator />
-                <MenuItem Header="Cut"></MenuItem>
-                <MenuItem Header="Copy"></MenuItem>
-                <MenuItem Header="Paste"></MenuItem>
+                <MenuItem Header="Cut" IsEnabled="False"></MenuItem>
+                <MenuItem Header="Copy" IsEnabled="False"></MenuItem>
+                <MenuItem Header="Paste" IsEnabled="False"></MenuItem>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <!--<MenuItem x:Name="Line_Tool"   Header="Line Tool"     IsCheckable="True" IsChecked="False"  Checked="ToolMenu_OnChecked"></MenuItem>
