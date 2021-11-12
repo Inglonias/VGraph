@@ -124,6 +124,7 @@ namespace VGraph.src.dataLayers
             }
             UndoHistory.Push(currentState);
             List<LineSegment> l = new List<LineSegment>(redoState);
+            LineList = l;
             ForceRedraw();
         }
 
