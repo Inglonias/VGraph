@@ -22,10 +22,14 @@ namespace VGraph.src.dataLayers
         public const string CIRCLE_TOOL = "Circle_Tool";
         public const string BOXY_CIRCLE_TOOL = "Boxy_Circle_Tool";
 
-        public List<LineSegment> LineList { get; } = new List<LineSegment>();
+        public List<LineSegment> LineList { get; private set; } = new List<LineSegment>();
         private SKBitmap LastBitmap;
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
+
+        private const int historyCapacity = 20;
+        private readonly History<LineSegment[]> UndoHistory = new History<LineSegment[]>(historyCapacity);
+        private readonly History<LineSegment[]> RedoHistory = new History<LineSegment[]>(historyCapacity);
 
         public IDrawTool SelectedTool { get; set; }
 
@@ -70,12 +74,53 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public void AddNewLines(LineSegment[] l)
+        public void AddNewLines(LineSegment[] l, bool isUndoable)
         {
+            if (isUndoable)
+            {
+                LineSegment[] gridState = LineList.ToArray();
+                UndoHistory.Push(gridState);
+                RedoHistory.Clear();
+            }
             foreach (LineSegment line in l)
             {
                 AddNewLine(line);
             }
+        }
+
+        public void UndoLastAction()
+        {
+            LineSegment[] currentState = LineList.ToArray();
+            LineSegment[] undoState;
+            try
+            {
+                undoState = UndoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            RedoHistory.Push(currentState);
+            List<LineSegment> l = new List<LineSegment>(undoState);
+            LineList = l;
+            ForceRedraw();
+        }
+
+        public void RedoLastAction()
+        {
+            LineSegment[] currentState = LineList.ToArray();
+            LineSegment[] redoState;
+            try
+            {
+                redoState = RedoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            UndoHistory.Push(currentState);
+            List<LineSegment> l = new List<LineSegment>(redoState);
+            ForceRedraw();
         }
 
         public void ClearAllLines()

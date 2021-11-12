@@ -29,15 +29,16 @@ namespace VGraph
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
 
-            OrderAllLayers();
+            AssignPageData();
 
             InitializeComponent();
+            MainMenuBar.MainWindowParent = this;
             LGrid.GenerateLayerBitmap();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
         }
 
-        private void OrderAllLayers()
+        private void AssignPageData()
         {
             PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]    = LGrid;
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]    = LLines;
@@ -142,6 +143,11 @@ namespace VGraph
                     PageData.Instance.ZoomOut();
                     break;
             }
+            MainCanvas.InvalidateVisual();
+        }
+
+        public void ForceRedraw()
+        {
             MainCanvas.InvalidateVisual();
         }
     }
