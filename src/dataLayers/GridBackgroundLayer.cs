@@ -10,10 +10,13 @@ namespace VGraph.src.dataLayers
 
         private bool RedrawRequired = true;
 
+        public bool DrawCenterLines { get; set; }
+
         private SKBitmap GridBitmap;
 
         public GridBackgroundLayer()
         {
+            DrawCenterLines = false;
         }
 
         public SKBitmap GenerateLayerBitmap()
@@ -48,6 +51,18 @@ namespace VGraph.src.dataLayers
             SKRectI borderSquare = new SKRectI(quarterMargin, quarterMargin, PageData.Instance.GetTotalWidth() - quarterMargin, PageData.Instance.GetTotalHeight() - quarterMargin);
             gridCanvas.DrawRect(borderSquare, borderBrush);
 
+            if (DrawCenterLines)
+            {
+                using (SKPaint centerBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(32, 32, 32, 128) })
+                {
+                    int halfX = PageData.Instance.GetTotalWidth() / 2;
+                    int halfY = PageData.Instance.GetTotalHeight() / 2;
+
+                    gridCanvas.DrawLine(halfX, quarterMargin, halfX, PageData.Instance.GetTotalHeight() - quarterMargin, centerBrush);
+                    gridCanvas.DrawLine(quarterMargin, halfY, PageData.Instance.GetTotalWidth() - quarterMargin, halfY, centerBrush);
+                }
+            }
+
             //Dispose of them.
             gridCanvas.Dispose();
             brush.Dispose();
@@ -76,5 +91,13 @@ namespace VGraph.src.dataLayers
         {
             return new SKPointI(0, 0);
         }
+
+        public bool ToggleCenterLines()
+        {
+            DrawCenterLines = !DrawCenterLines;
+            ForceRedraw();
+            return DrawCenterLines;
+        }
+
     }
 }
