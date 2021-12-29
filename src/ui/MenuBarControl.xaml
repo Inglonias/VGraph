@@ -27,6 +27,9 @@
                 <MenuItem Header="Copy" IsEnabled="False"></MenuItem>
                 <MenuItem Header="Paste" IsEnabled="False"></MenuItem>
             </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Center Lines" x:Name="Center_Lines_Button" ToolTip="This will toggle the display of center lines in the X and Y axis." Click="MenuBar_OnCenterLines" IsCheckable="True"/>
+            </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="Merge Lines" ToolTip="This will merge any adjacent, co-linear lines together, creating a single large line in their place" Click="MenuBar_OnMerge"/>
             </MenuItem>

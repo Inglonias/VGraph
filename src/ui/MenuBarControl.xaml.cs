@@ -133,5 +133,12 @@ namespace VGraph.src.ui
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.MergeAllLines();
         }
+
+        private void MenuBar_OnCenterLines(object sender, RoutedEventArgs e)
+        {
+            GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            Center_Lines_Button.IsChecked = gbl.ToggleCenterLines();
+            MainWindowParent.MainCanvas.InvalidateVisual();
+        }
     }
 }
