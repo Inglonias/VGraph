@@ -51,9 +51,10 @@ namespace VGraph.src.ui
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
+                bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
                 if (!selectionBox.Equals(SKRect.Empty))
                 {
-                    LLines.HandleBoxSelect(selectionBox);
+                    LLines.HandleBoxSelect(selectionBox, maintainSelection);
                 }
                 LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
             }
@@ -105,7 +106,8 @@ namespace VGraph.src.ui
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
-                LLines.HandleSelectionClick(e.GetPosition(MainCanvas));
+                bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
+                LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
             }
             MainCanvas.InvalidateVisual();
         }
