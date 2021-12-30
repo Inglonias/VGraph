@@ -213,32 +213,39 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
-        public void HandleSelectionClick(Point point)
+        public void HandleSelectionClick(Point point, bool maintainSelection)
         {
-            DeselectLines();
-            ForceRedraw();
-            for (int i = 0; i < LineList.Count; i++)
+            if (!maintainSelection)
             {
-                double dist = LineList[i].LinePointDistance(point);
+                DeselectLines();
+            }
+            ForceRedraw();
+            foreach (LineSegment l in LineList)
+            {
+                double dist = l.LinePointDistance(point);
                 if (dist < LineSegment.SELECT_RADIUS)
                 {
-                    if (LineList[i].WasLineSelected(dist, point))
+                    bool staySelected = l.IsSelected && maintainSelection;
+                    if (l.WasLineSelected(dist, point) || staySelected)
                     {
-                        LineList[i].IsSelected = true;
+                        l.IsSelected = true;
                         return;
                     }
                 }
             }
         }
 
-        public void HandleBoxSelect(SKRect boundingBox)
+        public void HandleBoxSelect(SKRect boundingBox, bool maintainSelection)
         {
-            DeselectLines();
+            if (!maintainSelection)
+            {
+                DeselectLines();
+            }
             ForceRedraw();
             foreach (LineSegment l in LineList)
             {
-                l.IsSelected = false;
-                if (l.WasLineSelected(boundingBox))
+                bool staySelected = l.IsSelected && maintainSelection;
+                if (l.WasLineSelected(boundingBox) || staySelected)
                 {
                     l.IsSelected = true;
                 }
