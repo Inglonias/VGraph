@@ -111,41 +111,41 @@ namespace VGraph.src.ui
             MainCanvas.InvalidateVisual();
         }
 
-        //private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    switch (e.Key)
-        //    {
-        //        case Key.Delete:
-        //            LLines.DeleteSelectedLines();
-        //            MainCanvas.InvalidateVisual();
-        //            break;
+        private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Delete:
+                    LLines.DeleteSelectedLines();
+                    MainCanvas.InvalidateVisual();
+                    break;
 
-        //        case Key.W:
-        //            LLines.MoveSelectedLines(0, -1);
-        //            break;
+                case Key.W:
+                    LLines.MoveSelectedLines(0, -1);
+                    break;
 
-        //        case Key.D:
-        //            LLines.MoveSelectedLines(1, 0);
-        //            break;
+                case Key.D:
+                    LLines.MoveSelectedLines(1, 0);
+                    break;
 
-        //        case Key.S:
-        //            LLines.MoveSelectedLines(0, 1);
-        //            break;
+                case Key.S:
+                    LLines.MoveSelectedLines(0, 1);
+                    break;
 
-        //        case Key.A:
-        //            LLines.MoveSelectedLines(-1, 0);
-        //            break;
+                case Key.A:
+                    LLines.MoveSelectedLines(-1, 0);
+                    break;
 
-        //        case Key.Add:
-        //            PageData.Instance.ZoomIn();
-        //            break;
+                case Key.Add:
+                    PageData.Instance.ZoomIn();
+                    break;
 
-        //        case Key.Subtract:
-        //            PageData.Instance.ZoomOut();
-        //            break;
-        //    }
-        //    MainCanvas.InvalidateVisual();
-        //}
+                case Key.Subtract:
+                    PageData.Instance.ZoomOut();
+                    break;
+            }
+            MainCanvas.InvalidateVisual();
+        }
 
         public void ForceRedraw()
         {
