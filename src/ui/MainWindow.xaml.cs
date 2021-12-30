@@ -151,5 +151,30 @@ namespace VGraph
         {
             MainCanvas.InvalidateVisual();
         }
+
+        private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.CreateNewGrid();
+        }
+
+        private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.OpenGrid();
+        }
+
+        private void SaveCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.SaveGrid();
+        }
+
+        private void ExportCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.ExportGrid();
+        }
+
+        private void ExitCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.ExitApp();
+        }
     }
 }

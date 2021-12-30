@@ -3,11 +3,24 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF" 
-    xmlns:ui="clr-namespace:VGraph.src.ui"
+        xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+        xmlns:ui="clr-namespace:VGraph.src.ui"
         x:Class="VGraph.MainWindow" 
     mc:Ignorable="d"
         Title="VGraph" Height="450" Width="800" KeyDown="VGraphWindow_OnKeyDown">
+    <Window.CommandBindings>
+        <CommandBinding Command="ui:MenuCommands.NewGridCmd" Executed="ui:MenuBarControl.NewCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.OpenGridCmd" Executed="OpenCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.SaveGridCmd" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.ExportGridCmd" Executed="ExportCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.ExitCmd" Executed="ExitCommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+N" Command="ui:MenuCommands.NewGridCmd"/>
+        <KeyBinding Gesture="Ctrl+O" Command="ui:MenuCommands.OpenGridCmd"/>
+        <KeyBinding Gesture="Ctrl+S" Command="ui:MenuCommands.SaveGridCmd"/>
+        <KeyBinding Gesture="Ctrl+Shift+S" Command="ui:MenuCommands.ExportGridCmd"/>
+    </Window.InputBindings>
     <Grid Name="primaryGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="64"/>

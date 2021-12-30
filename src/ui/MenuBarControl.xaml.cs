@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using Microsoft.Win32;
 
 using VGraph.src.config;
@@ -22,13 +23,14 @@ namespace VGraph.src.ui
             CheckEditButtonValidity();
         }
 
-        private void MenuBar_OnNewGrid(object sender, RoutedEventArgs e)
+        public void CreateNewGrid()
         {
             NewGridWindow ngw = new NewGridWindow();
             ngw.Show();
         }
 
-        private void MenuBar_OnOpenFile(object sender, RoutedEventArgs e)
+
+        public void OpenGrid()
         {
             OpenFileDialog d = new OpenFileDialog
             {
@@ -43,7 +45,7 @@ namespace VGraph.src.ui
             }
         }
 
-        private void MenuBar_OnSaveFile(object sender, RoutedEventArgs e)
+        public void SaveGrid()
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -58,7 +60,7 @@ namespace VGraph.src.ui
             }
         }
 
-        private void MenuBar_OnExportFile(object sender, RoutedEventArgs e)
+        public void ExportGrid()
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -73,7 +75,7 @@ namespace VGraph.src.ui
             }
         }
 
-        private void MenuBar_OnExit(object sender, RoutedEventArgs e)
+        public void ExitApp()
         {
             Environment.Exit(0);
         }
@@ -103,7 +105,7 @@ namespace VGraph.src.ui
             ll.SelectTool(tool);
         }
 
-        private void MenuBar_OnUndo(object sender, RoutedEventArgs e)
+        public void Undo()
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.UndoLastAction();
@@ -112,7 +114,7 @@ namespace VGraph.src.ui
             InvalidateVisual();
         }
 
-        private void MenuBar_OnRedo(object sender, RoutedEventArgs e)
+        public void Redo()
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.RedoLastAction();
@@ -128,17 +130,33 @@ namespace VGraph.src.ui
             Redo_Button.IsEnabled = ll.CanRedo();
         }
 
-        private void MenuBar_OnMerge(object sender, RoutedEventArgs e)
+       public void MergeLines()
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.MergeAllLines();
         }
 
-        private void MenuBar_OnCenterLines(object sender, RoutedEventArgs e)
+        public void ToggleCenterLines()
         {
             GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
             Center_Lines_Button.IsChecked = gbl.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
+    }
+
+    public class MenuCommands
+    {
+        //File Menu
+        public static RoutedCommand NewGridCmd = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
+        public static RoutedCommand OpenGridCmd = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
+        public static RoutedCommand SaveGridCmd = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExportGridCmd = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExitCmd = new RoutedCommand("ExitCmd", typeof(MenuCommands));
+
+        //Edit Menu
+
+        //View Menu
+
+        //Tools Menu
     }
 }
