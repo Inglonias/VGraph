@@ -1,12 +1,9 @@
 ﻿using SkiaSharp;
-using SkiaSharp.Views.WPF;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using VGraph.src.dataLayers;
-using VGraph.src.objects;
-using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.config
 {
@@ -160,7 +157,7 @@ namespace VGraph.src.config
 
         public void ZoomIn()
         {
-            SquareSize = Math.Min(128, SquareSize + 4);
+            SquareSize = Math.Min(64, SquareSize + 4);
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 l.Value.ForceRedraw();

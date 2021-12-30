@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,7 +7,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
 
-namespace VGraph
+namespace VGraph.src.ui
 {
 
     /// <summary>
