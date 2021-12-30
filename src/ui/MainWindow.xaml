@@ -36,8 +36,8 @@
         <KeyBinding Gesture="Ctrl+Y" Command="ui:MenuCommands.RedoCmd"/>
         
         <!-- View Menu -->
-        <KeyBinding Gesture="Ctrl+PageUp" Command="ui:MenuCommands.ZoomInCmd"/>
-        <KeyBinding Gesture="Ctrl+PageDown" Command="ui:MenuCommands.ZoomOutCmd"/>
+        <KeyBinding Gesture="Ctrl+Plus" Command="ui:MenuCommands.ZoomInCmd"/>
+        <KeyBinding Gesture="Ctrl+Minus" Command="ui:MenuCommands.ZoomOutCmd"/>
         <KeyBinding Gesture="Ctrl+T" Command="ui:MenuCommands.CenterLinesCmd"/>
         
         <!--Tools Menu--> 
@@ -59,7 +59,8 @@
             <ui:MenuBarControl x:Name="MainMenuBar"/>
         </DockPanel>
         <ScrollViewer HorizontalScrollBarVisibility="Visible" Name="PrimaryBufferPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
-            <skia:SKElement Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" Width="Auto" Height="Auto" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown"/>
+            <skia:SKElement Name="MainCanvas" Grid.Row="1" MouseMove="MainCanvas_OnMouseMove" Width="Auto" Height="Auto" PaintSurface="MainCanvas_OnPaintSurface" MouseDown="MainCanvas_OnMouseDown">
+            </skia:SKElement>
         </ScrollViewer>
         <StatusBar HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Name="CursorStatusBar">
             <StatusBarItem>

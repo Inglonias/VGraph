@@ -19,7 +19,7 @@ You can select any previously created lines by left-clicking on them or by click
 
 You can move any currently selected lines by using WASD controls. If you placed the first point of the line in the wrong place, you can right-click the same spot again to cancel placement of the line.
 
-You can zoom in with Ctrl+PageUp and zoom out with Ctrl+PageDown, or use the provided buttons for that in the zoom menu.
+You can zoom in with Ctrl+Plus and zoom out with Ctrl+Minus, or use the provided buttons for that in the zoom menu.
 
 ## Requirements
 This program runs on the .NET Framework v 4.7.2. You need to have that installed for VGraph to work.

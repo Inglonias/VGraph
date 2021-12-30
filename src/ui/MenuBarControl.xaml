@@ -30,8 +30,8 @@
                 <MenuItem Header="Paste" IsEnabled="False"/>
             </MenuItem>
             <MenuItem Header="_View">
-                <MenuItem Header="Zoom In" Command="ui:MenuCommands.ZoomInCmd" InputGestureText="Ctrl+PageUp"/>
-                <MenuItem Header="Zoom Out" Command="ui:MenuCommands.ZoomOutCmd" InputGestureText="Ctrl+PageDown"/>
+                <MenuItem Header="Zoom In" Command="ui:MenuCommands.ZoomInCmd" InputGestureText="Ctrl+Plus"/>
+                <MenuItem Header="Zoom Out" Command="ui:MenuCommands.ZoomOutCmd" InputGestureText="Ctrl+Minus"/>
                 <Separator />
                 <MenuItem Header="Show Center Lines" Command="ui:MenuCommands.CenterLinesCmd"  x:Name="Center_Lines_Button" ToolTip="This will toggle the display of center lines in the X and Y axis." IsCheckable="True" InputGestureText="Ctrl+T"/>
             </MenuItem>
