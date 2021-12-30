@@ -71,7 +71,8 @@ namespace VGraph.src.dataLayers
                 l.StartPointGrid.X >= 0 && l.StartPointGrid.X <= PageData.Instance.SquaresWide &&
                 l.StartPointGrid.Y >= 0 && l.StartPointGrid.Y <= PageData.Instance.SquaresTall &&
                 l.EndPointGrid.X   >= 0 && l.EndPointGrid.X   <= PageData.Instance.SquaresWide &&
-                l.EndPointGrid.Y   >= 0 && l.EndPointGrid.Y   <= PageData.Instance.SquaresTall)
+                l.EndPointGrid.Y   >= 0 && l.EndPointGrid.Y   <= PageData.Instance.SquaresTall &&
+                !LineList.Contains(l))
             {
                 LineList.Add(l);
                 ForceRedraw();
