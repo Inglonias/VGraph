@@ -1,6 +1,5 @@
 using SkiaSharp;
 using VGraph.src.objects;
-using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.drawTools
 {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using SkiaSharp;
 using VGraph.src.objects;
-using static VGraph.src.dataLayers.LineLayer;
 
 namespace VGraph.src.drawTools
 {
