@@ -8,7 +8,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
 
-namespace VGraph
+namespace VGraph.src.ui
 {
 
     /// <summary>
@@ -111,41 +111,41 @@ namespace VGraph
             MainCanvas.InvalidateVisual();
         }
 
-        private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Delete:
-                    LLines.DeleteSelectedLines();
-                    MainCanvas.InvalidateVisual();
-                    break;
+        //private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
+        //{
+        //    switch (e.Key)
+        //    {
+        //        case Key.Delete:
+        //            LLines.DeleteSelectedLines();
+        //            MainCanvas.InvalidateVisual();
+        //            break;
 
-                case Key.W:
-                    LLines.MoveSelectedLines(0, -1);
-                    break;
+        //        case Key.W:
+        //            LLines.MoveSelectedLines(0, -1);
+        //            break;
 
-                case Key.D:
-                    LLines.MoveSelectedLines(1, 0);
-                    break;
+        //        case Key.D:
+        //            LLines.MoveSelectedLines(1, 0);
+        //            break;
 
-                case Key.S:
-                    LLines.MoveSelectedLines(0, 1);
-                    break;
+        //        case Key.S:
+        //            LLines.MoveSelectedLines(0, 1);
+        //            break;
 
-                case Key.A:
-                    LLines.MoveSelectedLines(-1, 0);
-                    break;
+        //        case Key.A:
+        //            LLines.MoveSelectedLines(-1, 0);
+        //            break;
 
-                case Key.Add:
-                    PageData.Instance.ZoomIn();
-                    break;
+        //        case Key.Add:
+        //            PageData.Instance.ZoomIn();
+        //            break;
 
-                case Key.Subtract:
-                    PageData.Instance.ZoomOut();
-                    break;
-            }
-            MainCanvas.InvalidateVisual();
-        }
+        //        case Key.Subtract:
+        //            PageData.Instance.ZoomOut();
+        //            break;
+        //    }
+        //    MainCanvas.InvalidateVisual();
+        //}
 
         public void ForceRedraw()
         {
@@ -176,5 +176,23 @@ namespace VGraph
         {
             MainMenuBar.ExitApp();
         }
+    }
+
+    public class MenuCommands
+    {
+        //File Menu
+        public static RoutedCommand NewGridCmd = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
+        public static RoutedCommand OpenGridCmd = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
+        public static RoutedCommand SaveGridCmd = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExportGridCmd = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExitCmd = new RoutedCommand("ExitCmd", typeof(MenuCommands));
+
+        //Edit Menu
+        public static RoutedCommand UndoCmd = new RoutedCommand("UndoCmd", typeof(MenuCommands));
+        public static RoutedCommand RedoCmd = new RoutedCommand("RedoCmd", typeof(MenuCommands));
+
+        //View Menu
+
+        //Tools Menu
     }
 }

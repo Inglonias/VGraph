@@ -143,20 +143,4 @@ namespace VGraph.src.ui
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
     }
-
-    public class MenuCommands
-    {
-        //File Menu
-        public static RoutedCommand NewGridCmd = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
-        public static RoutedCommand OpenGridCmd = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
-        public static RoutedCommand SaveGridCmd = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
-        public static RoutedCommand ExportGridCmd = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
-        public static RoutedCommand ExitCmd = new RoutedCommand("ExitCmd", typeof(MenuCommands));
-
-        //Edit Menu
-
-        //View Menu
-
-        //Tools Menu
-    }
 }
