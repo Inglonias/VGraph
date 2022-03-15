@@ -11,7 +11,7 @@ namespace VGraph.src.drawTools
 
         public CircleTool()
         {
-            FuzzRating = 0.3;
+            FuzzRating = 0.175;
         }
 
         public CircleTool(double fuzz)
@@ -26,7 +26,14 @@ namespace VGraph.src.drawTools
             if (radius < 1) {
                 return null;
             }
-            //Radius of 1 needs four vertices to be sensible.
+
+            //This is purely for aesthetic reasons.
+            double fuzzToUse = FuzzRating;
+            if (radius == 2)
+            {
+                fuzzToUse = Math.Max(FuzzRating, 0.3);
+            }
+
             int numVertices = 64 * radius;
 
             List<SKPointI> vertices = new List<SKPointI>();
@@ -35,7 +42,7 @@ namespace VGraph.src.drawTools
                 double angle = i * angleSpacing;
                 double rawX = radius * Math.Cos(angle);
                 double rawY = radius * Math.Sin(angle);
-                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < FuzzRating )
+                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < fuzzToUse )
                 {
                     vertices.Add(new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY)));
                 }
