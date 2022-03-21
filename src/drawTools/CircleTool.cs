@@ -29,12 +29,12 @@ namespace VGraph.src.drawTools
 
             //This is purely for aesthetic reasons.
             double fuzzToUse = FuzzRating;
-            if (radius == 2)
+            if (radius <= 2)
             {
                 fuzzToUse = Math.Max(FuzzRating, 0.3);
             }
 
-            int numVertices = 64 * radius;
+            int numVertices = 3600;
 
             List<SKPointI> vertices = new List<SKPointI>();
             double angleSpacing = (Math.PI * 2) / numVertices;
@@ -42,9 +42,11 @@ namespace VGraph.src.drawTools
                 double angle = i * angleSpacing;
                 double rawX = radius * Math.Cos(angle);
                 double rawY = radius * Math.Sin(angle);
-                if (Math.Max(Math.Abs(rawX - Math.Round(rawX)), Math.Abs(rawY - Math.Round(rawY))) < fuzzToUse )
+                int intX = Convert.ToInt32(rawX);
+                int intY = Convert.ToInt32(rawY);
+                if (Math.Max(Math.Abs(rawX - intX), Math.Abs(rawY - intY)) < fuzzToUse)
                 {
-                    vertices.Add(new SKPointI(Convert.ToInt32(rawX), Convert.ToInt32(rawY)));
+                    vertices.Add(new SKPointI(intX, intY));
                 }
             }
             //Add the first element to the back of the list to ensure the circle closes.
