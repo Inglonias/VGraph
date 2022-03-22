@@ -171,30 +171,22 @@ namespace VGraph.src.objects
             {
                 return null;
             }
-            double? slopeA = null;
-            double? slopeB = null;
+            double slopeA;
+            double slopeB;
 
-            try
-            {
-                double riseA = this.EndPointGrid.Y - this.StartPointGrid.Y;
-                double runA = this.EndPointGrid.X - this.StartPointGrid.X;
-                slopeA = riseA / runA;
-            }
-            catch (DivideByZeroException) { }
-            try
-            {
-                double riseB = target.EndPointGrid.Y - target.StartPointGrid.Y;
-                double runB = target.EndPointGrid.X - target.StartPointGrid.X;
-                slopeB = riseB / runB;
-            }
-            catch (DivideByZeroException) { }
+            double riseA = this.EndPointGrid.Y - this.StartPointGrid.Y;
+            double runA = this.EndPointGrid.X - this.StartPointGrid.X;
+            slopeA = riseA / runA;
 
-            if (slopeA == null ^ slopeB == null)
+            double riseB = target.EndPointGrid.Y - target.StartPointGrid.Y;
+            double runB = target.EndPointGrid.X - target.StartPointGrid.X;
+            slopeB = riseB / runB;
+
+            if (double.IsInfinity(slopeA) ^ double.IsInfinity(slopeB))
             {
                 return null;
             }
-
-            if ((slopeA == null && slopeB == null) || (slopeA == slopeB))
+            if ((double.IsInfinity(slopeA) && double.IsInfinity(slopeB)) || (slopeA == slopeB))
             {
                 return new LineSegment(endpointA, endpointB);
             }
