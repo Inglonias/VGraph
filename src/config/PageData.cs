@@ -42,11 +42,20 @@ namespace VGraph.src.config
             return (SquaresTall * SquareSize) + (Margin * 2);
         }
 
+        /// <summary>
+        /// Get the dictionary containing all of the data layers used for drawing the canvas.
+        /// </summary>
+        /// <returns>Dictionary containing all data layers.</returns>
         public Dictionary<string, IDataLayer> GetDataLayers()
         {
             return DataLayers;
         }
 
+        /// <summary>
+        /// Get a single data layer from the dictionary of data layers used for drawing the canvas.
+        /// </summary>
+        /// <param name="key">The dictionary key. Use the layer constants for best results</param>
+        /// <returns>A data layer from the dictionary, if the key is correct.</returns>
         public IDataLayer GetDataLayer(string key)
         {
             return DataLayers[key];
@@ -64,6 +73,11 @@ namespace VGraph.src.config
 
         public static PageData Instance { get; } = new PageData();
 
+        /// <summary>
+        /// Attempt to load the VGP file from the path passed to the function.
+        /// </summary>
+        /// <param name="fileName">Path to the file that will be loaded</param>
+        /// <returns>True if the file is valid and no errors occurred. False otherwise.</returns>
         public bool FileOpen(string fileName)
         {
             VgpFile saveFile;
@@ -96,6 +110,11 @@ namespace VGraph.src.config
             return true;
         }
 
+        /// <summary>
+        /// Saves the currently loaded canvas to the path specified.
+        /// </summary>
+        /// <param name="fileName">Path to the file to save</param>
+        /// <returns>True if the save operation was successful. False otherwise.</returns>
         public bool FileSave(string fileName)
         {
             LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
@@ -120,6 +139,11 @@ namespace VGraph.src.config
             return true;
         }
 
+        /// <summary>
+        /// Creates a PNG image of the current canvas at the specified path in the file system.
+        /// </summary>
+        /// <param name="fileName">Path to the image to save.</param>
+        /// <returns>True if the file exports successfully. False otherwise.</returns>
         public bool FileExport(string fileName)
         {
             SquareSize = TrueSquareSize;
@@ -155,6 +179,9 @@ namespace VGraph.src.config
             return result;
         }
 
+        /// <summary>
+        /// Zooms in the user's view by increasing the square size of the grid, up to a maximum of 64 pixels per square.
+        /// </summary>
         public void ZoomIn()
         {
             SquareSize = Math.Min(64, SquareSize + 4);
@@ -163,7 +190,9 @@ namespace VGraph.src.config
                 l.Value.ForceRedraw();
             }
         }
-
+        /// <summary>
+        /// Zooms out the user's view by decreasing the square size of the grid, down to a minimum of 4 pixels per square.
+        /// </summary>
         public void ZoomOut()
         {
             SquareSize = Math.Max(4, SquareSize - 4);
