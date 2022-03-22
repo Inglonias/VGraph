@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -134,6 +134,7 @@
     <Compile Include="src\dataLayers\PreviewLayer.cs" />
     <Compile Include="src\drawTools\BoxTool.cs" />
     <Compile Include="src\drawTools\CircleTool.cs" />
+    <Compile Include="src\drawTools\EllipseTool.cs" />
     <Compile Include="src\drawTools\IDrawTool.cs" />
     <Compile Include="src\drawTools\LineTool.cs" />
     <Compile Include="src\objects\History.cs" />
@@ -218,6 +219,7 @@
     <Resource Include="images\Box.png" />
     <Resource Include="images\Boxy Circle.png" />
     <Resource Include="images\Circle.png" />
+	<Resource Include="images\Ellipse.png" />
     <Resource Include="images\Line.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

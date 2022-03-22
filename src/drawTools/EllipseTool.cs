@@ -5,35 +5,28 @@ using VGraph.src.objects;
 
 namespace VGraph.src.drawTools
 {
-    public class CircleTool : IDrawTool
+    public class EllipseTool : IDrawTool
     {
         public double FuzzRating { get; set; }
 
-        public CircleTool()
+        public EllipseTool()
         {
             FuzzRating = 0.175;
         }
 
-        public CircleTool(double fuzz)
+        public EllipseTool(double fuzz)
         {
             FuzzRating = fuzz;
         }
 
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
-            int radius = Math.Max(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
-            List<LineSegment> lines = new List<LineSegment>();
-            if (radius < 1)
-            {
-                return null;
-            }
+            SKPointI pointA = start;
+            SKPointI pointB = end;
+            SKPointI center = new SKPointI(pointA.X, pointB.Y);
 
-            //This is purely for aesthetic reasons.
-            double fuzzToUse = FuzzRating;
-            if (radius <= 2)
-            {
-                fuzzToUse = Math.Max(FuzzRating, 0.3);
-            }
+            int radiusA = Convert.ToInt32(new LineSegment(pointA, center).GetLineLength());
+            int radiusB = Convert.ToInt32(new LineSegment(pointB, center).GetLineLength());
 
             int numVertices = 3600;
 
@@ -42,11 +35,13 @@ namespace VGraph.src.drawTools
             for (int i = 0; i < numVertices; i++)
             {
                 double angle = i * angleSpacing;
-                double rawX = radius * Math.Cos(angle);
-                double rawY = radius * Math.Sin(angle);
+                double rawX = radiusB * Math.Cos(angle);
+                double rawY = radiusA * Math.Sin(angle);
+
                 int intX = Convert.ToInt32(rawX);
                 int intY = Convert.ToInt32(rawY);
-                if (Math.Max(Math.Abs(rawX - intX), Math.Abs(rawY - intY)) < fuzzToUse)
+
+                if (Math.Max(Math.Abs(rawX - intX), Math.Abs(rawY - intY)) < FuzzRating)
                 {
                     SKPointI candidate = new SKPointI(intX, intY);
                     if (vertices.Count > 0)
@@ -65,6 +60,7 @@ namespace VGraph.src.drawTools
             }
             //Add the first element to the back of the list to ensure the circle closes.
             vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));
+            List<LineSegment> lines = new List<LineSegment>();
             for (int i = 1; i < vertices.Count; i++)
             {
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
