@@ -150,18 +150,24 @@ namespace VGraph.src.dataLayers
         {
             UndoHistory.Push(LineList.ToArray());
             List<LineSegment> finalList = new List<LineSegment>();
-            for (int i = 0; i < LineList.Count - 1; i++)
+            bool recheck = true;
+            while (recheck)
             {
-                for (int j = i + 1; j < LineList.Count; j++)
+                recheck = false;
+                for (int i = 0; i < LineList.Count - 1; i++)
                 {
-                    LineSegment mergeResult = LineList[i].MergeLines(LineList[j]);
-                    if (mergeResult != null)
+                    for (int j = i + 1; j < LineList.Count; j++)
                     {
-                        LineList[i] = mergeResult;
-                        LineList.RemoveAt(j);
+                        LineSegment mergeResult = LineList[i].MergeLines(LineList[j]);
+                        if (mergeResult != null)
+                        {
+                            LineList[i] = mergeResult;
+                            LineList.RemoveAt(j);
+                            recheck = true;
+                        }
                     }
+                    finalList.Add(LineList[i]);
                 }
-                finalList.Add(LineList[i]);
             }
         }
 
