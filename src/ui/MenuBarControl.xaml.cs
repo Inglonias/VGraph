@@ -130,10 +130,16 @@ namespace VGraph.src.ui
             Redo_Button.IsEnabled = ll.CanRedo();
         }
 
-       public void MergeLines()
+        public void MergeLines()
         {
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             ll.MergeAllLines();
+        }
+
+        public void MirrorLines()
+        {
+            MirrorToolWindow mirrorTool = new MirrorToolWindow();
+            mirrorTool.Show();
         }
 
         public void ToggleCenterLines()

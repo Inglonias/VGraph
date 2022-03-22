@@ -23,6 +23,7 @@
         <CommandBinding Command="ui:MenuCommands.CenterLinesCmd" Executed="CenterLinesCommandBinding_Executed"/>
         
         <CommandBinding Command="ui:MenuCommands.MergeLinesCmd" Executed="MergeLinesCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.MirrorLinesCmd" Executed="MirrorLinesCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <!-- File Menu -->

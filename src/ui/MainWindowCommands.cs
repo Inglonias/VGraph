@@ -75,6 +75,11 @@ namespace VGraph.src.ui
         {
             MainMenuBar.MergeLines();
         }
+
+        private void MirrorLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.MirrorLines();
+        }
     }
     public class MenuCommands
     {
@@ -96,5 +101,6 @@ namespace VGraph.src.ui
 
         //Tools Menu
         public static RoutedCommand MergeLinesCmd = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand MirrorLinesCmd = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
     }
 }

@@ -62,8 +62,8 @@ namespace VGraph.src.dataLayers
             if (!l.StartPointGrid.Equals(l.EndPointGrid) &&
                 l.StartPointGrid.X >= 0 && l.StartPointGrid.X <= PageData.Instance.SquaresWide &&
                 l.StartPointGrid.Y >= 0 && l.StartPointGrid.Y <= PageData.Instance.SquaresTall &&
-                l.EndPointGrid.X   >= 0 && l.EndPointGrid.X   <= PageData.Instance.SquaresWide &&
-                l.EndPointGrid.Y   >= 0 && l.EndPointGrid.Y   <= PageData.Instance.SquaresTall &&
+                l.EndPointGrid.X >= 0 && l.EndPointGrid.X <= PageData.Instance.SquaresWide &&
+                l.EndPointGrid.Y >= 0 && l.EndPointGrid.Y <= PageData.Instance.SquaresTall &&
                 !LineList.Contains(l))
             {
                 LineList.Add(l);
@@ -149,7 +149,7 @@ namespace VGraph.src.dataLayers
             RedoHistory.Clear();
             ForceRedraw();
         }
-        
+
         /// <summary>
         /// Goes through the list of all line segments on the canvas, and merges all adjacent lines with the same slopes into single lines. This action is repeated until no more merges can be made.
         /// </summary>
@@ -178,6 +178,107 @@ namespace VGraph.src.dataLayers
             }
         }
 
+        public int MirrorLines(int direction, int crease, bool destroyOtherSide)
+        {
+            const int LEFT_TO_RIGHT = 0;
+            const int RIGHT_TO_LEFT = 1;
+            const int TOP_TO_BOTTOM = 2;
+            const int BOTTOM_TO_TOP = 3;
+
+            const int SUCCESS = 0;
+            const int LINES_ACROSS_CREASE = 1;
+
+            List<LineSegment> linesToMirror = new List<LineSegment>();
+            List<LineSegment> linesAcrossCrease = new List<LineSegment>();
+
+            //Check if any lines cross the crease. If they do, select them and pop up a message.
+            foreach (LineSegment l in LineList)
+            {
+                if (direction == LEFT_TO_RIGHT || direction == RIGHT_TO_LEFT)
+                {
+                    if ((l.StartPointGrid.X < crease && l.EndPointGrid.X > crease) || (l.StartPointGrid.X > crease && l.EndPointGrid.X < crease))
+                    {
+                        linesAcrossCrease.Add(l);
+                    }
+                }
+                if (direction == TOP_TO_BOTTOM || direction == BOTTOM_TO_TOP)
+                {
+                    if ((l.StartPointGrid.Y < crease && l.EndPointGrid.Y > crease) || (l.StartPointGrid.Y > crease && l.EndPointGrid.Y < crease))
+                    {
+                        linesAcrossCrease.Add(l);
+                    }
+                }
+            }
+
+            //I don't know how the user wants to handle a line crossing the mirror line, so just give up. Select the relevant lines.
+            if (linesAcrossCrease.Count > 0)
+            {
+                foreach (LineSegment l in linesAcrossCrease)
+                {
+                    l.IsSelected = true;
+                }
+                ForceRedraw();
+                return LINES_ACROSS_CREASE;
+            }
+
+            foreach (LineSegment l in LineList)
+            {
+                switch (direction)
+                {
+                    case LEFT_TO_RIGHT:
+                        if (l.StartPointGrid.X <= crease && l.EndPointGrid.X <= crease)
+                        {
+                            linesToMirror.Add(l);
+                        }
+                        break;
+
+                    case RIGHT_TO_LEFT:
+                        if (l.StartPointGrid.X >= crease && l.EndPointGrid.X >= crease)
+                        {
+                            linesToMirror.Add(l);
+                        }
+                        break;
+
+                    case TOP_TO_BOTTOM:
+                        if (l.StartPointGrid.Y <= crease && l.EndPointGrid.Y <= crease)
+                        {
+                            linesToMirror.Add(l);
+                        }
+                        break;
+
+                    case BOTTOM_TO_TOP:
+                        if (l.StartPointGrid.Y >= crease && l.EndPointGrid.Y >= crease)
+                        {
+                            linesToMirror.Add(l);
+                        }
+                        break;
+                }
+            }
+
+            UndoHistory.Push(LineList.ToArray());
+
+            if (destroyOtherSide)
+            {
+                ClearAllLines();
+                LineList.AddRange(linesToMirror);
+            }
+
+            foreach (LineSegment l in linesToMirror)
+            {
+                if (direction == LEFT_TO_RIGHT || direction == RIGHT_TO_LEFT)
+                {
+                    LineList.Add(l.MirrorLineSegment(crease, null));
+                }
+                else
+                {
+                    LineList.Add(l.MirrorLineSegment(null, crease));
+                }
+            }
+
+            ForceRedraw();
+            return SUCCESS;
+        }
+
         public void DeselectLines()
         {
             foreach (LineSegment l in LineList)
@@ -198,7 +299,7 @@ namespace VGraph.src.dataLayers
                 }
             }
         }
-        
+
         public void MoveSelectedLines(int x, int y)
         {
             foreach (LineSegment l in LineList)
