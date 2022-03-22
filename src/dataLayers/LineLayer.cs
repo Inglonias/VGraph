@@ -260,18 +260,18 @@ namespace VGraph.src.dataLayers
             if (destroyOtherSide)
             {
                 ClearAllLines();
-                LineList.AddRange(linesToMirror);
+                AddNewLines(linesToMirror.ToArray(), false); //Not undoable because we still have more to go.
             }
 
             foreach (LineSegment l in linesToMirror)
             {
                 if (direction == LEFT_TO_RIGHT || direction == RIGHT_TO_LEFT)
                 {
-                    LineList.Add(l.MirrorLineSegment(crease, null));
+                    AddNewLine(l.MirrorLineSegment(crease, null));
                 }
                 else
                 {
-                    LineList.Add(l.MirrorLineSegment(null, crease));
+                    AddNewLine(l.MirrorLineSegment(null, crease));
                 }
             }
 

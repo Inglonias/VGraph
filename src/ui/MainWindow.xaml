@@ -43,7 +43,8 @@
         
         <!--Tools Menu--> 
         <KeyBinding Gesture="Ctrl+Shift+M" Command="ui:MenuCommands.MergeLinesCmd"/>
-        
+        <KeyBinding Gesture="Ctrl+R" Command="ui:MenuCommands.MirrorLinesCmd" />
+
         <!--
         TODO: The bindings to move and delete lines are currently handled through a KeyDown event check.
         This is probably bad but I don't want to do a bunch more command bindings right now
