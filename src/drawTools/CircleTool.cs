@@ -21,9 +21,10 @@ namespace VGraph.src.drawTools
 
         public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
-            int radius = Math.Max(Math.Abs(start.X - end.X),Math.Abs(start.Y - end.Y));
+            int radius = Math.Max(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
             List<LineSegment> lines = new List<LineSegment>();
-            if (radius < 1) {
+            if (radius < 1)
+            {
                 return null;
             }
 
@@ -38,7 +39,8 @@ namespace VGraph.src.drawTools
 
             List<SKPointI> vertices = new List<SKPointI>();
             double angleSpacing = (Math.PI * 2) / numVertices;
-            for (int i = 0; i < numVertices; i++) {
+            for (int i = 0; i < numVertices; i++)
+            {
                 double angle = i * angleSpacing;
                 double rawX = radius * Math.Cos(angle);
                 double rawY = radius * Math.Sin(angle);
@@ -63,7 +65,8 @@ namespace VGraph.src.drawTools
             }
             //Add the first element to the back of the list to ensure the circle closes.
             vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));
-            for (int i = 1; i < vertices.Count; i++) {
+            for (int i = 1; i < vertices.Count; i++)
+            {
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
                 SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
                 LineSegment l = new LineSegment(offsetStart, offsetEnd);
@@ -71,4 +74,5 @@ namespace VGraph.src.drawTools
             }
             return lines.ToArray();
         }
+    }
 }
