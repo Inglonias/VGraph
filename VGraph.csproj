@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -143,6 +143,9 @@
     <Compile Include="src\ui\MenuBarControl.xaml.cs">
       <DependentUpon>MenuBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\ui\MirrorToolWindow.xaml.cs">
+      <DependentUpon>MirrorToolWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\ui\NewGridWindow.xaml.cs">
       <DependentUpon>NewGridWindow.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
     <Page Include="src\ui\MenuBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ui\MirrorToolWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="src\ui\NewGridWindow.xaml">
       <SubType>Designer</SubType>
@@ -219,7 +226,7 @@
     <Resource Include="images\Box.png" />
     <Resource Include="images\Boxy Circle.png" />
     <Resource Include="images\Circle.png" />
-	<Resource Include="images\Ellipse.png" />
+    <Resource Include="images\Ellipse.png" />
     <Resource Include="images\Line.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

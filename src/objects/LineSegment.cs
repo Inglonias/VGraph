@@ -8,8 +8,8 @@ namespace VGraph.src.objects
 {
     public class LineSegment
     {
-        public static int START = 0;
-        public static int END = 1;
+        public static readonly int START = 0;
+        public static readonly int END = 1;
 
         [JsonIgnore]
         public readonly static double SELECT_RADIUS = 5;
@@ -181,6 +181,56 @@ namespace VGraph.src.objects
             }
 
             return null;
+        }
+
+        public LineSegment MirrorLineSegment(int? xCrease, int? yCrease)
+        {
+            if (xCrease == null && yCrease == null)
+            {
+                throw new FormatException("Lines cannot be mirrored across nothing");
+            }
+            SKPointI mirrorStart = new SKPointI(StartPointGrid.X, StartPointGrid.Y);
+            SKPointI mirrorEnd = new SKPointI(EndPointGrid.X, EndPointGrid.Y);
+
+            if (xCrease.HasValue)
+            {
+                int startDistance;
+                int endDistance;
+                if (mirrorStart.X < xCrease.Value && mirrorStart.X < xCrease.Value)
+                {
+                    startDistance = mirrorStart.X + xCrease.Value;
+                    endDistance = mirrorEnd.X + xCrease.Value;
+                }
+                else
+                {
+                    startDistance = mirrorStart.X - xCrease.Value;
+                    endDistance = mirrorEnd.X - xCrease.Value;
+                }
+
+                mirrorStart.X = endDistance;
+                mirrorEnd.X = startDistance;
+            }
+
+            if (yCrease.HasValue)
+            {
+                int startDistance;
+                int endDistance;
+                if (mirrorStart.Y < yCrease.Value && mirrorStart.Y < yCrease.Value)
+                {
+                    startDistance = mirrorStart.Y + yCrease.Value;
+                    endDistance = mirrorEnd.Y + yCrease.Value;
+                }
+                else
+                {
+                    startDistance = mirrorStart.Y - yCrease.Value;
+                    endDistance = mirrorEnd.Y - yCrease.Value;
+                }
+
+                mirrorStart.Y = endDistance;
+                mirrorEnd.Y = startDistance;
+            }
+
+            return new LineSegment(mirrorStart, mirrorEnd);
         }
 
         public override bool Equals(object o)
