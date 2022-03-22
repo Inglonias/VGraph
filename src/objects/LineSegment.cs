@@ -23,46 +23,16 @@ namespace VGraph.src.objects
 
         }
 
-        //public LineSegment(int x1, int y1, int x2, int y2)
-        //{
-        //    GenerateGridPoints(new SKPointI(x1, y1), new SKPointI(x2, y2));
-        //}
-
-        //public LineSegment(SKPointI startPoint, SKPointI endPoint, bool needToConvert)
-        //{
-        //    if (needToConvert)
-        //    {
-        //        GenerateGridPoints(startPoint, endPoint);
-        //    }
-        //    else
-        //    {
-        //        StartPointGrid = startPoint;
-        //        EndPointGrid = endPoint;
-        //    }
-        //}
-
         public LineSegment(SKPointI startPoint, SKPointI endPoint)
         {
             StartPointGrid = startPoint;
             EndPointGrid = endPoint;
         }
-
-        //In case I want to add the ability to zoom in and out, line coordinates will be stored as grid points instead of canvas coordinates.
-        //That way, zooming in and out can be accomplished by simply changing the PageData's SquareSize value.
-        //private void GenerateGridPoints(SKPointI start, SKPointI end)
-        //{
-        //    //Subtract out the margin.
-        //    int startX = start.X - PageData.Instance.Margin;
-        //    int startY = start.Y - PageData.Instance.Margin;
-        //    int endX = end.X - PageData.Instance.Margin;
-        //    int endY = end.Y - PageData.Instance.Margin;
-
-        //    StartPointGrid = new SKPointI(startX / PageData.Instance.SquareSize, startY / PageData.Instance.SquareSize);
-        //    EndPointGrid = new SKPointI(endX / PageData.Instance.SquareSize, endY / PageData.Instance.SquareSize);
-
-        //    Console.WriteLine("Line created. Grid points are " + PrintCoords(StartPointGrid) + " and " + PrintCoords(EndPointGrid));
-        //}
-
+        
+        /// <summary>
+        /// Converts the grid-relative coordinates of the line segment to canvas-relative coordinates for rendering.
+        /// </summary>
+        /// <returns>An array containing two "SKPointI"s representing the start and end points of the line segment.</returns>
         public SKPointI[] GetCanvasPoints()
         {
             SKPointI[] rVal = new SKPointI[2];
@@ -79,7 +49,7 @@ namespace VGraph.src.objects
         }
 
         /// <summary>
-        /// Uses Heron's formula to determine minimum Euclidian distance from the provided point to the line segment
+        /// Uses Heron's formula to determine the height of a triangle with the line segment as the base. This function is mainly used to determine if a line was clicked on.
         /// </summary>
         /// <param name="pointC">Canvas point used to measure the distance to the line segment</param>
         /// <returns>Minimum Euclidian distance to the line segment</returns>
@@ -112,12 +82,21 @@ namespace VGraph.src.objects
 
             return distance;
         }
-
+        
+        /// <summary>
+        /// Calculates the Euclidian length of the line segment.
+        /// </summary>
+        /// <returns>A "double" containing the line length.</returns>
         public double GetLineLength()
         {
             return Math.Sqrt(Math.Pow(StartPointGrid.X - EndPointGrid.X, 2) + Math.Pow(StartPointGrid.Y - EndPointGrid.Y, 2));
         }
-
+        
+        /// <summary>
+        /// Determines whether "clickPoint" was intended to select a line.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
         public bool WasLineSelected(double dist, Point clickPoint)
         {
             //Sanity check for co-linear clicks.
@@ -136,13 +115,23 @@ namespace VGraph.src.objects
             rVal = dist < SELECT_RADIUS;
             return rVal;
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
         public bool WasLineSelected(SKRect boundingBox)
         {
             SKPointI[] endpoints = GetCanvasPoints();
             return (boundingBox.Contains(endpoints[START]) && boundingBox.Contains(endpoints[END]));
         }
-
+        
+        /// <summary>
+        /// Attempts to merge this line segment with "target". A merge is only successful if the two lines are touching at an endpoint and have the same slope.
+        /// </summary>
+        /// <param name="target">The other line segment to attempt to merge with.</param>
+        /// <returns>The merged line segment if the merge was successful. Null otherwise.</returns>
         public LineSegment MergeLines(LineSegment target)
         {
             SKPointI endpointA;
@@ -203,10 +192,5 @@ namespace VGraph.src.objects
             LineSegment other = (LineSegment)o;
             return this.StartPointGrid.Equals(other.StartPointGrid) && this.EndPointGrid.Equals(other.EndPointGrid);
         }
-
-        //private string PrintCoords(SKPointI p)
-        //{
-        //    return "(" + p.X + ", " + p.Y + ")";
-        //}
     }
 }

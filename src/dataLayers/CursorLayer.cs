@@ -21,6 +21,10 @@ namespace VGraph.src.dataLayers
         {
         }
 
+        /// <summary>
+        /// Get the nearest grid point to the cursor's position. This function is used to convert a screen-related point to a grid-related point for the cursor, and its result is displayed in the status bar at the bottom of the screen.
+        /// </summary>
+        /// <returns>An SKPointI relative to the grid with a maximum of "PageData.Instance.SquaresWide" for X and "PageData.Instance.SquaresTall" for Y</returns>
         public SKPointI GetCursorGridPoints()
         {
             //Subtract out the margin.
@@ -30,7 +34,7 @@ namespace VGraph.src.dataLayers
         }
 
         /// <summary>
-        /// This method rounds a point on the main canvas to the main canvas grid such that the return value is equal to a multiple of PageData.Instance.SquareSize + PageData.Instance.Margin
+        /// This method rounds a point on the main canvas to the main canvas grid such that the return value is equal to a multiple of "PageData.Instance.SquareSize + PageData.Instance.Margin"
         /// </summary>
         /// <param name="p">Point to round off</param>
         /// <returns></returns>

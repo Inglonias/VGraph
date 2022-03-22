@@ -49,20 +49,11 @@ namespace VGraph.src.dataLayers
             };
             Tools[BOXY_CIRCLE_TOOL] = boxyTool;
         }
+
         public void SelectTool(string tool)
         {
             SelectedTool = Tools[tool];
         }
-
-        //public void AddNewLine(SKPointI start, SKPointI end, bool needToConvert)
-        //{
-        //    if (start.Equals(end))
-        //    {
-        //        return;
-        //    }
-        //    LineList.Add(new LineSegment(start, end, needToConvert));
-        //    ForceRedraw();
-        //}
 
         private void AddNewLine(LineSegment l)
         {
@@ -78,6 +69,11 @@ namespace VGraph.src.dataLayers
             }
         }
 
+        /// <summary>
+        /// Adds all lines contained in the provided array of line segments to the canvas.
+        /// </summary>
+        /// <param name="l">The array of line segments to add to the canvas</param>
+        /// <param name="isUndoable">If this is true, the state of the canvas before this occurs is added to the undo history. This is false when a file is loaded.</param>
         public void AddNewLines(LineSegment[] l, bool isUndoable)
         {
             if (isUndoable)
@@ -92,6 +88,9 @@ namespace VGraph.src.dataLayers
             }
         }
 
+        /// <summary>
+        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
+        /// </summary>
         public void UndoLastAction()
         {
             LineSegment[] currentState = LineList.ToArray();
@@ -110,6 +109,9 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
+        /// <summary>
+        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
+        /// </summary>
         public void RedoLastAction()
         {
             LineSegment[] currentState = LineList.ToArray();
@@ -145,7 +147,10 @@ namespace VGraph.src.dataLayers
             RedoHistory.Clear();
             ForceRedraw();
         }
-
+        
+        /// <summary>
+        /// Goes through the list of all line segments on the canvas, and merges all adjacent lines with the same slopes into single lines. This action is repeated until no more merges can be made.
+        /// </summary>
         public void MergeAllLines()
         {
             UndoHistory.Push(LineList.ToArray());
@@ -191,7 +196,7 @@ namespace VGraph.src.dataLayers
                 }
             }
         }
-
+        
         public void MoveSelectedLines(int x, int y)
         {
             foreach (LineSegment l in LineList)
@@ -305,6 +310,7 @@ namespace VGraph.src.dataLayers
         {
             if (PreviewPointActive)
             {
+                //TODO: Is this still necessary?
                 return true; //Preview lines must always be drawn.
             }
             return RedrawRequired;

@@ -46,7 +46,19 @@ namespace VGraph.src.drawTools
                 int intY = Convert.ToInt32(rawY);
                 if (Math.Max(Math.Abs(rawX - intX), Math.Abs(rawY - intY)) < fuzzToUse)
                 {
-                    vertices.Add(new SKPointI(intX, intY));
+                    SKPointI candidate = new SKPointI(intX, intY);
+                    if (vertices.Count > 0)
+                    {
+                        SKPointI lastVertex = vertices[vertices.Count - 1];
+                        if (!candidate.Equals(lastVertex))
+                        {
+                            vertices.Add(candidate);
+                        }
+                    }
+                    else
+                    {
+                        vertices.Add(candidate);
+                    }
                 }
             }
             //Add the first element to the back of the list to ensure the circle closes.
@@ -59,5 +71,4 @@ namespace VGraph.src.drawTools
             }
             return lines.ToArray();
         }
-    }
 }

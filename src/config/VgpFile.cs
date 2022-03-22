@@ -3,6 +3,7 @@ using VGraph.src.objects;
 
 namespace VGraph.src.config
 {
+    //Class used to serialize a canvas for saving and loading files.
     internal class VgpFile
     {
         public int SquaresWide { get; set; }
