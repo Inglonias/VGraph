@@ -21,6 +21,7 @@
 
         <CommandBinding Command="ui:MenuCommands.UndoCmd" Executed="UndoCommandBinding_Executed" CanExecute="UndoCommandBinding_CanExecute"/>
         <CommandBinding Command="ui:MenuCommands.RedoCmd" Executed="RedoCommandBinding_Executed" CanExecute="RedoCommandBinding_CanExecute"/>
+        <CommandBinding Command="ui:MenuCommands.SelectAllCmd" Executed="SelectAllCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.ZoomInCmd" Executed="ZoomInCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ZoomOutCmd" Executed="ZoomOutCommandBinding_Executed"/>
@@ -46,6 +47,7 @@
         <!-- Edit Menu -->
         <KeyBinding Gesture="Ctrl+Z" Command="ui:MenuCommands.UndoCmd"/>
         <KeyBinding Gesture="Ctrl+Y" Command="ui:MenuCommands.RedoCmd"/>
+        <KeyBinding Gesture="Ctrl+A" Command="ui:MenuCommands.SelectAllCmd"/>
 
         <!-- View Menu -->
         <KeyBinding Gesture="Ctrl+Plus" Command="ui:MenuCommands.ZoomInCmd"/>

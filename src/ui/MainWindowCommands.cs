@@ -114,6 +114,13 @@ namespace VGraph.src.ui
             MainCanvas.InvalidateVisual();
         }
 
+        private void SelectAllCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lLines.SelectAllLines();
+            MainCanvas.InvalidateVisual();
+        }
+
         private void MoveLinesCommandLogic(string direction)
         {
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
@@ -149,6 +156,7 @@ namespace VGraph.src.ui
         //Edit Menu
         public static RoutedCommand UndoCmd = new RoutedCommand("UndoCmd", typeof(MenuCommands));
         public static RoutedCommand RedoCmd = new RoutedCommand("RedoCmd", typeof(MenuCommands));
+        public static RoutedCommand SelectAllCmd = new RoutedCommand("SelectAllCmd", typeof(MenuCommands));
 
         //View Menu
         public static RoutedCommand ZoomInCmd = new RoutedCommand("ZoomInCmd", typeof(MenuCommands));

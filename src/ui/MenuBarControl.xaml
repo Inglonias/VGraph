@@ -25,6 +25,8 @@
             <MenuItem Header="_Edit">
                 <MenuItem x:Name="Undo_Button" Header="Undo" Command="ui:MenuCommands.UndoCmd" InputGestureText="Ctrl+Z"/>
                 <MenuItem x:Name="Redo_Button" Header="Redo" Command="ui:MenuCommands.RedoCmd" InputGestureText="Ctrl+Y"/>
+                <Separator />
+                <MenuItem Header="Select All" Command="ui:MenuCommands.SelectAllCmd" InputGestureText="Ctrl+A"/>
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="Zoom In" Command="ui:MenuCommands.ZoomInCmd" InputGestureText="Ctrl+Plus"/>
@@ -44,7 +46,7 @@
             <ToggleButton x:Name="Box_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Box Tool&#x0a;Draws a box, with the selected points being opposite corners.">
                 <Image Source="/VGraph;component/images/Box.png"></Image>
             </ToggleButton>
-            <ToggleButton x:Name="Tri_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Triangle Tool&#x0a;Draws a right triangle. The straight line between the selected points forms the hypotenuse.&#x0a;Swapping the end and start points flips the triangle.">
+            <ToggleButton x:Name="Tri_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Triangle Tool&#x0a;Draws a right triangle. The straight line between the selected points forms the hypotenuse.">
                 <!--<Image Source="/VGraph;component/images/Box.png"></Image>-->
             </ToggleButton>
             <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Circle Tool&#x0a;Approximates a circle centered on the starting point.">

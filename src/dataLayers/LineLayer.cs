@@ -17,8 +17,8 @@ namespace VGraph.src.dataLayers
         public static Dictionary<string, IDrawTool> Tools = new Dictionary<string, IDrawTool>();
 
         public const string LINE_TOOL = "Line_Tool";
-        public const string TRI_TOOL = "Tri_Tool";
         public const string BOX_TOOL = "Box_Tool";
+        public const string TRI_TOOL = "Tri_Tool";
         public const string CIRCLE_TOOL = "Circle_Tool";
         public const string BOXY_CIRCLE_TOOL = "Boxy_Circle_Tool";
         public const string ELLIPSE_TOOL = "Ellipse_Tool";
@@ -43,12 +43,13 @@ namespace VGraph.src.dataLayers
         public static void InitializeTools()
         {
             Tools[LINE_TOOL] = new LineTool();
-            Tools[TRI_TOOL] = new TriangleTool();
             Tools[BOX_TOOL] = new BoxTool();
+            Tools[TRI_TOOL] = new TriangleTool();
             Tools[CIRCLE_TOOL] = new CircleTool();
             CircleTool boxyTool = new CircleTool
             {
-                FuzzRating = 1.0
+                FuzzRating = 1.0,
+                IsBoxy = true
             };
             Tools[BOXY_CIRCLE_TOOL] = boxyTool;
             Tools[ELLIPSE_TOOL] = new EllipseTool();
@@ -110,6 +111,15 @@ namespace VGraph.src.dataLayers
             RedoHistory.Push(currentState);
             List<LineSegment> l = new List<LineSegment>(undoState);
             LineList = l;
+            ForceRedraw();
+        }
+
+        public void SelectAllLines()
+        {
+            foreach (LineSegment l in LineList)
+            {
+                l.IsSelected = true;
+            }
             ForceRedraw();
         }
 
