@@ -194,40 +194,18 @@ namespace VGraph.src.objects
 
             if (xCrease.HasValue)
             {
-                int startDistance;
-                int endDistance;
-                if (mirrorStart.X < xCrease.Value && mirrorStart.X < xCrease.Value)
-                {
-                    startDistance = mirrorStart.X + xCrease.Value;
-                    endDistance = mirrorEnd.X + xCrease.Value;
-                }
-                else
-                {
-                    startDistance = mirrorStart.X - xCrease.Value;
-                    endDistance = mirrorEnd.X - xCrease.Value;
-                }
-
-                mirrorStart.X = endDistance;
-                mirrorEnd.X = startDistance;
+                int startDistance = xCrease.Value - mirrorEnd.X;
+                int endDistance = xCrease.Value - mirrorStart.X;
+                mirrorStart.X = endDistance + xCrease.Value;
+                mirrorEnd.X = startDistance + xCrease.Value;
             }
 
             if (yCrease.HasValue)
             {
-                int startDistance;
-                int endDistance;
-                if (mirrorStart.Y < yCrease.Value && mirrorStart.Y < yCrease.Value)
-                {
-                    startDistance = mirrorStart.Y + yCrease.Value;
-                    endDistance = mirrorEnd.Y + yCrease.Value;
-                }
-                else
-                {
-                    startDistance = mirrorStart.Y - yCrease.Value;
-                    endDistance = mirrorEnd.Y - yCrease.Value;
-                }
-
-                mirrorStart.Y = endDistance;
-                mirrorEnd.Y = startDistance;
+                int startDistance = yCrease.Value - mirrorEnd.Y;
+                int endDistance = yCrease.Value - mirrorStart.Y;
+                mirrorStart.Y = endDistance + yCrease.Value;
+                mirrorEnd.Y = startDistance + yCrease.Value;
             }
 
             return new LineSegment(mirrorStart, mirrorEnd);
