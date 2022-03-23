@@ -8,8 +8,6 @@
         x:Class="VGraph.src.ui.MainWindow" 
         mc:Ignorable="d"
         Title="VGraph" Height="450" Width="800"
-        KeyDown="VGraphWindow_OnKeyDown"
-        MouseDown="MainCanvas_OnMouseDown"
         MouseUp="MainCanvas_OnMouseUp"
         MouseLeave="MainCanvas_OnMouseMove"
         MouseEnter="MainCanvas_OnMouseMove">
@@ -29,6 +27,12 @@
 
         <CommandBinding Command="ui:MenuCommands.MergeLinesCmd" Executed="MergeLinesCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.MirrorLinesCmd" Executed="MirrorLinesCommandBinding_Executed"/>
+
+        <CommandBinding Command="ui:UniversalCommands.MoveLinesUp" Executed="MoveLinesUpCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveLinesDown" Executed="MoveLinesDownCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveLinesLeft" Executed="MoveLinesLeftCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveLinesRight" Executed="MoveLinesRightCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.DeleteSelectedLines" Executed="DeleteSelectedLinesCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <!-- File Menu -->
@@ -50,10 +54,12 @@
         <KeyBinding Gesture="Ctrl+Shift+M" Command="ui:MenuCommands.MergeLinesCmd"/>
         <KeyBinding Gesture="Ctrl+R" Command="ui:MenuCommands.MirrorLinesCmd" />
 
-        <!--
-        TODO: The bindings to move and delete lines are currently handled through a KeyDown event check.
-        This is probably bad but I don't want to do a bunch more command bindings right now
-        -->
+        <!--Universal bindings-->
+        <KeyBinding Key="W" Command="ui:UniversalCommands.MoveLinesUp" />
+        <KeyBinding Key="A" Command="ui:UniversalCommands.MoveLinesLeft" />
+        <KeyBinding Key="S" Command="ui:UniversalCommands.MoveLinesDown" />
+        <KeyBinding Key="D" Command="ui:UniversalCommands.MoveLinesRight" />
+        <KeyBinding Key="Delete" Command="ui:UniversalCommands.DeleteSelectedLines" />
 
     </Window.InputBindings>
     <Grid Name="primaryGrid">

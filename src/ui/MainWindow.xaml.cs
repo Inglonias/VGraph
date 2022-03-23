@@ -57,10 +57,6 @@ namespace VGraph.src.ui
         private void HandleCursor(MouseEventArgs e)
         {
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
-            if (LCursor.CanvasPoint.Y < 0)
-            {
-                System.Console.WriteLine("AAAAAAA");
-            }
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
@@ -117,42 +113,6 @@ namespace VGraph.src.ui
             {
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
                 LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
-            }
-            MainCanvas.InvalidateVisual();
-        }
-
-        private void VGraphWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case Key.Delete:
-                    LLines.DeleteSelectedLines();
-                    MainCanvas.InvalidateVisual();
-                    break;
-
-                case Key.W:
-                    LLines.MoveSelectedLines(0, -1);
-                    break;
-
-                case Key.D:
-                    LLines.MoveSelectedLines(1, 0);
-                    break;
-
-                case Key.S:
-                    LLines.MoveSelectedLines(0, 1);
-                    break;
-
-                case Key.A:
-                    LLines.MoveSelectedLines(-1, 0);
-                    break;
-
-                case Key.Add:
-                    PageData.Instance.ZoomIn();
-                    break;
-
-                case Key.Subtract:
-                    PageData.Instance.ZoomOut();
-                    break;
             }
             MainCanvas.InvalidateVisual();
         }

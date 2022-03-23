@@ -80,6 +80,55 @@ namespace VGraph.src.ui
         {
             MainMenuBar.MirrorLines();
         }
+
+        private void MoveLinesUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MoveLinesCommandLogic("UP");
+        }
+
+        private void MoveLinesDownCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MoveLinesCommandLogic("DOWN");
+        }
+
+        private void MoveLinesLeftCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MoveLinesCommandLogic("LEFT");
+        }
+
+        private void MoveLinesRightCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MoveLinesCommandLogic("RIGHT");
+        }
+
+        private void DeleteSelectedLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lLines.DeleteSelectedLines();
+            MainCanvas.InvalidateVisual();
+        }
+
+        private void MoveLinesCommandLogic(string direction)
+        {
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            if (direction == "UP")
+            {
+                lLines.MoveSelectedLines(0, -1);
+            }
+            else if (direction == "DOWN")
+            {
+                lLines.MoveSelectedLines(0, 1);
+            }
+            else if (direction == "LEFT")
+            {
+                lLines.MoveSelectedLines(-1, 0);
+            }
+            else if (direction == "RIGHT")
+            {
+                lLines.MoveSelectedLines(1, 0);
+            }
+            MainCanvas.InvalidateVisual();
+        }
     }
     public class MenuCommands
     {
@@ -102,5 +151,15 @@ namespace VGraph.src.ui
         //Tools Menu
         public static RoutedCommand MergeLinesCmd = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
         public static RoutedCommand MirrorLinesCmd = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
+    }
+
+    public class UniversalCommands
+    {
+        public static RoutedCommand MoveLinesUp = new RoutedCommand("MoveLinesUp", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesDown = new RoutedCommand("MoveLinesDown", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesLeft = new RoutedCommand("MoveLinesLeft", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesRight = new RoutedCommand("MoveLinesRight", typeof(UniversalCommands));
+
+        public static RoutedCommand DeleteSelectedLines = new RoutedCommand("DeleteSelectedLines", typeof(UniversalCommands));
     }
 }
