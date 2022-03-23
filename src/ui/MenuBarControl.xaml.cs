@@ -93,6 +93,7 @@ namespace VGraph.src.ui
             List<ToggleButton> toolMenuItems = new List<ToggleButton>();
 
             toolMenuItems.Add(Line_Tool);
+            toolMenuItems.Add(Tri_Tool);
             toolMenuItems.Add(Box_Tool);
             toolMenuItems.Add(Circle_Tool);
             toolMenuItems.Add(Boxy_Circle_Tool);
