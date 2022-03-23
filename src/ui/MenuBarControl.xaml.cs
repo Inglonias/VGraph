@@ -96,6 +96,7 @@ namespace VGraph.src.ui
             toolMenuItems.Add(Box_Tool);
             toolMenuItems.Add(Circle_Tool);
             toolMenuItems.Add(Boxy_Circle_Tool);
+            toolMenuItems.Add(Ellipse_Tool);
 
             foreach (ToggleButton m in toolMenuItems)
             {
