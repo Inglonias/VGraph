@@ -218,7 +218,8 @@ namespace VGraph.src.objects
                 return false;
             }
             LineSegment other = (LineSegment)o;
-            return this.StartPointGrid.Equals(other.StartPointGrid) && this.EndPointGrid.Equals(other.EndPointGrid);
+            return (this.StartPointGrid.Equals(other.StartPointGrid) && this.EndPointGrid.Equals(other.EndPointGrid)) ||
+                   (this.StartPointGrid.Equals(other.EndPointGrid) && this.EndPointGrid.Equals(other.StartPointGrid));
         }
     }
 }
