@@ -8,18 +8,20 @@ There are many times when I have found myself wanting to use grid paper to make 
 
 ## Features
 * Draw straight lines between any two square corners
-* Approximate circles with both slopes and 90 degree corners
-* Export your paper to a PNG file
+* Draw a wide variety of shapes with just two clicks. Everything from right triangles to approximations of an ellipse.
+* Export your drawing to a PNG file.
 * Save files in JSON format for later use.
 
 ## Controls
-Right-clicking anywhere on the grid will drop a point. Right-clicking again will drop a line.
-
-You can select any previously created lines by left-clicking on them or by clicking and dragging a box around them, and delete your selection by pressing the Delete key on your keyboard.
-
-You can move any currently selected lines by using WASD controls. If you placed the first point of the line in the wrong place, you can right-click the same spot again to cancel placement of the line.
-
-You can zoom in with Ctrl+Plus and zoom out with Ctrl+Minus, or use the provided buttons for that in the zoom menu.
+* Drawing shapes is done by selecting a tool from the menu bar along the top and then right-clicking on two intersecting points on the grid. A green preview will appear after your first right-click to show you what will be drawn when you right-click a second time.
+* You can select a line by left clicking on it, or clicking and dragging a bounding box around several lines. You can chain these selections together by holding Control.
+* You can move selected lines up, down, left, and right with the W, S, A, and D keys respectively.
+* Lines in the drawing are blue. Selected lines in the drawing are red, and preview lines that are not yet in the drawing are green and more transparent.
+* Look in the menus for more controls. Key shortcuts are listed next to their relevant controls.
+* Many controls have tooltips that can be viewed by hovering over them with your mouse.
 
 ## Requirements
 This program runs on the .NET Framework v 4.7.2. You need to have that installed for VGraph to work.
+
+## Credits
+VGraph uses [SkiaSharp](https://github.com/mono/SkiaSharp) for drawing graphics and the Windows Presentation Framework for GUI and controls. 
