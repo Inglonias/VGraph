@@ -25,7 +25,7 @@ namespace VGraph.src.drawTools
             int radiusA = Convert.ToInt32(new LineSegment(start, center).GetLineLength());
             int radiusB = Convert.ToInt32(new LineSegment(end, center).GetLineLength());
 
-            return DrawEllipse(start, end, radiusA, radiusB);
+            return DrawEllipse(start, radiusA, radiusB);
         }
 
         public virtual LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end)
@@ -34,10 +34,10 @@ namespace VGraph.src.drawTools
             int radiusA = Convert.ToInt32(new LineSegment(start, center).GetLineLength());
             int radiusB = Convert.ToInt32(new LineSegment(end, center).GetLineLength());
 
-            return DrawEllipseOdd(start, end, radiusA, radiusB);
+            return DrawEllipseOdd(start, radiusA, radiusB);
         }
 
-        protected LineSegment[] DrawEllipse(SKPointI start, SKPointI end, int radiusA, int radiusB)
+        protected LineSegment[] DrawEllipse(SKPointI start, int radiusA, int radiusB)
         {
             int numVertices = 3600;
 
@@ -85,7 +85,7 @@ namespace VGraph.src.drawTools
             return lines.ToArray();
         }
 
-        protected LineSegment[] DrawEllipseOdd(SKPointI start, SKPointI end, int radiusA, int radiusB)
+        protected LineSegment[] DrawEllipseOdd(SKPointI start, int radiusA, int radiusB)
         {
             SKPointI[] radiusStart = { new SKPointI(start.X + 1, start.Y    ),
                                        new SKPointI(start.X + 1, start.Y + 1),

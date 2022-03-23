@@ -20,13 +20,13 @@ namespace VGraph.src.drawTools
         public override LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
             int radius = Math.Max(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
-            return DrawEllipse(start, end, radius, radius);
+            return DrawEllipse(start, radius, radius);
         }
 
         public override LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end)
         {
             int radius = Math.Max(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
-            return DrawEllipseOdd(start, end, radius, radius);
+            return DrawEllipseOdd(start, radius, radius);
         }
     }
 }
