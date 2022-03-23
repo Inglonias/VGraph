@@ -16,6 +16,7 @@
         <CommandBinding Command="ui:MenuCommands.OpenGridCmd" Executed="OpenCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.SaveGridCmd" Executed="SaveCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ExportGridCmd" Executed="ExportCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.ImportGridCmd" Executed="ImportCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ExitCmd" Executed="ExitCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.UndoCmd" Executed="UndoCommandBinding_Executed" CanExecute="UndoCommandBinding_CanExecute"/>
@@ -40,6 +41,7 @@
         <KeyBinding Gesture="Ctrl+O" Command="ui:MenuCommands.OpenGridCmd"/>
         <KeyBinding Gesture="Ctrl+S" Command="ui:MenuCommands.SaveGridCmd"/>
         <KeyBinding Gesture="Ctrl+Shift+S" Command="ui:MenuCommands.ExportGridCmd"/>
+        <KeyBinding Gesture="Ctrl+Shift+O" Command="ui:MenuCommands.ImportGridCmd"/>
 
         <!-- Edit Menu -->
         <KeyBinding Gesture="Ctrl+Z" Command="ui:MenuCommands.UndoCmd"/>

@@ -75,6 +75,21 @@ namespace VGraph.src.ui
             }
         }
 
+        public void ImportGrid()
+        {
+            OpenFileDialog d = new OpenFileDialog
+            {
+                DefaultExt = ".vgp",
+                Filter = "VGraph JSON files (.vgp)|*.vgp|JSON Files (.json)|*.json"
+            };
+            bool? result = d.ShowDialog();
+
+            if (result == true)
+            {
+                PageData.Instance.FileImport(d.FileName);
+            }
+        }
+
         public void ExitApp()
         {
             Environment.Exit(0);

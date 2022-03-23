@@ -111,6 +111,41 @@ namespace VGraph.src.config
         }
 
         /// <summary>
+        /// Attempt to import the VGP file from the path passed to the function.
+        /// In this context, that means "add all lines from the target file to the canvas"
+        /// </summary>
+        /// <param name="fileName">Path to the file that will be loaded</param>
+        /// <returns>True if the file is valid and no errors occurred. False otherwise.</returns>
+        public bool FileImport(string fileName)
+        {
+            VgpFile saveFile;
+            try
+            {
+                string jsonString = File.ReadAllText(fileName);
+                saveFile = JsonSerializer.Deserialize<VgpFile>(jsonString);
+                SquaresWide = Math.Max(this.SquaresWide, saveFile.SquaresWide);
+                SquaresTall = Math.Max(this.SquaresTall, saveFile.SquaresTall);
+
+                LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+
+                //lineLayer.ClearAllLines();
+
+                lineLayer.AddNewLines(saveFile.Lines.ToArray(), true);
+
+                foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
+                {
+                    l.Value.ForceRedraw();
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Saves the currently loaded canvas to the path specified.
         /// </summary>
         /// <param name="fileName">Path to the file to save</param>

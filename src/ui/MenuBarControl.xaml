@@ -1,5 +1,4 @@
-﻿
-    <UserControl x:Class="VGraph.src.ui.MenuBarControl"
+﻿<UserControl x:Class="VGraph.src.ui.MenuBarControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -17,6 +16,8 @@
                 <MenuItem Header="New" Command="ui:MenuCommands.NewGridCmd" InputGestureText="Ctrl+N"/>
                 <MenuItem Header="Open" Command="ui:MenuCommands.OpenGridCmd" InputGestureText="Ctrl+O"/>
                 <MenuItem Header="Save" Command="ui:MenuCommands.SaveGridCmd" InputGestureText="Ctrl+S"/>
+                <Separator />
+                <MenuItem Header="Import" Command="ui:MenuCommands.ImportGridCmd" InputGestureText="Ctrl+Shift+O"/>
                 <MenuItem Header="Export" Command="ui:MenuCommands.ExportGridCmd" InputGestureText="Ctrl+Shift+S"/>
                 <Separator />
                 <MenuItem Header="Exit" Command="ui:MenuCommands.ExitCmd" />
@@ -44,7 +45,7 @@
                 <Image Source="/VGraph;component/images/Box.png"></Image>
             </ToggleButton>
             <ToggleButton x:Name="Tri_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
-                <!--<Image Source="/VGraph;component/images/Triangle.png"></Image>-->
+                <!--<Image Source="/VGraph;component/images/Box.png"></Image>-->
             </ToggleButton>
             <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
                 <Image Source="/VGraph;component/images/Circle.png"></Image>
