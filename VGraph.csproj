@@ -230,6 +230,9 @@
     <Resource Include="images\Ellipse.png" />
     <Resource Include="images\Line.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Triangle.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets" Condition="Exists('packages\SkiaSharp.2.80.2\build\net462\SkiaSharp.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
