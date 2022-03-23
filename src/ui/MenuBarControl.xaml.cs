@@ -149,5 +149,11 @@ namespace VGraph.src.ui
             Center_Lines_Button.IsChecked = gbl.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
+
+        private void OddMode_OnClick(object sender, RoutedEventArgs e)
+        {
+            PreviewLayer pl = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
+            pl.OddMode = OddModeCheckbox.IsChecked.Value;
+        }
     }
 }

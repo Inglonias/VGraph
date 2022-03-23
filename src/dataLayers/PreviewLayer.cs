@@ -12,10 +12,17 @@ namespace VGraph.src.dataLayers
         public SKPointI PreviewPoint { get; set; }
         public SKPointI PreviewGridPoint { get; set; }
 
+        public bool OddMode { get; set; }
+
         private SKBitmap LastBitmap;
 
         private bool PreviewPointActive = false;
         private bool RedrawOverride = false;
+
+        public PreviewLayer()
+        {
+            OddMode = false;
+        }
 
         public void ForceRedraw()
         {
@@ -40,7 +47,14 @@ namespace VGraph.src.dataLayers
                 if (PreviewPointActive)
                 {
                     SKPointI cursorGridPoint = ((CursorLayer)PageData.Instance.GetDataLayer(PageData.CURSOR_LAYER)).GetCursorGridPoints();
-                    LineSegment[] previewLines = lLines.SelectedTool.DrawWithTool(PreviewGridPoint, cursorGridPoint);
+                    LineSegment[] previewLines;
+                    if (!OddMode) {
+                       previewLines = lLines.SelectedTool.DrawWithTool(PreviewGridPoint, cursorGridPoint);
+                    }
+                    else
+                    {
+                        previewLines = lLines.SelectedTool.DrawWithToolOdd(PreviewGridPoint, cursorGridPoint);
+                    }
                     if (previewLines != null)
                     {
                         foreach (LineSegment line in previewLines)
@@ -82,7 +96,15 @@ namespace VGraph.src.dataLayers
             if (PreviewPointActive)
             {
                 PreviewPointActive = false;
-                LineSegment[] lines = lLines.SelectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
+                LineSegment[] lines;
+                if (!OddMode)
+                {
+                    lines = lLines.SelectedTool.DrawWithTool(PreviewGridPoint, gridPoint);
+                }
+                else
+                {
+                    lines = lLines.SelectedTool.DrawWithToolOdd(PreviewGridPoint, gridPoint);
+                }
                 if (lines != null)
                 {
                     lLines.AddNewLines(lines, true);
