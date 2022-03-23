@@ -44,7 +44,7 @@
                 <Image Source="/VGraph;component/images/Box.png"></Image>
             </ToggleButton>
             <ToggleButton x:Name="Tri_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
-                <!--<Image Source="/VGraph;component/images/Box.png"></Image>-->
+                <!--<Image Source="/VGraph;component/images/Triangle.png"></Image>-->
             </ToggleButton>
             <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
                 <Image Source="/VGraph;component/images/Circle.png"></Image>
