@@ -19,15 +19,26 @@ namespace VGraph.src.drawTools
             FuzzRating = fuzz;
         }
 
-        public LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
+        public virtual LineSegment[] DrawWithTool(SKPointI start, SKPointI end)
         {
-            SKPointI pointA = start;
-            SKPointI pointB = end;
-            SKPointI center = new SKPointI(pointA.X, pointB.Y);
+            SKPointI center = new SKPointI(start.X, end.Y);
+            int radiusA = Convert.ToInt32(new LineSegment(start, center).GetLineLength());
+            int radiusB = Convert.ToInt32(new LineSegment(end, center).GetLineLength());
 
-            int radiusA = Convert.ToInt32(new LineSegment(pointA, center).GetLineLength());
-            int radiusB = Convert.ToInt32(new LineSegment(pointB, center).GetLineLength());
+            return DrawEllipse(start, end, radiusA, radiusB);
+        }
 
+        public virtual LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end)
+        {
+            SKPointI center = new SKPointI(start.X, end.Y);
+            int radiusA = Convert.ToInt32(new LineSegment(start, center).GetLineLength());
+            int radiusB = Convert.ToInt32(new LineSegment(end, center).GetLineLength());
+
+            return DrawEllipseOdd(start, end, radiusA, radiusB);
+        }
+
+        protected LineSegment[] DrawEllipse(SKPointI start, SKPointI end, int radiusA, int radiusB)
+        {
             int numVertices = 3600;
 
             List<SKPointI> vertices = new List<SKPointI>();
@@ -66,7 +77,72 @@ namespace VGraph.src.drawTools
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
                 SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
                 LineSegment l = new LineSegment(offsetStart, offsetEnd);
-                lines.Add(l);
+                if (!lines.Contains(l))
+                {
+                    lines.Add(l);
+                }
+            }
+            return lines.ToArray();
+        }
+        
+        protected LineSegment[] DrawEllipseOdd(SKPointI start, SKPointI end, int radiusA, int radiusB)
+        {
+            SKPointI[] radiusStart = { new SKPointI(start.X    , start.Y    ),
+                                       new SKPointI(start.X + 1, start.Y    ),
+                                       new SKPointI(start.X + 1, start.Y + 1),
+                                       new SKPointI(start.X    , start.Y + 1)};
+
+            int[] xMod = { 0, 1, 1, 0 };
+            int[] yMod = { 0, 0, 1, 1 };
+
+            List<SKPointI> vertices = new List<SKPointI>();
+            List<LineSegment> lines = new List<LineSegment>();
+
+            for (int i = 0; i < radiusStart.Length; i++)
+            {
+                int numVertices = 900;
+
+                double angleSpacing = (Math.PI / 2) / numVertices;
+                for (int j = 0; j < numVertices; j++)
+                {
+                    double angle = j * angleSpacing;
+                    angle += (Math.PI / 2) * i;
+                    double rawX = radiusB * Math.Cos(angle) + xMod[i];
+                    double rawY = radiusA * Math.Sin(angle) + yMod[i];
+                    int intX = Convert.ToInt32(rawX);
+                    int intY = Convert.ToInt32(rawY);
+                    if (Math.Max(Math.Abs(rawX - intX), Math.Abs(rawY - intY)) < FuzzRating)
+                    {
+                        SKPointI candidate = new SKPointI(intX, intY);
+                        if (vertices.Count > 0)
+                        {
+                            SKPointI lastVertex = vertices[vertices.Count - 1];
+                            if (!candidate.Equals(lastVertex))
+                            {
+                                vertices.Add(candidate);
+                            }
+                        }
+                        else
+                        {
+                            vertices.Add(candidate);
+                        }
+                    }
+                }
+            }
+            //Add the first element to the back of the list to ensure the circle closes.
+            if (vertices.Count > 0)
+            {
+                vertices.Add(new SKPointI(vertices[0].X, vertices[0].Y));
+            }
+            for (int i = 1; i < vertices.Count; i++)
+            {
+                SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
+                SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
+                LineSegment l = new LineSegment(offsetStart, offsetEnd);
+                if (!lines.Contains(l))
+                {
+                    lines.Add(l);
+                }
             }
             return lines.ToArray();
         }

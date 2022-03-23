@@ -23,5 +23,10 @@ namespace VGraph.src.drawTools
 
             return rVal;
         }
+
+        public LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end)
+        {
+            return DrawWithTool(start, end);
+        }
     }
 }
