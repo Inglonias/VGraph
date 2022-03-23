@@ -47,7 +47,20 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
+            HandleCursor(e);
+            MainCanvas.InvalidateVisual();
+
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
+            CursorStatusBar.InvalidateVisual();
+        }
+
+        private void HandleCursor(MouseEventArgs e)
+        {
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
+            if (LCursor.CanvasPoint.Y < 0)
+            {
+                System.Console.WriteLine("AAAAAAA");
+            }
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
@@ -62,10 +75,6 @@ namespace VGraph.src.ui
             {
                 LCursor.StartClickDrag();
             }
-            MainCanvas.InvalidateVisual();
-
-            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
-            CursorStatusBar.InvalidateVisual();
         }
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
@@ -150,6 +159,12 @@ namespace VGraph.src.ui
 
         public void ForceRedraw()
         {
+            MainCanvas.InvalidateVisual();
+        }
+
+        private void MainCanvas_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            HandleCursor(e);
             MainCanvas.InvalidateVisual();
         }
     }
