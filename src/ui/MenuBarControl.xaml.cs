@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Interop;
 using Microsoft.Win32;
 
 using VGraph.src.config;
@@ -170,6 +172,23 @@ namespace VGraph.src.ui
         {
             PreviewLayer pl = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
             pl.OddMode = OddModeCheckbox.IsChecked.Value;
+        }
+
+        private void ColorSwatch_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
+        {
+            e.Surface.Canvas.Clear(PageData.Instance.CurrentLineColor);
+        }
+
+        private void ColorSelect_OnClick(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.ColorDialog cd = new System.Windows.Forms.ColorDialog();
+            cd.AllowFullOpen = true;
+            cd.Color = PageData.Instance.GetLineColorAsColor();
+            if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                PageData.Instance.CurrentLineColor = new SkiaSharp.SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
+                ColorSwatch.InvalidateVisual();
+            }
         }
     }
 }

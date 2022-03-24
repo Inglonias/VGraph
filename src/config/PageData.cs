@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.config
 {
@@ -20,6 +21,7 @@ namespace VGraph.src.config
         public int SquareSize { get; set; } = 24;
         public int Margin { get; set; } = 24;
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
+        public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
@@ -235,6 +237,11 @@ namespace VGraph.src.config
             {
                 l.Value.ForceRedraw();
             }
+        }
+
+        public System.Drawing.Color GetLineColorAsColor()
+        {
+            return System.Drawing.Color.FromArgb(CurrentLineColor.Red, CurrentLineColor.Green, CurrentLineColor.Green);
         }
     }
 }

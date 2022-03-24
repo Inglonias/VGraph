@@ -10,17 +10,18 @@ namespace VGraph.src.objects
     {
         public static readonly int START = 0;
         public static readonly int END = 1;
+        public static readonly SKColor DEFAULT_COLOR = PageData.Instance.CurrentLineColor;
 
         [JsonIgnore]
         public readonly static double SELECT_RADIUS = 5;
         public SKPointI StartPointGrid { get; set; }
         public SKPointI EndPointGrid { get; set; }
+        public SKColor LineColor { get; set; } = DEFAULT_COLOR;
         [JsonIgnore]
         public bool IsSelected { get; set; } = false;
 
         public LineSegment()
         {
-
         }
 
         public LineSegment(SKPointI startPoint, SKPointI endPoint)
@@ -28,7 +29,14 @@ namespace VGraph.src.objects
             StartPointGrid = startPoint;
             EndPointGrid = endPoint;
         }
-        
+
+        public LineSegment(SKPointI startPoint, SKPointI endPoint, SKColor lineColor)
+        {
+            StartPointGrid = startPoint;
+            EndPointGrid = endPoint;
+            LineColor = lineColor;
+        }
+
         /// <summary>
         /// Converts the grid-relative coordinates of the line segment to canvas-relative coordinates for rendering.
         /// </summary>
@@ -209,6 +217,14 @@ namespace VGraph.src.objects
             }
 
             return new LineSegment(mirrorStart, mirrorEnd);
+        }
+
+        public SKColor GetInvertedLineColor()
+        {
+            byte red = Convert.ToByte(255 - LineColor.Red);
+            byte grn = Convert.ToByte(255 - LineColor.Green);
+            byte blu = Convert.ToByte(255 - LineColor.Blue);
+            return new SKColor(red, grn, blu);
         }
 
         public override bool Equals(object o)

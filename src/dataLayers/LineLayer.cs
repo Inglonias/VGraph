@@ -393,6 +393,8 @@ namespace VGraph.src.dataLayers
 
                 foreach (LineSegment line in LineList)
                 {
+                    standardBrush.Color = line.LineColor;
+                    selectedBrush.Color = line.GetInvertedLineColor();
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {
