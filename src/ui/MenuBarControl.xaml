@@ -70,7 +70,7 @@
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
                     <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" PaintSurface="ColorSwatch_OnPaintSurface" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Text="Edit Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <TextBlock Grid.Column="1" Text="Line Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
         </ToolBarPanel>

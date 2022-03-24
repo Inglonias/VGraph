@@ -42,7 +42,7 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
 
-                SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = new SKColor(0, 128, 0, 128), IsAntialias = true };
+                SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
 
                 if (PreviewPointActive)
                 {
