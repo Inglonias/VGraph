@@ -77,40 +77,16 @@ namespace VGraph.src.dataLayers
         /// Adds all lines contained in the provided array of line segments to the canvas.
         /// </summary>
         /// <param name="l">The array of line segments to add to the canvas</param>
-        /// <param name="isUndoable">If this is true, the state of the canvas before this occurs is added to the undo history. This is false when a file is loaded.</param>
-        public void AddNewLines(LineSegment[] l, bool isUndoable)
+        public void AddNewLines(LineSegment[] l)
         {
-            if (isUndoable)
-            {
-                LineSegment[] gridState = LineList.ToArray();
-                UndoHistory.Push(gridState);
-                RedoHistory.Clear();
-            }
             foreach (LineSegment line in l)
             {
+                if (line.LineColor == null)
+                {
+                    line.LineColor = LineSegment.DEFAULT_COLOR.ToString();
+                }
                 AddNewLine(line);
             }
-        }
-
-        /// <summary>
-        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
-        /// </summary>
-        public void UndoLastAction()
-        {
-            LineSegment[] currentState = LineList.ToArray();
-            LineSegment[] undoState;
-            try
-            {
-                undoState = UndoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            RedoHistory.Push(currentState);
-            List<LineSegment> l = new List<LineSegment>(undoState);
-            LineList = l;
-            ForceRedraw();
         }
 
         public void SelectAllLines()
@@ -120,37 +96,6 @@ namespace VGraph.src.dataLayers
                 l.IsSelected = true;
             }
             ForceRedraw();
-        }
-
-        /// <summary>
-        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
-        /// </summary>
-        public void RedoLastAction()
-        {
-            LineSegment[] currentState = LineList.ToArray();
-            LineSegment[] redoState;
-            try
-            {
-                redoState = RedoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            UndoHistory.Push(currentState);
-            List<LineSegment> l = new List<LineSegment>(redoState);
-            LineList = l;
-            ForceRedraw();
-        }
-
-        public bool CanUndo()
-        {
-            return UndoHistory.Count > 0;
-        }
-
-        public bool CanRedo()
-        {
-            return RedoHistory.Count > 0;
         }
 
         public void ClearAllLines()
@@ -166,7 +111,7 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void MergeAllLines()
         {
-            UndoHistory.Push(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> finalList = new List<LineSegment>();
             bool recheck = true;
             while (recheck)
@@ -266,12 +211,12 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            UndoHistory.Push(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
 
             if (destroyOtherSide)
             {
                 ClearAllLines();
-                AddNewLines(linesToMirror.ToArray(), false); //Not undoable because we still have more to go.
+                AddNewLines(linesToMirror.ToArray()); //Not undoable because we still have more to go.
             }
 
             foreach (LineSegment l in linesToMirror)
@@ -288,6 +233,19 @@ namespace VGraph.src.dataLayers
 
             ForceRedraw();
             return SUCCESS;
+        }
+
+        public LineSegment[] GetSelectedLines()
+        {
+            List<LineSegment> selectedLines = new List<LineSegment>();
+            foreach (LineSegment l in LineList)
+            {
+                if (l.IsSelected)
+                {
+                    selectedLines.Add(l);
+                }
+            }
+            return selectedLines.ToArray();
         }
 
         public void DeselectLines()
@@ -336,6 +294,90 @@ namespace VGraph.src.dataLayers
                 }
             }
             ForceRedraw();
+        }
+
+        /// <summary>
+        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
+        /// </summary>
+        public void UndoLastAction()
+        {
+            LineSegment[] undoState;
+            try
+            {
+                undoState = UndoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+            List<LineSegment> l = new List<LineSegment>(undoState);
+            LineList = l;
+            ForceRedraw();
+        }
+
+        public bool CanUndo()
+        {
+            return UndoHistory.Count > 0;
+        }
+
+        public void CreateUndoPoint()
+        {
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+            RedoHistory.Clear();
+        }
+
+        private void CreateUndoPoint(LineSegment[] target)
+        {
+            UndoHistory.Push(target);
+        }
+
+        /// <summary>
+        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
+        /// </summary>
+        public void RedoLastAction()
+        {
+            LineSegment[] redoState;
+            try
+            {
+                redoState = RedoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+            List<LineSegment> l = new List<LineSegment>(redoState);
+            LineList = l;
+            ForceRedraw();
+        }
+
+        public bool CanRedo()
+        {
+            return RedoHistory.Count > 0;
+        }
+
+
+        public void CreateRedoPoint()
+        {
+            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+        }
+
+        private void CreateRedoPoint(LineSegment[] target)
+        {
+            RedoHistory.Push(target);
+        }
+
+        private LineSegment[] DeepCopyLineSegmentArray(LineSegment[] source)
+        {
+            LineSegment[] rVal = new LineSegment[source.Length];
+
+            for (int i = 0; i < rVal.Length; i++)
+            {
+                rVal[i] = new LineSegment(source[i].StartPointGrid, source[i].EndPointGrid, source[i].LineColor);
+            }
+
+            return rVal;
         }
 
         public void HandleSelectionClick(Point point, bool maintainSelection)
@@ -388,20 +430,20 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
 
-                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Red, IsAntialias = true };
+                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {
+                    SKColor lineColor = LineSegment.DEFAULT_COLOR;
+                    SKColor.TryParse(line.LineColor, out lineColor);
+                    standardBrush.Color = lineColor;
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {
                         canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    else
-                    {
-                        canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
-                    }
+                    canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
 
                 //Dispose of them.
@@ -422,11 +464,6 @@ namespace VGraph.src.dataLayers
 
         public bool IsRedrawRequired()
         {
-            if (PreviewPointActive)
-            {
-                //TODO: Is this still necessary?
-                return true; //Preview lines must always be drawn.
-            }
             return RedrawRequired;
         }
 

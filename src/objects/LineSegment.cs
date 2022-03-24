@@ -10,25 +10,34 @@ namespace VGraph.src.objects
     {
         public static readonly int START = 0;
         public static readonly int END = 1;
+        public static readonly SKColor DEFAULT_COLOR = new SKColor(0, 128, 255);
 
         [JsonIgnore]
         public readonly static double SELECT_RADIUS = 5;
         public SKPointI StartPointGrid { get; set; }
         public SKPointI EndPointGrid { get; set; }
+        public string LineColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
         [JsonIgnore]
         public bool IsSelected { get; set; } = false;
 
         public LineSegment()
         {
-
         }
 
         public LineSegment(SKPointI startPoint, SKPointI endPoint)
         {
             StartPointGrid = startPoint;
             EndPointGrid = endPoint;
+            LineColor = PageData.Instance.CurrentLineColor.ToString();
         }
-        
+
+        public LineSegment(SKPointI startPoint, SKPointI endPoint, string lineColor)
+        {
+            StartPointGrid = startPoint;
+            EndPointGrid = endPoint;
+            LineColor = lineColor;
+        }
+
         /// <summary>
         /// Converts the grid-relative coordinates of the line segment to canvas-relative coordinates for rendering.
         /// </summary>
@@ -136,6 +145,9 @@ namespace VGraph.src.objects
         {
             SKPointI endpointA;
             SKPointI endpointB;
+            if (!LineColor.Equals(target.LineColor)) {
+                return null;
+            }
             if (this.StartPointGrid == target.StartPointGrid)
             {
                 endpointA = this.EndPointGrid;
@@ -177,7 +189,7 @@ namespace VGraph.src.objects
             }
             if ((double.IsInfinity(slopeA) && double.IsInfinity(slopeB)) || (slopeA == slopeB))
             {
-                return new LineSegment(endpointA, endpointB);
+                return new LineSegment(endpointA, endpointB, LineColor);
             }
 
             return null;
@@ -208,8 +220,16 @@ namespace VGraph.src.objects
                 mirrorEnd.Y = startDistance + yCrease.Value;
             }
 
-            return new LineSegment(mirrorStart, mirrorEnd);
+            return new LineSegment(mirrorStart, mirrorEnd, LineColor);
         }
+
+        //public SKColor GetInvertedLineColor()
+        //{
+        //    byte red = Convert.ToByte(255 - LineColor.Red);
+        //    byte grn = Convert.ToByte(255 - LineColor.Green);
+        //    byte blu = Convert.ToByte(255 - LineColor.Blue);
+        //    return new SKColor(red, grn, blu);
+        //}
 
         public override bool Equals(object o)
         {

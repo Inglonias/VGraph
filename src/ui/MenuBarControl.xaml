@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ui="clr-namespace:VGraph.src.ui"
+             xmlns:ui="clr-namespace:VGraph.src.ui" xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="64" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20px"/>
+            <RowDefinition Height="3px"/>
             <RowDefinition Height="44px"/>
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch" Grid.Row="0" Background="#FFF0F0F0">
@@ -39,7 +40,10 @@
                 <MenuItem Header="Mirror Tool" Command="ui:MenuCommands.MirrorLinesCmd" ToolTip="This tool will allow you to mirror lines across any X or Y value." InputGestureText="Ctrl+R" IsEnabled="True"/>
             </MenuItem>
         </Menu>
-        <ToolBarPanel Height="44px" Grid.Row="1" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        <ToolBarPanel Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <Separator/>
+        </ToolBarPanel>
+        <ToolBarPanel Height="44px" Grid.Row="2" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
             <ToggleButton x:Name="Line_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,1,1,1" Click="ToolMenu_OnChecked" IsChecked="True" ToolTip="Line Tool&#x0a;Draws a line between the selected points">
                 <Image Source="/VGraph;component/images/Line.png"></Image>
             </ToggleButton>
@@ -59,6 +63,16 @@
                 <Image Source="/VGraph;component/images/Ellipse.png"></Image>
             </ToggleButton>
             <CheckBox Content="Odd Mode" x:Name="OddModeCheckbox" Height="44" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="32,0,0,0" ToolTip="Instructs draw tools to center around the center of a square instead of its intersection, if applicable.&#x0a;(Currently supports circle and ellipse tools)." Click="OddMode_OnClick"/>
+            <Button Height="24" Margin="32,0" Click="ColorSelect_OnClick">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" PaintSurface="ColorSwatch_OnPaintSurface" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Line Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Button>
         </ToolBarPanel>
     </Grid>
 
