@@ -107,7 +107,8 @@ namespace VGraph.src.dataLayers
                 }
                 if (lines != null)
                 {
-                    lLines.AddNewLines(lines, true);
+                    lLines.CreateUndoPoint();
+                    lLines.AddNewLines(lines);
                     ForceRedraw();
                 }
             }
