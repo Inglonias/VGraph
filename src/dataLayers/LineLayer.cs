@@ -388,22 +388,18 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKCanvas canvas = new SKCanvas(bitmap);
 
-                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Red, IsAntialias = true };
+                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
                 foreach (LineSegment line in LineList)
                 {
                     standardBrush.Color = line.LineColor;
-                    selectedBrush.Color = line.GetInvertedLineColor();
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {
                         canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    else
-                    {
-                        canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
-                    }
+                    canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
 
                 //Dispose of them.
@@ -424,11 +420,6 @@ namespace VGraph.src.dataLayers
 
         public bool IsRedrawRequired()
         {
-            if (PreviewPointActive)
-            {
-                //TODO: Is this still necessary?
-                return true; //Preview lines must always be drawn.
-            }
             return RedrawRequired;
         }
 

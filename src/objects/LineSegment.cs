@@ -10,13 +10,13 @@ namespace VGraph.src.objects
     {
         public static readonly int START = 0;
         public static readonly int END = 1;
-        public static readonly SKColor DEFAULT_COLOR = PageData.Instance.CurrentLineColor;
+        public static readonly SKColor DEFAULT_COLOR = new SKColor(0, 128, 255);
 
         [JsonIgnore]
         public readonly static double SELECT_RADIUS = 5;
         public SKPointI StartPointGrid { get; set; }
         public SKPointI EndPointGrid { get; set; }
-        public SKColor LineColor { get; set; } = DEFAULT_COLOR;
+        public SKColor LineColor { get; set; }
         [JsonIgnore]
         public bool IsSelected { get; set; } = false;
 
@@ -28,13 +28,7 @@ namespace VGraph.src.objects
         {
             StartPointGrid = startPoint;
             EndPointGrid = endPoint;
-        }
-
-        public LineSegment(SKPointI startPoint, SKPointI endPoint, SKColor lineColor)
-        {
-            StartPointGrid = startPoint;
-            EndPointGrid = endPoint;
-            LineColor = lineColor;
+            LineColor = PageData.Instance.CurrentLineColor;
         }
 
         /// <summary>
