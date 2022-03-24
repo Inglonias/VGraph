@@ -77,18 +77,11 @@ namespace VGraph.src.dataLayers
         /// Adds all lines contained in the provided array of line segments to the canvas.
         /// </summary>
         /// <param name="l">The array of line segments to add to the canvas</param>
-        /// <param name="isUndoable">If this is true, the state of the canvas before this occurs is added to the undo history. This is false when a file is loaded.</param>
-        public void AddNewLines(LineSegment[] l, bool isUndoable)
+        public void AddNewLines(LineSegment[] l)
         {
-            if (isUndoable)
-            {
-                LineSegment[] gridState = LineList.ToArray();
-                UndoHistory.Push(gridState);
-                RedoHistory.Clear();
-            }
             foreach (LineSegment line in l)
             {
-                if (line.LineColor == null || line.LineColor == "#00000000")
+                if (line.LineColor == null)
                 {
                     line.LineColor = LineSegment.DEFAULT_COLOR.ToString();
                 }
@@ -101,7 +94,6 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void UndoLastAction()
         {
-            LineSegment[] currentState = LineList.ToArray();
             LineSegment[] undoState;
             try
             {
@@ -111,7 +103,7 @@ namespace VGraph.src.dataLayers
             {
                 return;
             }
-            RedoHistory.Push(currentState);
+            CreateRedoPoint(LineList.ToArray());
             List<LineSegment> l = new List<LineSegment>(undoState);
             LineList = l;
             ForceRedraw();
@@ -131,7 +123,6 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void RedoLastAction()
         {
-            LineSegment[] currentState = LineList.ToArray();
             LineSegment[] redoState;
             try
             {
@@ -141,7 +132,7 @@ namespace VGraph.src.dataLayers
             {
                 return;
             }
-            UndoHistory.Push(currentState);
+            CreateUndoPoint(LineList.ToArray());
             List<LineSegment> l = new List<LineSegment>(redoState);
             LineList = l;
             ForceRedraw();
@@ -157,6 +148,27 @@ namespace VGraph.src.dataLayers
             return RedoHistory.Count > 0;
         }
 
+        public void CreateUndoPoint()
+        {
+            CreateUndoPoint(LineList.ToArray());
+            RedoHistory.Clear();
+        }
+
+        public void CreateRedoPoint()
+        {
+            CreateRedoPoint(LineList.ToArray());
+        }
+
+        private void CreateUndoPoint(LineSegment[] target)
+        {
+            UndoHistory.Push(target);
+        }
+
+        private void CreateRedoPoint(LineSegment[] target)
+        {
+            RedoHistory.Push(target);
+        }
+
         public void ClearAllLines()
         {
             LineList.Clear();
@@ -170,7 +182,7 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void MergeAllLines()
         {
-            UndoHistory.Push(LineList.ToArray());
+            CreateUndoPoint(LineList.ToArray());
             List<LineSegment> finalList = new List<LineSegment>();
             bool recheck = true;
             while (recheck)
@@ -270,12 +282,12 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            UndoHistory.Push(LineList.ToArray());
+            CreateUndoPoint(LineList.ToArray());
 
             if (destroyOtherSide)
             {
                 ClearAllLines();
-                AddNewLines(linesToMirror.ToArray(), false); //Not undoable because we still have more to go.
+                AddNewLines(linesToMirror.ToArray()); //Not undoable because we still have more to go.
             }
 
             foreach (LineSegment l in linesToMirror)

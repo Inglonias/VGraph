@@ -189,22 +189,23 @@ namespace VGraph.src.ui
             };
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-            SKColor colorNew = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            LineSegment[] selectedLines = ll.GetSelectedLines();
+                SKColor colorNew = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
+                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+                LineSegment[] selectedLines = ll.GetSelectedLines();
 
-            if (selectedLines.Length > 0)
-            {
-                foreach (LineSegment l in selectedLines)
+                if (selectedLines.Length > 0)
                 {
-                    l.LineColor = colorNew.ToString();
+                    ll.CreateUndoPoint();
+                    foreach (LineSegment l in selectedLines)
+                    {
+                        l.LineColor = colorNew.ToString();
+                    }
+                    ll.ForceRedraw();
+                    MainWindowParent.MainCanvas.InvalidateVisual();
                 }
-                ll.ForceRedraw();
-                MainWindowParent.MainCanvas.InvalidateVisual();
-            }
 
-            PageData.Instance.CurrentLineColor = colorNew;
-            ColorSwatch.InvalidateVisual();
+                PageData.Instance.CurrentLineColor = colorNew;
+                ColorSwatch.InvalidateVisual();
             }
         }
     }
