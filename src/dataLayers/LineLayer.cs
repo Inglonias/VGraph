@@ -88,7 +88,7 @@ namespace VGraph.src.dataLayers
             }
             foreach (LineSegment line in l)
             {
-                if (line.LineColor == null)
+                if (line.LineColor == null || line.LineColor == "#00000000")
                 {
                     line.LineColor = LineSegment.DEFAULT_COLOR.ToString();
                 }
