@@ -111,7 +111,7 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void MergeAllLines()
         {
-            CreateUndoPoint(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> finalList = new List<LineSegment>();
             bool recheck = true;
             while (recheck)
@@ -211,7 +211,7 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            CreateUndoPoint(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
 
             if (destroyOtherSide)
             {
@@ -310,7 +310,7 @@ namespace VGraph.src.dataLayers
             {
                 return;
             }
-            CreateRedoPoint(LineList.ToArray());
+            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> l = new List<LineSegment>(undoState);
             LineList = l;
             ForceRedraw();
@@ -323,7 +323,7 @@ namespace VGraph.src.dataLayers
 
         public void CreateUndoPoint()
         {
-            CreateUndoPoint(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             RedoHistory.Clear();
         }
 
@@ -346,7 +346,7 @@ namespace VGraph.src.dataLayers
             {
                 return;
             }
-            CreateUndoPoint(LineList.ToArray());
+            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> l = new List<LineSegment>(redoState);
             LineList = l;
             ForceRedraw();
@@ -360,13 +360,26 @@ namespace VGraph.src.dataLayers
 
         public void CreateRedoPoint()
         {
-            CreateRedoPoint(LineList.ToArray());
+            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
         }
 
         private void CreateRedoPoint(LineSegment[] target)
         {
             RedoHistory.Push(target);
         }
+
+        private LineSegment[] DeepCopyLineSegmentArray(LineSegment[] source)
+        {
+            LineSegment[] rVal = new LineSegment[source.Length];
+
+            for (int i = 0; i < rVal.Length; i++)
+            {
+                rVal[i] = new LineSegment(source[i].StartPointGrid, source[i].EndPointGrid, source[i].LineColor);
+            }
+
+            return rVal;
+        }
+
         public void HandleSelectionClick(Point point, bool maintainSelection)
         {
             if (!maintainSelection)
