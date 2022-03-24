@@ -181,9 +181,13 @@ namespace VGraph.src.ui
 
         private void ColorSelect_OnClick(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.ColorDialog cd = new System.Windows.Forms.ColorDialog();
-            cd.AllowFullOpen = true;
-            cd.Color = PageData.Instance.GetLineColorAsColor();
+            System.Windows.Forms.ColorDialog cd = new System.Windows.Forms.ColorDialog
+            {
+                AllowFullOpen = true,
+                Color = Color.FromArgb(PageData.Instance.CurrentLineColor.Red,
+                                       PageData.Instance.CurrentLineColor.Green,
+                                       PageData.Instance.CurrentLineColor.Blue)
+            };
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 PageData.Instance.CurrentLineColor = new SkiaSharp.SKColor(cd.Color.R, cd.Color.G, cd.Color.B);

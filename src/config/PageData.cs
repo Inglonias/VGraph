@@ -238,10 +238,5 @@ namespace VGraph.src.config
                 l.Value.ForceRedraw();
             }
         }
-
-        public System.Drawing.Color GetLineColorAsColor()
-        {
-            return System.Drawing.Color.FromArgb(CurrentLineColor.Red, CurrentLineColor.Green, CurrentLineColor.Green);
-        }
     }
 }
