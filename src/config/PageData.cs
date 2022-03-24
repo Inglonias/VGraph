@@ -23,6 +23,9 @@ namespace VGraph.src.config
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
         public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
 
+        public bool ExportCenterLines { get; set; } = false;
+        public bool ExportGridLines { get; set; } = true;
+
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
 
@@ -197,7 +200,9 @@ namespace VGraph.src.config
             }
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
-            gridBackgroundLayer.DrawCenterLines = false;
+            bool gridLineState = gridBackgroundLayer.DrawGridLines;
+            gridBackgroundLayer.DrawCenterLines = ExportCenterLines;
+            gridBackgroundLayer.DrawGridLines = ExportGridLines;
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 if (!(l.Value is CursorLayer))
@@ -209,7 +214,8 @@ namespace VGraph.src.config
             composite.Dispose();
             exportedImage.Dispose();
             gridBackgroundLayer.DrawCenterLines = centerLineState;
-            if (centerLineState)
+            gridBackgroundLayer.DrawGridLines = gridLineState;
+            if (centerLineState || gridLineState)
             {
                 gridBackgroundLayer.ForceRedraw();
             }

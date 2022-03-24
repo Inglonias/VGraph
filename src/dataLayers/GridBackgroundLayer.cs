@@ -10,13 +10,13 @@ namespace VGraph.src.dataLayers
 
         private bool RedrawRequired = true;
 
-        public bool DrawCenterLines { get; set; }
+        public bool DrawCenterLines { get; set; } = false;
+        public bool DrawGridLines { get; set; } = true;
 
         private SKBitmap GridBitmap;
 
         public GridBackgroundLayer()
         {
-            DrawCenterLines = false;
         }
 
         public SKBitmap GenerateLayerBitmap()
@@ -35,14 +35,17 @@ namespace VGraph.src.dataLayers
             SKCanvas gridCanvas = new SKCanvas(grid);
             SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
 
-            for (int x = 0; x < PageData.Instance.SquaresWide; x++)
+            if (DrawGridLines)
             {
-                for (int y = 0; y < PageData.Instance.SquaresTall; y++)
+                for (int x = 0; x < PageData.Instance.SquaresWide; x++)
                 {
-                    int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-                    int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-                    SKRectI squareToDraw = new SKRectI(xStart, yStart, xStart + PageData.Instance.SquareSize, yStart + PageData.Instance.SquareSize);
-                    gridCanvas.DrawRect(squareToDraw, brush);
+                    for (int y = 0; y < PageData.Instance.SquaresTall; y++)
+                    {
+                        int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.Margin;
+                        int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.Margin;
+                        SKRectI squareToDraw = new SKRectI(xStart, yStart, xStart + PageData.Instance.SquareSize, yStart + PageData.Instance.SquareSize);
+                        gridCanvas.DrawRect(squareToDraw, brush);
+                    }
                 }
             }
 
@@ -97,6 +100,12 @@ namespace VGraph.src.dataLayers
             DrawCenterLines = !DrawCenterLines;
             ForceRedraw();
             return DrawCenterLines;
+        }
+        public bool ToggleGridLines()
+        {
+            DrawGridLines = !DrawGridLines;
+            ForceRedraw();
+            return DrawGridLines;
         }
 
     }

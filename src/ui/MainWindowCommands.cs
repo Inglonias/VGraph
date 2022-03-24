@@ -77,6 +77,11 @@ namespace VGraph.src.ui
             MainMenuBar.ToggleCenterLines();
         }
 
+        private void GridLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.ToggleGridLines();
+        }
+
         private void MergeLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MainMenuBar.MergeLines();
@@ -162,6 +167,7 @@ namespace VGraph.src.ui
         public static RoutedCommand ZoomInCmd = new RoutedCommand("ZoomInCmd", typeof(MenuCommands));
         public static RoutedCommand ZoomOutCmd = new RoutedCommand("ZoomOutCmd", typeof(MenuCommands));
         public static RoutedCommand CenterLinesCmd = new RoutedCommand("CenterLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand GridLinesCmd = new RoutedCommand("GridLinesCmd", typeof(MenuCommands));
 
         //Tools Menu
         public static RoutedCommand MergeLinesCmd = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));

@@ -167,6 +167,13 @@ namespace VGraph.src.ui
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
+        public void ToggleGridLines()
+        {
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            Grid_Lines_Button.IsChecked = gridBackgroundLayer.ToggleGridLines();
+            MainWindowParent.MainCanvas.InvalidateVisual();
+        }
+
         private void OddMode_OnClick(object sender, RoutedEventArgs e)
         {
             PreviewLayer previewLayer = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
@@ -207,6 +214,18 @@ namespace VGraph.src.ui
                 PageData.Instance.CurrentLineColor = colorNew;
                 ColorSwatch.InvalidateVisual();
             }
+        }
+
+        private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
+            PageData.Instance.ExportGridLines = ExportGridLines.IsChecked;
+        }
+
+        private void ExportCenterLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportCenterLines.IsChecked = !ExportCenterLines.IsChecked;
+            PageData.Instance.ExportCenterLines = ExportCenterLines.IsChecked;
         }
     }
 }
