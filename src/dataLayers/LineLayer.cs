@@ -88,6 +88,10 @@ namespace VGraph.src.dataLayers
             }
             foreach (LineSegment line in l)
             {
+                if (line.LineColor == null)
+                {
+                    line.LineColor = LineSegment.DEFAULT_COLOR.ToString();
+                }
                 AddNewLine(line);
             }
         }
@@ -406,7 +410,9 @@ namespace VGraph.src.dataLayers
 
                 foreach (LineSegment line in LineList)
                 {
-                    standardBrush.Color = line.LineColor;
+                    SKColor lineColor = LineSegment.DEFAULT_COLOR;
+                    SKColor.TryParse(line.LineColor, out lineColor);
+                    standardBrush.Color = lineColor;
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {

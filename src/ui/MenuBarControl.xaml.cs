@@ -189,7 +189,7 @@ namespace VGraph.src.ui
             };
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SKColor colorNew = new SkiaSharp.SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
+            SKColor colorNew = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
             LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             LineSegment[] selectedLines = ll.GetSelectedLines();
 
@@ -197,7 +197,7 @@ namespace VGraph.src.ui
             {
                 foreach (LineSegment l in selectedLines)
                 {
-                    l.LineColor = colorNew;
+                    l.LineColor = colorNew.ToString();
                 }
                 ll.ForceRedraw();
                 MainWindowParent.MainCanvas.InvalidateVisual();

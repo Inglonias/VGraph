@@ -16,7 +16,7 @@ namespace VGraph.src.objects
         public readonly static double SELECT_RADIUS = 5;
         public SKPointI StartPointGrid { get; set; }
         public SKPointI EndPointGrid { get; set; }
-        public SKColor LineColor { get; set; }
+        public string LineColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
         [JsonIgnore]
         public bool IsSelected { get; set; } = false;
 
@@ -28,7 +28,7 @@ namespace VGraph.src.objects
         {
             StartPointGrid = startPoint;
             EndPointGrid = endPoint;
-            LineColor = PageData.Instance.CurrentLineColor;
+            LineColor = PageData.Instance.CurrentLineColor.ToString();
         }
 
         /// <summary>

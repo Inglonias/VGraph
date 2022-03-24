@@ -96,7 +96,6 @@ namespace VGraph.src.config
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
 
                 lineLayer.ClearAllLines();
-
                 lineLayer.AddNewLines(saveFile.Lines.ToArray(), false);
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
