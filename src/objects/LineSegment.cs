@@ -189,7 +189,7 @@ namespace VGraph.src.objects
             }
             if ((double.IsInfinity(slopeA) && double.IsInfinity(slopeB)) || (slopeA == slopeB))
             {
-                return new LineSegment(endpointA, endpointB);
+                return new LineSegment(endpointA, endpointB, LineColor);
             }
 
             return null;
