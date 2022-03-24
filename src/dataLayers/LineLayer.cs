@@ -89,26 +89,6 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        /// <summary>
-        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
-        /// </summary>
-        public void UndoLastAction()
-        {
-            LineSegment[] undoState;
-            try
-            {
-                undoState = UndoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            CreateRedoPoint(LineList.ToArray());
-            List<LineSegment> l = new List<LineSegment>(undoState);
-            LineList = l;
-            ForceRedraw();
-        }
-
         public void SelectAllLines()
         {
             foreach (LineSegment l in LineList)
@@ -116,57 +96,6 @@ namespace VGraph.src.dataLayers
                 l.IsSelected = true;
             }
             ForceRedraw();
-        }
-
-        /// <summary>
-        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
-        /// </summary>
-        public void RedoLastAction()
-        {
-            LineSegment[] redoState;
-            try
-            {
-                redoState = RedoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            CreateUndoPoint(LineList.ToArray());
-            List<LineSegment> l = new List<LineSegment>(redoState);
-            LineList = l;
-            ForceRedraw();
-        }
-
-        public bool CanUndo()
-        {
-            return UndoHistory.Count > 0;
-        }
-
-        public bool CanRedo()
-        {
-            return RedoHistory.Count > 0;
-        }
-
-        public void CreateUndoPoint()
-        {
-            CreateUndoPoint(LineList.ToArray());
-            RedoHistory.Clear();
-        }
-
-        public void CreateRedoPoint()
-        {
-            CreateRedoPoint(LineList.ToArray());
-        }
-
-        private void CreateUndoPoint(LineSegment[] target)
-        {
-            UndoHistory.Push(target);
-        }
-
-        private void CreateRedoPoint(LineSegment[] target)
-        {
-            RedoHistory.Push(target);
         }
 
         public void ClearAllLines()
@@ -367,6 +296,77 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
+        /// <summary>
+        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
+        /// </summary>
+        public void UndoLastAction()
+        {
+            LineSegment[] undoState;
+            try
+            {
+                undoState = UndoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            CreateRedoPoint(LineList.ToArray());
+            List<LineSegment> l = new List<LineSegment>(undoState);
+            LineList = l;
+            ForceRedraw();
+        }
+
+        public bool CanUndo()
+        {
+            return UndoHistory.Count > 0;
+        }
+
+        public void CreateUndoPoint()
+        {
+            CreateUndoPoint(LineList.ToArray());
+            RedoHistory.Clear();
+        }
+
+        private void CreateUndoPoint(LineSegment[] target)
+        {
+            UndoHistory.Push(target);
+        }
+
+        /// <summary>
+        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
+        /// </summary>
+        public void RedoLastAction()
+        {
+            LineSegment[] redoState;
+            try
+            {
+                redoState = RedoHistory.Pop();
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            CreateUndoPoint(LineList.ToArray());
+            List<LineSegment> l = new List<LineSegment>(redoState);
+            LineList = l;
+            ForceRedraw();
+        }
+
+        public bool CanRedo()
+        {
+            return RedoHistory.Count > 0;
+        }
+
+
+        public void CreateRedoPoint()
+        {
+            CreateRedoPoint(LineList.ToArray());
+        }
+
+        private void CreateRedoPoint(LineSegment[] target)
+        {
+            RedoHistory.Push(target);
+        }
         public void HandleSelectionClick(Point point, bool maintainSelection)
         {
             if (!maintainSelection)
