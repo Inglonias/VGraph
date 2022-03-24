@@ -36,13 +36,13 @@ namespace VGraph.src.ui
 
         private void MirrorToolWindow_OnOk(object sender, RoutedEventArgs e)
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             try
             {
                 const int SUCCESS = 0;
                 const int LINES_ACROSS_CREASE = 1;
                 
-                int result = ll.MirrorLines(MirrorDirection.SelectedIndex, Convert.ToInt32(MirrorLinePosition.Text), DestructiveMirror.IsChecked.Value);
+                int result = lineLayer.MirrorLines(MirrorDirection.SelectedIndex, Convert.ToInt32(MirrorLinePosition.Text), DestructiveMirror.IsChecked.Value);
                 
                 if (result == LINES_ACROSS_CREASE)
                 {

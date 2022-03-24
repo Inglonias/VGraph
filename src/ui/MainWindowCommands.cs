@@ -45,8 +45,8 @@ namespace VGraph.src.ui
 
         private void UndoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = ll.CanUndo();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            e.CanExecute = lineLayer.CanUndo();
         }
 
         private void RedoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -56,8 +56,8 @@ namespace VGraph.src.ui
 
         private void RedoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = ll.CanRedo();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            e.CanExecute = lineLayer.CanRedo();
         }
 
         private void ZoomInCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -109,36 +109,36 @@ namespace VGraph.src.ui
 
         private void DeleteSelectedLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lLines.DeleteSelectedLines();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.DeleteSelectedLines();
             MainCanvas.InvalidateVisual();
         }
 
         private void SelectAllCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lLines.SelectAllLines();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.SelectAllLines();
             MainCanvas.InvalidateVisual();
         }
 
         private void MoveLinesCommandLogic(string direction)
         {
-            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             if (direction == "UP")
             {
-                lLines.MoveSelectedLines(0, -1);
+                lineLayer.MoveSelectedLines(0, -1);
             }
             else if (direction == "DOWN")
             {
-                lLines.MoveSelectedLines(0, 1);
+                lineLayer.MoveSelectedLines(0, 1);
             }
             else if (direction == "LEFT")
             {
-                lLines.MoveSelectedLines(-1, 0);
+                lineLayer.MoveSelectedLines(-1, 0);
             }
             else if (direction == "RIGHT")
             {
-                lLines.MoveSelectedLines(1, 0);
+                lineLayer.MoveSelectedLines(1, 0);
             }
             MainCanvas.InvalidateVisual();
         }

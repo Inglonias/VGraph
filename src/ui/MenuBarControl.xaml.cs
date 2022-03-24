@@ -119,14 +119,14 @@ namespace VGraph.src.ui
             {
                 m.IsChecked = m.Name.Equals(tool);
             }
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            ll.SelectTool(tool);
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.SelectTool(tool);
         }
 
         public void Undo()
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            ll.UndoLastAction();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.UndoLastAction();
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
             InvalidateVisual();
@@ -134,8 +134,8 @@ namespace VGraph.src.ui
 
         public void Redo()
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            ll.RedoLastAction();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.RedoLastAction();
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
             InvalidateVisual();
@@ -143,15 +143,15 @@ namespace VGraph.src.ui
 
         public void CheckEditButtonValidity()
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            Undo_Button.IsEnabled = ll.CanUndo();
-            Redo_Button.IsEnabled = ll.CanRedo();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            Undo_Button.IsEnabled = lineLayer.CanUndo();
+            Redo_Button.IsEnabled = lineLayer.CanRedo();
         }
 
         public void MergeLines()
         {
-            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            ll.MergeAllLines();
+            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lineLayer.MergeAllLines();
         }
 
         public void MirrorLines()
@@ -162,15 +162,15 @@ namespace VGraph.src.ui
 
         public void ToggleCenterLines()
         {
-            GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
-            Center_Lines_Button.IsChecked = gbl.ToggleCenterLines();
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            Center_Lines_Button.IsChecked = gridBackgroundLayer.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
         private void OddMode_OnClick(object sender, RoutedEventArgs e)
         {
-            PreviewLayer pl = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
-            pl.OddMode = OddModeCheckbox.IsChecked.Value;
+            PreviewLayer previewLayer = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
+            previewLayer.OddMode = OddModeCheckbox.IsChecked.Value;
         }
 
         private void ColorSwatch_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
@@ -190,17 +190,17 @@ namespace VGraph.src.ui
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 SKColor colorNew = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
-                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-                LineSegment[] selectedLines = ll.GetSelectedLines();
+                LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+                LineSegment[] selectedLines = lineLayer.GetSelectedLines();
 
                 if (selectedLines.Length > 0)
                 {
-                    ll.CreateUndoPoint();
+                    lineLayer.CreateUndoPoint();
                     foreach (LineSegment l in selectedLines)
                     {
                         l.LineColor = colorNew.ToString();
                     }
-                    ll.ForceRedraw();
+                    lineLayer.ForceRedraw();
                     MainWindowParent.MainCanvas.InvalidateVisual();
                 }
 

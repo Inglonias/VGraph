@@ -29,11 +29,11 @@ namespace VGraph.src.ui
                 PageData.Instance.SquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.TrueSquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.Margin = Math.Max(0, Convert.ToInt32(PageMargin.Text));
-                GridBackgroundLayer gbl = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
-                LineLayer ll = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
+                GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
+                LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
 
-                gbl.ForceRedraw();
-                ll.ClearAllLines();
+                gridBackgroundLayer.ForceRedraw();
+                lineLayer.ClearAllLines();
 
                 Close();
             }
