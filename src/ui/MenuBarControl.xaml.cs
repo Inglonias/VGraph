@@ -4,12 +4,11 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Input;
-using System.Windows.Interop;
 using Microsoft.Win32;
-
+using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -190,8 +189,22 @@ namespace VGraph.src.ui
             };
             if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                PageData.Instance.CurrentLineColor = new SkiaSharp.SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
-                ColorSwatch.InvalidateVisual();
+                SKColor colorNew = new SkiaSharp.SKColor(cd.Color.R, cd.Color.G, cd.Color.B);
+            LineLayer ll = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            LineSegment[] selectedLines = ll.GetSelectedLines();
+
+            if (selectedLines.Length > 0)
+            {
+                foreach (LineSegment l in selectedLines)
+                {
+                    l.LineColor = colorNew;
+                }
+                ll.ForceRedraw();
+                MainWindowParent.MainCanvas.InvalidateVisual();
+            }
+
+            PageData.Instance.CurrentLineColor = colorNew;
+            ColorSwatch.InvalidateVisual();
             }
         }
     }

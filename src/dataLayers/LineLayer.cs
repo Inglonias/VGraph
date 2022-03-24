@@ -290,6 +290,19 @@ namespace VGraph.src.dataLayers
             return SUCCESS;
         }
 
+        public LineSegment[] GetSelectedLines()
+        {
+            List<LineSegment> selectedLines = new List<LineSegment>();
+            foreach (LineSegment l in LineList)
+            {
+                if (l.IsSelected)
+                {
+                    selectedLines.Add(l);
+                }
+            }
+            return selectedLines.ToArray();
+        }
+
         public void DeselectLines()
         {
             foreach (LineSegment l in LineList)
