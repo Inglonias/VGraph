@@ -195,9 +195,9 @@ namespace VGraph.src.config
             {
                 canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
             }
-            GridBackgroundLayer gbl = (GridBackgroundLayer) DataLayers[GRID_LAYER];
-            bool centerLineState = gbl.DrawCenterLines;
-            gbl.DrawCenterLines = false;
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
+            bool centerLineState = gridBackgroundLayer.DrawCenterLines;
+            gridBackgroundLayer.DrawCenterLines = false;
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 if (!(l.Value is CursorLayer))
@@ -208,10 +208,10 @@ namespace VGraph.src.config
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
             composite.Dispose();
             exportedImage.Dispose();
-            gbl.DrawCenterLines = centerLineState;
+            gridBackgroundLayer.DrawCenterLines = centerLineState;
             if (centerLineState)
             {
-                gbl.ForceRedraw();
+                gridBackgroundLayer.ForceRedraw();
             }
             return result;
         }
