@@ -31,6 +31,13 @@ namespace VGraph.src.objects
             LineColor = PageData.Instance.CurrentLineColor.ToString();
         }
 
+        public LineSegment(SKPointI startPoint, SKPointI endPoint, string lineColor)
+        {
+            StartPointGrid = startPoint;
+            EndPointGrid = endPoint;
+            LineColor = lineColor;
+        }
+
         /// <summary>
         /// Converts the grid-relative coordinates of the line segment to canvas-relative coordinates for rendering.
         /// </summary>
@@ -213,7 +220,7 @@ namespace VGraph.src.objects
                 mirrorEnd.Y = startDistance + yCrease.Value;
             }
 
-            return new LineSegment(mirrorStart, mirrorEnd);
+            return new LineSegment(mirrorStart, mirrorEnd, LineColor);
         }
 
         //public SKColor GetInvertedLineColor()
