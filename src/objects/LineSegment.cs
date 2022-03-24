@@ -138,6 +138,9 @@ namespace VGraph.src.objects
         {
             SKPointI endpointA;
             SKPointI endpointB;
+            if (!LineColor.Equals(target.LineColor)) {
+                return null;
+            }
             if (this.StartPointGrid == target.StartPointGrid)
             {
                 endpointA = this.EndPointGrid;
@@ -213,13 +216,13 @@ namespace VGraph.src.objects
             return new LineSegment(mirrorStart, mirrorEnd);
         }
 
-        public SKColor GetInvertedLineColor()
-        {
-            byte red = Convert.ToByte(255 - LineColor.Red);
-            byte grn = Convert.ToByte(255 - LineColor.Green);
-            byte blu = Convert.ToByte(255 - LineColor.Blue);
-            return new SKColor(red, grn, blu);
-        }
+        //public SKColor GetInvertedLineColor()
+        //{
+        //    byte red = Convert.ToByte(255 - LineColor.Red);
+        //    byte grn = Convert.ToByte(255 - LineColor.Green);
+        //    byte blu = Convert.ToByte(255 - LineColor.Blue);
+        //    return new SKColor(red, grn, blu);
+        //}
 
         public override bool Equals(object o)
         {
