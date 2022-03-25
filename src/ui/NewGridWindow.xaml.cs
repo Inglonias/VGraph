@@ -11,6 +11,7 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class NewGridWindow : Window
     {
+        public bool DeleteLines = true;
         public NewGridWindow()
         {
             InitializeComponent();
@@ -18,7 +19,7 @@ namespace VGraph.src.ui
             GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
             GridSquareSize.Text = Convert.ToString(PageData.Instance.SquareSize);
             PageMarginX.Text = Convert.ToString(PageData.Instance.MarginX);
-            PageMarginY.Text = Convert.ToString(PageData.Instance.MarginX);
+            PageMarginY.Text = Convert.ToString(PageData.Instance.MarginY);
         }
 
         private void NewGridWindow_OnOK(object sender, RoutedEventArgs e)
@@ -30,13 +31,15 @@ namespace VGraph.src.ui
                 PageData.Instance.SquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.TrueSquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.MarginX = Math.Max(0, Convert.ToInt32(PageMarginX.Text));
-                PageData.Instance.MarginX = Math.Max(0, Convert.ToInt32(PageMarginY.Text));
+                PageData.Instance.MarginY = Math.Max(0, Convert.ToInt32(PageMarginY.Text));
                 GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
                 LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
 
                 gridBackgroundLayer.ForceRedraw();
-                lineLayer.ClearAllLines();
-
+                if (DeleteLines)
+                {
+                    lineLayer.ClearAllLines();
+                }
                 Close();
             }
             catch (FormatException)

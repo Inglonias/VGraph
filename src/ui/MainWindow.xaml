@@ -21,6 +21,7 @@
 
         <CommandBinding Command="ui:MenuCommands.UndoCmd" Executed="UndoCommandBinding_Executed" CanExecute="UndoCommandBinding_CanExecute"/>
         <CommandBinding Command="ui:MenuCommands.RedoCmd" Executed="RedoCommandBinding_Executed" CanExecute="RedoCommandBinding_CanExecute"/>
+        <CommandBinding Command="ui:MenuCommands.ResizeGridCmd" Executed="ResizeCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.SelectAllCmd" Executed="SelectAllCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.ZoomInCmd" Executed="ZoomInCommandBinding_Executed"/>
