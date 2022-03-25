@@ -13,17 +13,30 @@ namespace VGraph.src.dataLayers
         public bool DrawCenterLines { get; set; } = false;
         public bool DrawGridLines { get; set; } = true;
 
-        private SKBitmap GridBitmap;
+        private SKBitmap OriginalBackgroundImage = null;
+
+        public SKImageInfo BackgroundImageOriginalInfo { get; private set; }
+        private SKBitmap GridBitmap = null;
 
         public GridBackgroundLayer()
         {
         }
 
-        private void DrawImage(string path, SKCanvas target)
+        public bool SetBackgroundImage(string path)
         {
-            SKFileStream image = new SKFileStream(path);
-            SKBitmap imageBitmap = SKBitmap.Decode(image).Resize(new SKImageInfo(PageData.Instance.GetTotalWidth(),PageData.Instance.GetTotalHeight()), SKFilterQuality.High);
-            target.DrawBitmap(imageBitmap, 0, 0);
+            SKFileStream imageStream = new SKFileStream(path);
+            if (!imageStream.IsValid)
+            {
+                return false;
+            }
+
+            OriginalBackgroundImage = SKBitmap.Decode(imageStream);
+            BackgroundImageOriginalInfo = OriginalBackgroundImage.Info;
+            if (OriginalBackgroundImage == null)
+            {
+                return false;
+            }
+            return true;
         }
 
         public SKBitmap GenerateLayerBitmap()
@@ -40,8 +53,20 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
-            //DrawImage(gridCanvas);
             SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
+
+            //Draw the background image within the border.
+            if (OriginalBackgroundImage != null)
+            {
+
+                SKImageInfo gridSize = new SKImageInfo(PageData.Instance.SquaresWide * PageData.Instance.SquareSize,
+                                                       PageData.Instance.SquaresTall * PageData.Instance.SquareSize);
+                SKBitmap backgroundImage = OriginalBackgroundImage.Resize(gridSize, SKFilterQuality.High);
+                SKPaint alphaPaint = new SKPaint();
+                alphaPaint.Color = alphaPaint.Color.WithAlpha(PageData.Instance.BackgroundImageAlpha);
+                gridCanvas.DrawBitmap(backgroundImage, new SKPointI(PageData.Instance.MarginX, PageData.Instance.MarginY), alphaPaint);
+                backgroundImage.Dispose();
+            }
 
             if (DrawGridLines)
             {
@@ -57,9 +82,9 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 32) };
             int quarterMarginX = PageData.Instance.MarginX / 4;
             int quarterMarginY = PageData.Instance.MarginY / 4;
+            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 32) };
             SKRectI borderSquare = new SKRectI(quarterMarginX, quarterMarginY, PageData.Instance.GetTotalWidth() - quarterMarginX, PageData.Instance.GetTotalHeight() - quarterMarginY);
             gridCanvas.DrawRect(borderSquare, borderBrush);
 

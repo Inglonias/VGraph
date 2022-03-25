@@ -22,6 +22,8 @@ namespace VGraph.src.config
         public int MarginX { get; set; } = 24;
         public int MarginY { get; set; } = 24;
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
+        public byte BackgroundImageAlpha { get; set; } = 128;
+        public string BackgroundImagePath { get; private set; } = "";
         public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
 
         public bool ExportCenterLines { get; set; } = false;
@@ -65,6 +67,21 @@ namespace VGraph.src.config
         public IDataLayer GetDataLayer(string key)
         {
             return DataLayers[key];
+        }
+
+        public bool SetBackgroundImage(string path)
+        {
+            GridBackgroundLayer gridLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
+            if (gridLayer.SetBackgroundImage(path))
+            {
+                BackgroundImagePath = path;
+                return true;
+            }
+            else
+            {
+                BackgroundImagePath = "";
+                return false;
+            }
         }
 
         // Explicit static constructor to tell C# compiler
