@@ -216,6 +216,18 @@ namespace VGraph.src.ui
             }
         }
 
+        private void Eyedropper_OnChecked(object sender, RoutedEventArgs e)
+        {
+            PageData.Instance.IsEyedropperActive = true;
+            InvalidateVisual();
+        }
+
+        private void Eyedropper_OnUnchecked(object sender, RoutedEventArgs e)
+        {
+            PageData.Instance.IsEyedropperActive = false;
+            InvalidateVisual();
+        }
+
         private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
         {
             ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
