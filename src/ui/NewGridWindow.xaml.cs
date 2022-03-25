@@ -47,5 +47,31 @@ namespace VGraph.src.ui
         {
             Close();
         }
+
+        private void GridText_OnTextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            int squaresWide;
+            int squaresTall;
+            int squareSize;
+            int margin;
+            Pixelsize.Content = "Invalid values";
+            try
+            {
+                squaresWide = Convert.ToInt32(GridSquaresWide.Text);
+                squaresTall = Convert.ToInt32(GridSquaresTall.Text);
+                squareSize = Convert.ToInt32(GridSquareSize.Text);
+                margin = Convert.ToInt32(PageMargin.Text);
+
+                int totalWidth = (squaresWide * squareSize) + (margin * 2);
+                int totalHeight = (squaresTall * squareSize) + (margin * 2);
+
+                Pixelsize.Content = totalWidth + " x " + totalHeight;
+            }
+            catch (FormatException)
+            {
+
+            }
+
+        }
     }
 }
