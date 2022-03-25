@@ -19,6 +19,13 @@ namespace VGraph.src.dataLayers
         {
         }
 
+        private void DrawImage(string path, SKCanvas target)
+        {
+            SKFileStream image = new SKFileStream(path);
+            SKBitmap imageBitmap = SKBitmap.Decode(image).Resize(new SKImageInfo(PageData.Instance.GetTotalWidth(),PageData.Instance.GetTotalHeight()), SKFilterQuality.High);
+            target.DrawBitmap(imageBitmap, 0, 0);
+        }
+
         public SKBitmap GenerateLayerBitmap()
         {
             if (!RedrawRequired)
@@ -33,6 +40,7 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
+            //DrawImage(gridCanvas);
             SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
 
             if (DrawGridLines)
