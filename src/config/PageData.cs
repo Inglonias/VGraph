@@ -29,6 +29,7 @@ namespace VGraph.src.config
 
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;
+        public bool IsEyedropperActive { get; set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 

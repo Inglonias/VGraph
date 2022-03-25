@@ -112,7 +112,13 @@ namespace VGraph.src.ui
             else if (e.ChangedButton == MouseButton.Left)
             {
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
+                if (LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) && PageData.Instance.IsEyedropperActive)
+                {
+                    PageData.Instance.IsEyedropperActive = false;
+                    MainMenuBar.Eyedropper_Tool.IsChecked = false;
+                }
+                MainMenuBar.InvalidateVisual();
+                MainMenuBar.ColorSwatch.InvalidateVisual();
             }
             MainCanvas.InvalidateVisual();
         }
