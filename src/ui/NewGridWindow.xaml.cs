@@ -17,7 +17,8 @@ namespace VGraph.src.ui
             GridSquaresWide.Text = Convert.ToString(PageData.Instance.SquaresWide);
             GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
             GridSquareSize.Text = Convert.ToString(PageData.Instance.SquareSize);
-            PageMargin.Text = Convert.ToString(PageData.Instance.Margin);
+            PageMarginX.Text = Convert.ToString(PageData.Instance.MarginX);
+            PageMarginY.Text = Convert.ToString(PageData.Instance.MarginX);
         }
 
         private void NewGridWindow_OnOK(object sender, RoutedEventArgs e)
@@ -28,7 +29,8 @@ namespace VGraph.src.ui
                 PageData.Instance.SquaresTall = Math.Max(1, Convert.ToInt32(GridSquaresTall.Text));
                 PageData.Instance.SquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
                 PageData.Instance.TrueSquareSize = Math.Min(128, Math.Max(4, Convert.ToInt32(GridSquareSize.Text)));
-                PageData.Instance.Margin = Math.Max(0, Convert.ToInt32(PageMargin.Text));
+                PageData.Instance.MarginX = Math.Max(0, Convert.ToInt32(PageMarginX.Text));
+                PageData.Instance.MarginX = Math.Max(0, Convert.ToInt32(PageMarginY.Text));
                 GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
                 LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
 

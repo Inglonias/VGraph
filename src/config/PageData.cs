@@ -19,7 +19,8 @@ namespace VGraph.src.config
         public int SquaresWide { get; set; } = 32;
         public int SquaresTall { get; set; } = 42;
         public int SquareSize { get; set; } = 24;
-        public int Margin { get; set; } = 24;
+        public int MarginX { get; set; } = 24;
+        public int MarginY { get; set; } = 24;
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
         public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
 
@@ -35,7 +36,7 @@ namespace VGraph.src.config
         /// <returns>Width of the canvas in pixels.</returns>
         public int GetTotalWidth()
         {
-            return (SquaresWide * SquareSize) + (Margin * 2);
+            return (SquaresWide * SquareSize) + (MarginX * 2);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace VGraph.src.config
         /// <returns>Height of the canvas in pixels.</returns>
         public int GetTotalHeight()
         {
-            return (SquaresTall * SquareSize) + (Margin * 2);
+            return (SquaresTall * SquareSize) + (MarginY * 2);
         }
 
         /// <summary>
@@ -94,7 +95,8 @@ namespace VGraph.src.config
                 SquaresTall = saveFile.SquaresTall;
                 SquareSize = saveFile.SquareSize;
                 TrueSquareSize = saveFile.SquareSize;
-                Margin = saveFile.Margin;
+                MarginX = saveFile.MarginX;
+                MarginY = saveFile.MarginY;
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
 
@@ -163,7 +165,8 @@ namespace VGraph.src.config
                 SquaresWide = SquaresWide,
                 SquaresTall = SquaresTall,
                 SquareSize = TrueSquareSize,
-                Margin = Margin,
+                MarginX = MarginX,
+                MarginY = MarginY,
                 Lines = lineLayer.LineList
             };
             string jsonString = JsonSerializer.Serialize(saveFile);
