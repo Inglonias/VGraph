@@ -33,8 +33,8 @@ namespace VGraph.src.dataLayers
                 return GridBitmap;
             }
 
-            int xSize = (PageData.Instance.SquaresWide * PageData.Instance.SquareSize) + (PageData.Instance.Margin * 2);
-            int ySize = (PageData.Instance.SquaresTall * PageData.Instance.SquareSize) + (PageData.Instance.Margin * 2);
+            int xSize = (PageData.Instance.SquaresWide * PageData.Instance.SquareSize) + (PageData.Instance.MarginX * 2);
+            int ySize = (PageData.Instance.SquaresTall * PageData.Instance.SquareSize) + (PageData.Instance.MarginY * 2);
 
             SKBitmap grid = new SKBitmap(xSize, ySize);
 
@@ -49,8 +49,8 @@ namespace VGraph.src.dataLayers
                 {
                     for (int y = 0; y < PageData.Instance.SquaresTall; y++)
                     {
-                        int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-                        int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.Margin;
+                        int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
+                        int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
                         SKRectI squareToDraw = new SKRectI(xStart, yStart, xStart + PageData.Instance.SquareSize, yStart + PageData.Instance.SquareSize);
                         gridCanvas.DrawRect(squareToDraw, brush);
                     }
@@ -58,8 +58,9 @@ namespace VGraph.src.dataLayers
             }
 
             SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 32) };
-            int quarterMargin = PageData.Instance.Margin / 4;
-            SKRectI borderSquare = new SKRectI(quarterMargin, quarterMargin, PageData.Instance.GetTotalWidth() - quarterMargin, PageData.Instance.GetTotalHeight() - quarterMargin);
+            int quarterMarginX = PageData.Instance.MarginX / 4;
+            int quarterMarginY = PageData.Instance.MarginY / 4;
+            SKRectI borderSquare = new SKRectI(quarterMarginX, quarterMarginY, PageData.Instance.GetTotalWidth() - quarterMarginX, PageData.Instance.GetTotalHeight() - quarterMarginY);
             gridCanvas.DrawRect(borderSquare, borderBrush);
 
             if (DrawCenterLines)
@@ -69,8 +70,8 @@ namespace VGraph.src.dataLayers
                     int halfX = PageData.Instance.GetTotalWidth() / 2;
                     int halfY = PageData.Instance.GetTotalHeight() / 2;
 
-                    gridCanvas.DrawLine(halfX, quarterMargin, halfX, PageData.Instance.GetTotalHeight() - quarterMargin, centerBrush);
-                    gridCanvas.DrawLine(quarterMargin, halfY, PageData.Instance.GetTotalWidth() - quarterMargin, halfY, centerBrush);
+                    gridCanvas.DrawLine(halfX, quarterMarginY, halfX, PageData.Instance.GetTotalHeight() - quarterMarginY, centerBrush);
+                    gridCanvas.DrawLine(quarterMarginX, halfY, PageData.Instance.GetTotalWidth() - quarterMarginX, halfY, centerBrush);
                 }
             }
 

@@ -30,8 +30,10 @@
                 <MenuItem Header="Exit" Command="ui:MenuCommands.ExitCmd" />
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem x:Name="Undo_Button" Header="Undo" Command="ui:MenuCommands.UndoCmd" InputGestureText="Ctrl+Z"/>
-                <MenuItem x:Name="Redo_Button" Header="Redo" Command="ui:MenuCommands.RedoCmd" InputGestureText="Ctrl+Y"/>
+                <MenuItem x:Name="UndoButton" Header="Undo" Command="ui:MenuCommands.UndoCmd" InputGestureText="Ctrl+Z"/>
+                <MenuItem x:Name="RedoButton" Header="Redo" Command="ui:MenuCommands.RedoCmd" InputGestureText="Ctrl+Y"/>
+                <Separator />
+                <MenuItem x:Name="ResizeButton" Header="Resize Canvas" Command="ui:MenuCommands.ResizeGridCmd" />
                 <Separator />
                 <MenuItem Header="Select All" Command="ui:MenuCommands.SelectAllCmd" InputGestureText="Ctrl+A"/>
             </MenuItem>

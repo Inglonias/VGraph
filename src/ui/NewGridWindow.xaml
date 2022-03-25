@@ -30,7 +30,7 @@
         <Label Grid.Row="1" x:Name="Pixelsize"></Label>
         <Grid Name="SquareSizeContainer" Grid.Row="2" Margin="4" Height="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="2*"/>
 
             </Grid.ColumnDefinitions>
@@ -39,12 +39,17 @@
         </Grid>
         <Grid Name="PageMarginContainer" Grid.Row="3" Margin="4" Height="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="2*"/>
-
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Page margin (px):" FontSize="14"/>
-            <TextBox Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="PageMargin" TextChanged="GridText_OnTextChanged" FontSize="14"/>
+            <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="Margin (px):" FontSize="12"/>
+            <TextBox Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="PageMarginX" FontSize="12"/>
+            <Label Grid.Column="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="W" FontSize="12"/>
+            <TextBox Grid.Column="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Name="PageMarginY" FontSize="12"/>
+            <Label Grid.Column="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Content="H" FontSize="12"/>
         </Grid>
         <Grid Name="ButtonContainer" Grid.Row="5">
             <Grid.ColumnDefinitions>

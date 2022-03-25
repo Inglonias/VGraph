@@ -24,9 +24,10 @@ namespace VGraph.src.ui
             CheckEditButtonValidity();
         }
 
-        public void CreateNewGrid()
+        public void CreateNewGrid(bool deleteLines)
         {
             NewGridWindow ngw = new NewGridWindow();
+            ngw.DeleteLines = deleteLines;
             ngw.Show();
         }
 
@@ -144,8 +145,8 @@ namespace VGraph.src.ui
         public void CheckEditButtonValidity()
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            Undo_Button.IsEnabled = lineLayer.CanUndo();
-            Redo_Button.IsEnabled = lineLayer.CanRedo();
+            UndoButton.IsEnabled = lineLayer.CanUndo();
+            RedoButton.IsEnabled = lineLayer.CanRedo();
         }
 
         public void MergeLines()
