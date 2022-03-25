@@ -26,6 +26,7 @@ namespace VGraph.src.config
         public string BackgroundImagePath { get; private set; } = "";
         public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
 
+
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;
 
@@ -114,6 +115,7 @@ namespace VGraph.src.config
                 TrueSquareSize = saveFile.SquareSize;
                 MarginX = saveFile.MarginX;
                 MarginY = saveFile.MarginY;
+                SetBackgroundImage(saveFile.BackgroundImagePath);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
 
@@ -184,6 +186,7 @@ namespace VGraph.src.config
                 SquareSize = TrueSquareSize,
                 MarginX = MarginX,
                 MarginY = MarginY,
+                BackgroundImagePath = BackgroundImagePath,
                 Lines = lineLayer.LineList
             };
             string jsonString = JsonSerializer.Serialize(saveFile);
