@@ -70,7 +70,7 @@
                 <Image Source="/VGraph;component/images/Ellipse.png"></Image>
             </ToggleButton>
             <CheckBox Content="Odd Mode" x:Name="OddModeCheckbox" Height="44" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="32,0,0,0" ToolTip="Instructs draw tools to center around the center of a square instead of its intersection, if applicable.&#x0a;(Currently supports circle and ellipse tools)." Click="OddMode_OnClick"/>
-            <Button Height="24" Margin="32,0" Click="ColorSelect_OnClick">
+            <Button Height="24" Margin="16,0" Click="ColorSelect_OnClick">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
@@ -80,6 +80,9 @@
                     <TextBlock Grid.Column="1" Text="Line Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
+            <ToggleButton x:Name="Eyedropper_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" ToolTip="Eyedropper Tool&#x0a;Click to activate.&#x0a;Changes the line color to whatever color the next selected line has." Checked="Eyedropper_OnChecked" Unchecked="Eyedropper_OnUnchecked">
+                <Image Source="/VGraph;component/images/Eyedropper.png"></Image>
+            </ToggleButton>
         </ToolBarPanel>
     </Grid>
 

@@ -380,8 +380,13 @@ namespace VGraph.src.dataLayers
             return rVal;
         }
 
-        public void HandleSelectionClick(Point point, bool maintainSelection)
+        public bool HandleSelectionClick(Point point, bool maintainSelection)
         {
+            if (PageData.Instance.IsEyedropperActive)
+            {
+                DeselectLines();
+            }
+
             if (!maintainSelection)
             {
                 DeselectLines();
@@ -396,10 +401,15 @@ namespace VGraph.src.dataLayers
                     if (l.WasLineSelected(dist, point) || staySelected)
                     {
                         l.IsSelected = true;
-                        return;
+                        if (PageData.Instance.IsEyedropperActive)
+                        {
+                            PageData.Instance.CurrentLineColor = SKColor.Parse(l.LineColor);
+                        }
+                        return true;
                     }
                 }
             }
+            return false;
         }
 
         public void HandleBoxSelect(SKRect boundingBox, bool maintainSelection)
