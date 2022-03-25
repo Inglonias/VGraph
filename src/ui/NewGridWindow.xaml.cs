@@ -73,7 +73,7 @@ namespace VGraph.src.ui
             OpenFileDialog d = new OpenFileDialog
             {
                 DefaultExt = ".vgp",
-                Filter = "Image Files(*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|All files (*.*)|*.*"
+                Filter = "Image Files(*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|All files (*.*)|*.*"
             };
             bool? result = d.ShowDialog();
 
