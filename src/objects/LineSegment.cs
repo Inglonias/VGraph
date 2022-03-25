@@ -46,10 +46,10 @@ namespace VGraph.src.objects
         {
             SKPointI[] rVal = new SKPointI[2];
 
-            int startX = (StartPointGrid.X * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-            int startY = (StartPointGrid.Y * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-            int endX = (EndPointGrid.X * PageData.Instance.SquareSize) + PageData.Instance.Margin;
-            int endY = (EndPointGrid.Y * PageData.Instance.SquareSize) + PageData.Instance.Margin;
+            int startX = (StartPointGrid.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
+            int startY = (StartPointGrid.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
+            int endX = (EndPointGrid.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
+            int endY = (EndPointGrid.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
 
             rVal[START] = new SKPointI(startX, startY);
             rVal[END] = new SKPointI(endX, endY);

@@ -28,8 +28,8 @@ namespace VGraph.src.dataLayers
         public SKPointI GetCursorGridPoints()
         {
             //Subtract out the margin.
-            int cursorX = CursorPoint.X - PageData.Instance.Margin;
-            int cursorY = CursorPoint.Y - PageData.Instance.Margin;
+            int cursorX = CursorPoint.X - PageData.Instance.MarginX;
+            int cursorY = CursorPoint.Y - PageData.Instance.MarginY;
             return new SKPointI(cursorX / PageData.Instance.SquareSize, cursorY / PageData.Instance.SquareSize);
         }
 
@@ -46,14 +46,14 @@ namespace VGraph.src.dataLayers
         private SKPointI RoundToNearestIntersection(int x, int y)
         {
             //Ignore it if we're out of bounds.
-            if ((x - PageData.Instance.Margin < 0) || (y - PageData.Instance.Margin < 0) || (x + PageData.Instance.Margin > PageData.Instance.GetTotalWidth()) || (y + PageData.Instance.Margin > PageData.Instance.GetTotalHeight()))
+            if ((x - PageData.Instance.MarginX < 0) || (y - PageData.Instance.MarginY < 0) || (x + PageData.Instance.MarginX > PageData.Instance.GetTotalWidth()) || (y + PageData.Instance.MarginY > PageData.Instance.GetTotalHeight()))
             {
                 return CursorPoint;
             }
 
             //Subtract the margin out.
-            int mouseX = x - PageData.Instance.Margin;
-            int mouseY = y - PageData.Instance.Margin;
+            int mouseX = x - PageData.Instance.MarginX;
+            int mouseY = y - PageData.Instance.MarginY;
 
             //Round to the nearest intersection.
             int targetX = ((mouseX % PageData.Instance.SquareSize) < (PageData.Instance.SquareSize / 2)) ?
@@ -64,8 +64,8 @@ namespace VGraph.src.dataLayers
                     (mouseY + (PageData.Instance.SquareSize - (mouseY % PageData.Instance.SquareSize)));
 
             //Add the margin back in.
-            targetX += PageData.Instance.Margin;
-            targetY += PageData.Instance.Margin;
+            targetX += PageData.Instance.MarginX;
+            targetY += PageData.Instance.MarginY;
 
             return new SKPointI(targetX, targetY);
         }

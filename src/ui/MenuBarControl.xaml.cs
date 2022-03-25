@@ -22,11 +22,17 @@ namespace VGraph.src.ui
         {
             InitializeComponent();
             CheckEditButtonValidity();
+
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            CenterLinesButton.IsChecked = gridBackgroundLayer.DrawCenterLines;
+            GridLinesButton.IsChecked = gridBackgroundLayer.DrawGridLines;
+            BackgroundImageButton.IsChecked = gridBackgroundLayer.DrawBackgroundImage;
         }
 
-        public void CreateNewGrid()
+        public void CreateNewGrid(bool deleteLines)
         {
             NewGridWindow ngw = new NewGridWindow();
+            ngw.DeleteLines = deleteLines;
             ngw.Show();
         }
 
@@ -91,6 +97,24 @@ namespace VGraph.src.ui
             }
         }
 
+        private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
+            PageData.Instance.ExportGridLines = ExportGridLines.IsChecked;
+        }
+
+        private void ExportCenterLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportCenterLines.IsChecked = !ExportCenterLines.IsChecked;
+            PageData.Instance.ExportCenterLines = ExportCenterLines.IsChecked;
+        }
+
+        private void ExportBackgroundImage_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportBackgroundImage.IsChecked = !ExportBackgroundImage.IsChecked;
+            PageData.Instance.ExportBackgroundImage = ExportBackgroundImage.IsChecked;
+        }
+
         public void ExitApp()
         {
             Environment.Exit(0);
@@ -144,8 +168,8 @@ namespace VGraph.src.ui
         public void CheckEditButtonValidity()
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            Undo_Button.IsEnabled = lineLayer.CanUndo();
-            Redo_Button.IsEnabled = lineLayer.CanRedo();
+            UndoButton.IsEnabled = lineLayer.CanUndo();
+            RedoButton.IsEnabled = lineLayer.CanRedo();
         }
 
         public void MergeLines()
@@ -163,14 +187,21 @@ namespace VGraph.src.ui
         public void ToggleCenterLines()
         {
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
-            Center_Lines_Button.IsChecked = gridBackgroundLayer.ToggleCenterLines();
+            CenterLinesButton.IsChecked = gridBackgroundLayer.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
         public void ToggleGridLines()
         {
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
-            Grid_Lines_Button.IsChecked = gridBackgroundLayer.ToggleGridLines();
+            GridLinesButton.IsChecked = gridBackgroundLayer.ToggleGridLines();
+            MainWindowParent.MainCanvas.InvalidateVisual();
+        }
+
+        public void ToggleBackgroundImage()
+        {
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundImageButton.IsChecked = gridBackgroundLayer.ToggleBackgroundImage();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
@@ -226,18 +257,6 @@ namespace VGraph.src.ui
         {
             PageData.Instance.IsEyedropperActive = false;
             InvalidateVisual();
-        }
-
-        private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
-        {
-            ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
-            PageData.Instance.ExportGridLines = ExportGridLines.IsChecked;
-        }
-
-        private void ExportCenterLines_OnClick(object sender, RoutedEventArgs e)
-        {
-            ExportCenterLines.IsChecked = !ExportCenterLines.IsChecked;
-            PageData.Instance.ExportCenterLines = ExportCenterLines.IsChecked;
         }
     }
 }

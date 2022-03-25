@@ -21,12 +21,14 @@
 
         <CommandBinding Command="ui:MenuCommands.UndoCmd" Executed="UndoCommandBinding_Executed" CanExecute="UndoCommandBinding_CanExecute"/>
         <CommandBinding Command="ui:MenuCommands.RedoCmd" Executed="RedoCommandBinding_Executed" CanExecute="RedoCommandBinding_CanExecute"/>
+        <CommandBinding Command="ui:MenuCommands.ResizeGridCmd" Executed="ResizeCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.SelectAllCmd" Executed="SelectAllCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.ZoomInCmd" Executed="ZoomInCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ZoomOutCmd" Executed="ZoomOutCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.CenterLinesCmd" Executed="CenterLinesCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.GridLinesCmd" Executed="GridLinesCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.BackgroundImageCmd" Executed="BackgroundImageCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.MergeLinesCmd" Executed="MergeLinesCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.MirrorLinesCmd" Executed="MirrorLinesCommandBinding_Executed"/>
@@ -55,6 +57,7 @@
         <KeyBinding Gesture="Ctrl+Minus" Command="ui:MenuCommands.ZoomOutCmd"/>
         <KeyBinding Gesture="Ctrl+T" Command="ui:MenuCommands.CenterLinesCmd"/>
         <KeyBinding Gesture="Ctrl+G" Command="ui:MenuCommands.GridLinesCmd"/>
+        <KeyBinding Gesture="Ctrl+B" Command="ui:MenuCommands.BackgroundImageCmd"/>
 
         <!--Tools Menu-->
         <KeyBinding Gesture="Ctrl+Shift+M" Command="ui:MenuCommands.MergeLinesCmd"/>

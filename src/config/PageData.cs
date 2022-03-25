@@ -19,12 +19,17 @@ namespace VGraph.src.config
         public int SquaresWide { get; set; } = 32;
         public int SquaresTall { get; set; } = 42;
         public int SquareSize { get; set; } = 24;
-        public int Margin { get; set; } = 24;
+        public int MarginX { get; set; } = 24;
+        public int MarginY { get; set; } = 24;
         public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
+        public byte BackgroundImageAlpha { get; set; } = 128;
+        public string BackgroundImagePath { get; private set; } = "";
         public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
+
 
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;
+        public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
@@ -36,7 +41,7 @@ namespace VGraph.src.config
         /// <returns>Width of the canvas in pixels.</returns>
         public int GetTotalWidth()
         {
-            return (SquaresWide * SquareSize) + (Margin * 2);
+            return (SquaresWide * SquareSize) + (MarginX * 2);
         }
 
         /// <summary>
@@ -45,7 +50,7 @@ namespace VGraph.src.config
         /// <returns>Height of the canvas in pixels.</returns>
         public int GetTotalHeight()
         {
-            return (SquaresTall * SquareSize) + (Margin * 2);
+            return (SquaresTall * SquareSize) + (MarginY * 2);
         }
 
         /// <summary>
@@ -65,6 +70,21 @@ namespace VGraph.src.config
         public IDataLayer GetDataLayer(string key)
         {
             return DataLayers[key];
+        }
+
+        public bool SetBackgroundImage(string path)
+        {
+            GridBackgroundLayer gridLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
+            if (gridLayer.SetBackgroundImage(path))
+            {
+                BackgroundImagePath = path;
+                return true;
+            }
+            else
+            {
+                BackgroundImagePath = "";
+                return false;
+            }
         }
 
         // Explicit static constructor to tell C# compiler
@@ -95,7 +115,9 @@ namespace VGraph.src.config
                 SquaresTall = saveFile.SquaresTall;
                 SquareSize = saveFile.SquareSize;
                 TrueSquareSize = saveFile.SquareSize;
-                Margin = saveFile.Margin;
+                MarginX = saveFile.MarginX;
+                MarginY = saveFile.MarginY;
+                SetBackgroundImage(saveFile.BackgroundImagePath);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
 
@@ -164,7 +186,9 @@ namespace VGraph.src.config
                 SquaresWide = SquaresWide,
                 SquaresTall = SquaresTall,
                 SquareSize = TrueSquareSize,
-                Margin = Margin,
+                MarginX = MarginX,
+                MarginY = MarginY,
+                BackgroundImagePath = BackgroundImagePath,
                 Lines = lineLayer.LineList
             };
             string jsonString = JsonSerializer.Serialize(saveFile);
@@ -202,8 +226,10 @@ namespace VGraph.src.config
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
             bool gridLineState = gridBackgroundLayer.DrawGridLines;
+            bool backgroundImageState = gridBackgroundLayer.DrawBackgroundImage;
             gridBackgroundLayer.DrawCenterLines = ExportCenterLines;
             gridBackgroundLayer.DrawGridLines = ExportGridLines;
+            gridBackgroundLayer.DrawBackgroundImage = ExportBackgroundImage;
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 if (!(l.Value is CursorLayer))
@@ -216,7 +242,8 @@ namespace VGraph.src.config
             exportedImage.Dispose();
             gridBackgroundLayer.DrawCenterLines = centerLineState;
             gridBackgroundLayer.DrawGridLines = gridLineState;
-            if (centerLineState || gridLineState)
+            gridBackgroundLayer.DrawBackgroundImage = backgroundImageState;
+            if (centerLineState || gridLineState || backgroundImageState)
             {
                 gridBackgroundLayer.ForceRedraw();
             }
