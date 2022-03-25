@@ -136,7 +136,7 @@ namespace VGraph.src.dataLayers
             if (ClickDragActive)
             {
                 float strokeSize = Math.Max(radius / 2, 1);
-                brush = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Black, StrokeWidth = strokeSize };
+                brush = new SKPaint { Style = SKPaintStyle.Stroke, Color = ConfigOptions.Instance.SelectionBoxColor, StrokeWidth = strokeSize };
                 float right = Convert.ToSingle(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
@@ -145,7 +145,7 @@ namespace VGraph.src.dataLayers
             }
             else
             {
-                brush = new SKPaint { Style = SKPaintStyle.Fill, Color = SKColors.Red };
+                brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
                 canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 

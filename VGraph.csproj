@@ -130,6 +130,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\config\ConfigOptions.cs" />
     <Compile Include="src\config\PageData.cs" />
     <Compile Include="src\config\VgpFile.cs" />
     <Compile Include="src\dataLayers\PreviewLayer.cs" />

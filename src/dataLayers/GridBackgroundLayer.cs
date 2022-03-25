@@ -75,7 +75,7 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
-            SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
+            SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = ConfigOptions.Instance.GridLinesColor };
 
             //Draw the background image within the border.
             if (OriginalBackgroundImage != null && DrawBackgroundImage)
@@ -109,13 +109,13 @@ namespace VGraph.src.dataLayers
 
             int quarterMarginX = PageData.Instance.MarginX / 4;
             int quarterMarginY = PageData.Instance.MarginY / 4;
-            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(64, 64, 64, 32) };
+            SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = ConfigOptions.Instance.BorderLinesColor };
             SKRectI borderSquare = new SKRectI(quarterMarginX, quarterMarginY, PageData.Instance.GetTotalWidth() - quarterMarginX, PageData.Instance.GetTotalHeight() - quarterMarginY);
             gridCanvas.DrawRect(borderSquare, borderBrush);
 
             if (DrawCenterLines)
             {
-                using (SKPaint centerBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = new SKColor(32, 32, 32, 128) })
+                using (SKPaint centerBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = ConfigOptions.Instance.CenterLinesColor })
                 {
                     int halfX = PageData.Instance.GetTotalWidth() / 2;
                     int halfY = PageData.Instance.GetTotalHeight() / 2;
