@@ -22,6 +22,11 @@ namespace VGraph.src.ui
         {
             InitializeComponent();
             CheckEditButtonValidity();
+
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            CenterLinesButton.IsChecked = gridBackgroundLayer.DrawCenterLines;
+            GridLinesButton.IsChecked = gridBackgroundLayer.DrawGridLines;
+            BackgroundImageButton.IsChecked = gridBackgroundLayer.DrawBackgroundImage;
         }
 
         public void CreateNewGrid(bool deleteLines)
@@ -90,6 +95,24 @@ namespace VGraph.src.ui
             {
                 PageData.Instance.FileImport(d.FileName);
             }
+        }
+
+        private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
+            PageData.Instance.ExportGridLines = ExportGridLines.IsChecked;
+        }
+
+        private void ExportCenterLines_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportCenterLines.IsChecked = !ExportCenterLines.IsChecked;
+            PageData.Instance.ExportCenterLines = ExportCenterLines.IsChecked;
+        }
+
+        private void ExportBackgroundImage_OnClick(object sender, RoutedEventArgs e)
+        {
+            ExportBackgroundImage.IsChecked = !ExportBackgroundImage.IsChecked;
+            PageData.Instance.ExportBackgroundImage = ExportBackgroundImage.IsChecked;
         }
 
         public void ExitApp()
@@ -164,14 +187,21 @@ namespace VGraph.src.ui
         public void ToggleCenterLines()
         {
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
-            Center_Lines_Button.IsChecked = gridBackgroundLayer.ToggleCenterLines();
+            CenterLinesButton.IsChecked = gridBackgroundLayer.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
         public void ToggleGridLines()
         {
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
-            Grid_Lines_Button.IsChecked = gridBackgroundLayer.ToggleGridLines();
+            GridLinesButton.IsChecked = gridBackgroundLayer.ToggleGridLines();
+            MainWindowParent.MainCanvas.InvalidateVisual();
+        }
+
+        public void ToggleBackgroundImage()
+        {
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundImageButton.IsChecked = gridBackgroundLayer.ToggleBackgroundImage();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
@@ -227,18 +257,6 @@ namespace VGraph.src.ui
         {
             PageData.Instance.IsEyedropperActive = false;
             InvalidateVisual();
-        }
-
-        private void ExportGridLines_OnClick(object sender, RoutedEventArgs e)
-        {
-            ExportGridLines.IsChecked = !ExportGridLines.IsChecked;
-            PageData.Instance.ExportGridLines = ExportGridLines.IsChecked;
-        }
-
-        private void ExportCenterLines_OnClick(object sender, RoutedEventArgs e)
-        {
-            ExportCenterLines.IsChecked = !ExportCenterLines.IsChecked;
-            PageData.Instance.ExportCenterLines = ExportCenterLines.IsChecked;
         }
     }
 }

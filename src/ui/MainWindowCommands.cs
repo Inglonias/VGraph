@@ -87,6 +87,11 @@ namespace VGraph.src.ui
             MainMenuBar.ToggleGridLines();
         }
 
+        private void BackgroundImageCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.ToggleBackgroundImage();
+        }
+
         private void MergeLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MainMenuBar.MergeLines();
@@ -156,28 +161,29 @@ namespace VGraph.src.ui
     public class MenuCommands
     {
         //File Menu
-        public static RoutedCommand NewGridCmd    = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
-        public static RoutedCommand OpenGridCmd   = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
-        public static RoutedCommand SaveGridCmd   = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
-        public static RoutedCommand ExportGridCmd = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
-        public static RoutedCommand ImportGridCmd = new RoutedCommand("ImportGridCmd", typeof(MenuCommands));
-        public static RoutedCommand ExitCmd       = new RoutedCommand("ExitCmd", typeof(MenuCommands));
+        public static RoutedCommand NewGridCmd         = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
+        public static RoutedCommand OpenGridCmd        = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
+        public static RoutedCommand SaveGridCmd        = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExportGridCmd      = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ImportGridCmd      = new RoutedCommand("ImportGridCmd", typeof(MenuCommands));
+        public static RoutedCommand ExitCmd            = new RoutedCommand("ExitCmd", typeof(MenuCommands));
 
         //Edit Menu
-        public static RoutedCommand UndoCmd       = new RoutedCommand("UndoCmd", typeof(MenuCommands));
-        public static RoutedCommand RedoCmd       = new RoutedCommand("RedoCmd", typeof(MenuCommands));
-        public static RoutedCommand ResizeGridCmd = new RoutedCommand("ResizeGridCmd", typeof(MenuCommands));
-        public static RoutedCommand SelectAllCmd  = new RoutedCommand("SelectAllCmd", typeof(MenuCommands));
+        public static RoutedCommand UndoCmd            = new RoutedCommand("UndoCmd", typeof(MenuCommands));
+        public static RoutedCommand RedoCmd            = new RoutedCommand("RedoCmd", typeof(MenuCommands));
+        public static RoutedCommand ResizeGridCmd      = new RoutedCommand("ResizeGridCmd", typeof(MenuCommands));
+        public static RoutedCommand SelectAllCmd       = new RoutedCommand("SelectAllCmd", typeof(MenuCommands));
 
         //View Menu
-        public static RoutedCommand ZoomInCmd      = new RoutedCommand("ZoomInCmd", typeof(MenuCommands));
-        public static RoutedCommand ZoomOutCmd     = new RoutedCommand("ZoomOutCmd", typeof(MenuCommands));
-        public static RoutedCommand CenterLinesCmd = new RoutedCommand("CenterLinesCmd", typeof(MenuCommands));
-        public static RoutedCommand GridLinesCmd   = new RoutedCommand("GridLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand ZoomInCmd          = new RoutedCommand("ZoomInCmd", typeof(MenuCommands));
+        public static RoutedCommand ZoomOutCmd         = new RoutedCommand("ZoomOutCmd", typeof(MenuCommands));
+        public static RoutedCommand CenterLinesCmd     = new RoutedCommand("CenterLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand GridLinesCmd       = new RoutedCommand("GridLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand BackgroundImageCmd = new RoutedCommand("BackgroundImageCmd", typeof(MenuCommands));
 
         //Tools Menu
-        public static RoutedCommand MergeLinesCmd  = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
-        public static RoutedCommand MirrorLinesCmd = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand MirrorLinesCmd     = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
     }
 
     public class UniversalCommands

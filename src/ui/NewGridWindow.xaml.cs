@@ -19,7 +19,7 @@ namespace VGraph.src.ui
             InitializeComponent();
             GridSquaresWide.Text = Convert.ToString(PageData.Instance.SquaresWide);
             GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
-            GridSquareSize.Text = Convert.ToString(PageData.Instance.SquareSize);
+            GridSquareSize.Text = Convert.ToString(PageData.Instance.TrueSquareSize);
             PageMarginX.Text = Convert.ToString(PageData.Instance.MarginX);
             PageMarginY.Text = Convert.ToString(PageData.Instance.MarginX);
             BackgroundOpacitySlider.Value = PageData.Instance.BackgroundImageAlpha;

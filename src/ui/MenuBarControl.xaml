@@ -24,6 +24,7 @@
                 <MenuItem Header="_Export Settings">
                     <MenuItem x:Name="ExportCenterLines" Header="Export with Center Lines" Click="ExportCenterLines_OnClick" />
                     <MenuItem x:Name="ExportGridLines" Header="Export with Grid Lines"  IsChecked="True" Click="ExportGridLines_OnClick" />
+                    <MenuItem x:Name="ExportBackgroundImage" Header="Export with Background Image"  IsChecked="False" Click="ExportBackgroundImage_OnClick" />
                 </MenuItem>
 
                 <Separator />
@@ -41,8 +42,9 @@
                 <MenuItem Header="Zoom In" Command="ui:MenuCommands.ZoomInCmd" InputGestureText="Ctrl+Plus"/>
                 <MenuItem Header="Zoom Out" Command="ui:MenuCommands.ZoomOutCmd" InputGestureText="Ctrl+Minus"/>
                 <Separator />
-                <MenuItem Header="Show Center Lines" Command="ui:MenuCommands.CenterLinesCmd"  x:Name="Center_Lines_Button" ToolTip="This will toggle the display of center lines in the X and Y axis." IsCheckable="True" InputGestureText="Ctrl+T"/>
-                <MenuItem Header="Show Grid Lines" Command="ui:MenuCommands.GridLinesCmd"  x:Name="Grid_Lines_Button" ToolTip="This will toggle the display of the background grid." IsCheckable="True" InputGestureText="Ctrl+G"/>
+                <MenuItem Header="Show Center Lines" Command="ui:MenuCommands.CenterLinesCmd"  x:Name="CenterLinesButton" ToolTip="This will toggle the display of center lines in the X and Y axis." IsCheckable="True" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="Show Grid Lines" Command="ui:MenuCommands.GridLinesCmd"  x:Name="GridLinesButton" ToolTip="This will toggle the display of the background grid." IsCheckable="True" InputGestureText="Ctrl+G"/>
+                <MenuItem Header="Show Background Image" Command="ui:MenuCommands.BackgroundImageCmd"  x:Name="BackgroundImageButton" ToolTip="This will toggle the display of the background image." IsCheckable="True" InputGestureText="Ctrl+B"/>
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="Merge Lines" Command="ui:MenuCommands.MergeLinesCmd" ToolTip="This will merge any adjacent, co-linear lines together, creating a single large line in their place" InputGestureText="Ctrl+Shift+M"/>

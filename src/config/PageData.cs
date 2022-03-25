@@ -29,6 +29,7 @@ namespace VGraph.src.config
 
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;
+        public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
@@ -225,8 +226,10 @@ namespace VGraph.src.config
             GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
             bool gridLineState = gridBackgroundLayer.DrawGridLines;
+            bool backgroundImageState = gridBackgroundLayer.DrawBackgroundImage;
             gridBackgroundLayer.DrawCenterLines = ExportCenterLines;
             gridBackgroundLayer.DrawGridLines = ExportGridLines;
+            gridBackgroundLayer.DrawBackgroundImage = ExportBackgroundImage;
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 if (!(l.Value is CursorLayer))
@@ -239,7 +242,8 @@ namespace VGraph.src.config
             exportedImage.Dispose();
             gridBackgroundLayer.DrawCenterLines = centerLineState;
             gridBackgroundLayer.DrawGridLines = gridLineState;
-            if (centerLineState || gridLineState)
+            gridBackgroundLayer.DrawBackgroundImage = backgroundImageState;
+            if (centerLineState || gridLineState || backgroundImageState)
             {
                 gridBackgroundLayer.ForceRedraw();
             }

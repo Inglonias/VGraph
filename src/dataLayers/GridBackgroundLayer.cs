@@ -13,6 +13,8 @@ namespace VGraph.src.dataLayers
         public bool DrawCenterLines { get; set; } = false;
         public bool DrawGridLines { get; set; } = true;
 
+        public bool DrawBackgroundImage { get; set; } = true;
+
         private SKBitmap OriginalBackgroundImage = null;
 
         public SKImageInfo BackgroundImageOriginalInfo { get; private set; }
@@ -39,6 +41,26 @@ namespace VGraph.src.dataLayers
             return true;
         }
 
+        public bool ToggleCenterLines()
+        {
+            DrawCenterLines = !DrawCenterLines;
+            ForceRedraw();
+            return DrawCenterLines;
+        }
+        public bool ToggleGridLines()
+        {
+            DrawGridLines = !DrawGridLines;
+            ForceRedraw();
+            return DrawGridLines;
+        }
+
+        public bool ToggleBackgroundImage()
+        {
+            DrawBackgroundImage = !DrawBackgroundImage;
+            ForceRedraw();
+            return DrawBackgroundImage;
+        }
+
         public SKBitmap GenerateLayerBitmap()
         {
             if (!RedrawRequired)
@@ -53,12 +75,11 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
-            SKPaint brush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
+            SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = new SKColor(64, 64, 64, 64) };
 
             //Draw the background image within the border.
-            if (OriginalBackgroundImage != null)
+            if (OriginalBackgroundImage != null && DrawBackgroundImage)
             {
-
                 SKImageInfo gridSize = new SKImageInfo(PageData.Instance.SquaresWide * PageData.Instance.SquareSize,
                                                        PageData.Instance.SquaresTall * PageData.Instance.SquareSize);
                 SKBitmap backgroundImage = OriginalBackgroundImage.Resize(gridSize, SKFilterQuality.High);
@@ -70,15 +91,19 @@ namespace VGraph.src.dataLayers
 
             if (DrawGridLines)
             {
-                for (int x = 0; x < PageData.Instance.SquaresWide; x++)
+                for (int x = 0; x <= PageData.Instance.SquaresWide; x++)
                 {
-                    for (int y = 0; y < PageData.Instance.SquaresTall; y++)
-                    {
-                        int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
-                        int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
-                        SKRectI squareToDraw = new SKRectI(xStart, yStart, xStart + PageData.Instance.SquareSize, yStart + PageData.Instance.SquareSize);
-                        gridCanvas.DrawRect(squareToDraw, brush);
-                    }
+                    int xStart = (x * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
+                    int yStart = PageData.Instance.MarginY;
+                    int yEnd = PageData.Instance.GetTotalHeight() - PageData.Instance.MarginY;
+                    gridCanvas.DrawLine(new SKPointI(xStart, yStart), new SKPointI(xStart, yEnd), gridBrush);
+                }
+                for (int y = 0; y <= PageData.Instance.SquaresTall; y++)
+                {
+                    int xStart = PageData.Instance.MarginX;
+                    int yStart = (y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
+                    int xEnd = PageData.Instance.GetTotalWidth() - PageData.Instance.MarginX;
+                    gridCanvas.DrawLine(new SKPointI(xStart, yStart), new SKPointI(xEnd, yStart), gridBrush);
                 }
             }
 
@@ -102,7 +127,7 @@ namespace VGraph.src.dataLayers
 
             //Dispose of them.
             gridCanvas.Dispose();
-            brush.Dispose();
+            gridBrush.Dispose();
             borderBrush.Dispose();
 
             if (GridBitmap != null)
@@ -128,19 +153,5 @@ namespace VGraph.src.dataLayers
         {
             return new SKPointI(0, 0);
         }
-
-        public bool ToggleCenterLines()
-        {
-            DrawCenterLines = !DrawCenterLines;
-            ForceRedraw();
-            return DrawCenterLines;
-        }
-        public bool ToggleGridLines()
-        {
-            DrawGridLines = !DrawGridLines;
-            ForceRedraw();
-            return DrawGridLines;
-        }
-
     }
 }
