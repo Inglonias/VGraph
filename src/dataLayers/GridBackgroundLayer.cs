@@ -82,7 +82,7 @@ namespace VGraph.src.dataLayers
             {
                 SKImageInfo gridSize = new SKImageInfo(PageData.Instance.SquaresWide * PageData.Instance.SquareSize,
                                                        PageData.Instance.SquaresTall * PageData.Instance.SquareSize);
-                SKBitmap backgroundImage = OriginalBackgroundImage.Resize(gridSize, SKFilterQuality.High);
+                SKBitmap backgroundImage = OriginalBackgroundImage.Resize(gridSize, SKFilterQuality.None);
                 SKPaint alphaPaint = new SKPaint();
                 alphaPaint.Color = alphaPaint.Color.WithAlpha(PageData.Instance.BackgroundImageAlpha);
                 gridCanvas.DrawBitmap(backgroundImage, new SKPointI(PageData.Instance.MarginX, PageData.Instance.MarginY), alphaPaint);
