@@ -25,7 +25,13 @@ namespace VGraph.src.ui
         {
             InitializeComponent();
             List<ConfigRow> configOptions = new List<ConfigRow>();
-            configOptions.Add(new ConfigRow("Background paper color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.BackgroundPaperColor));
+            configOptions.Add(new ConfigRow("Background paper color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.BackgroundPaperColorString));
+            configOptions.Add(new ConfigRow("Border lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.BorderLinesColorString));
+            configOptions.Add(new ConfigRow("Center lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.CenterLinesColorString));
+            configOptions.Add(new ConfigRow("Cursor color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.CursorColorString));
+            configOptions.Add(new ConfigRow("Default line color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.DefaultLineColorString));
+            configOptions.Add(new ConfigRow("Grid lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.GridLinesColorString));
+            configOptions.Add(new ConfigRow("Selection box color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.SelectionBoxColorString));
 
             for (int i = 0; i < configOptions.Count; i++)
             {
@@ -85,7 +91,7 @@ namespace VGraph.src.ui
             {
                 Button rVal = new Button
                 {
-                    Content = "Select Color",
+                    Content = "Change...",
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 };
@@ -95,7 +101,7 @@ namespace VGraph.src.ui
 
             private void SelectAColor(object sender, RoutedEventArgs e)
             {
-                SKColor currentColor = (SKColor)TargetObject;
+                SKColor currentColor = SKColor.Parse(TargetObject.ToString());
                 System.Windows.Forms.ColorDialog cd = new System.Windows.Forms.ColorDialog
                 {
                     AllowFullOpen = true,
