@@ -26,7 +26,7 @@ namespace VGraph.src.dataLayers
 
         public bool SetBackgroundImage(string path)
         {
-            if (path.Length == 0)
+            if (path == null || path.Length == 0)
             {
                 OriginalBackgroundImage = null;
                 return true;
