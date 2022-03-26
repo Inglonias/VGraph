@@ -103,7 +103,7 @@ namespace VGraph.src.config
             MarginX = ConfigOptions.Instance.MarginX;
             MarginY = ConfigOptions.Instance.MarginY;
             TrueSquareSize = ConfigOptions.Instance.SquareSize;
-            BackgroundImageAlpha = ConfigOptions.Instance.BackgroundImageAlpha;
+            BackgroundImageAlpha = Convert.ToByte(ConfigOptions.Instance.BackgroundImageAlpha);
             CurrentLineColor = ConfigOptions.Instance.DefaultLineColor;
         }
 

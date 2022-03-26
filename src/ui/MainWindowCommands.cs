@@ -102,6 +102,11 @@ namespace VGraph.src.ui
             MainMenuBar.MirrorLines();
         }
 
+        private void ConfigWindowCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.ShowConfigWindow();
+        }
+
         private void MoveLinesUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MoveLinesCommandLogic("UP");
@@ -184,6 +189,7 @@ namespace VGraph.src.ui
         //Tools Menu
         public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
         public static RoutedCommand MirrorLinesCmd     = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand ConfigWindowCmd = new RoutedCommand("ConfigWindowCmd", typeof(MenuCommands));
     }
 
     public class UniversalCommands

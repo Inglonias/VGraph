@@ -5,17 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VGraph.src.ui"
         mc:Ignorable="d"
-        Title="VGraph Preferences" Height="600" Width="400" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="VGraph Preferences" Height="600" Width="300" ResizeMode="NoResize" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" x:Name="ConfigGrid">
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
         </Grid>
         <Grid Grid.Row="1">
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="16" VerticalAlignment="Bottom" IsDefault="True" Click="ConfigOptionsWindow_OnOK">OK</Button>
+            <Button Grid.Column="1" Margin="16" VerticalAlignment="Bottom" IsCancel="True" Click="ConfigOptionsWindow_OnCancel">Cancel</Button>
         </Grid>
     </Grid>
 </Window>

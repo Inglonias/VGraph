@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using VGraph.src.config;
+using VGraph.src.dataLayers;
 
 namespace VGraph.src.ui
 {
@@ -21,25 +22,33 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class ConfigOptionsWindow : Window
     {
+        public MainWindow MainWindowParent { get; set; }
+        private List<ConfigRow> ConfigOptionsList = new List<ConfigRow>();
+
         public ConfigOptionsWindow()
         {
             InitializeComponent();
-            List<ConfigRow> configOptions = new List<ConfigRow>();
-            configOptions.Add(new ConfigRow("Background paper color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.BackgroundPaperColorString));
-            configOptions.Add(new ConfigRow("Border lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.BorderLinesColorString));
-            configOptions.Add(new ConfigRow("Center lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.CenterLinesColorString));
-            configOptions.Add(new ConfigRow("Cursor color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.CursorColorString));
-            configOptions.Add(new ConfigRow("Default line color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.DefaultLineColorString));
-            configOptions.Add(new ConfigRow("Grid lines color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.GridLinesColorString));
-            configOptions.Add(new ConfigRow("Selection box color:", ConfigRow.TYPE_COLOR, ConfigOptions.Instance.SelectionBoxColorString));
+            ConfigOptionsList.Add(new ConfigRow("Background paper color:", ConfigRow.TYPE_COLOR, "BackgroundPaperColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Border lines color:"    , ConfigRow.TYPE_COLOR, "BorderLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Center lines color:"    , ConfigRow.TYPE_COLOR, "CenterLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Cursor color:"          , ConfigRow.TYPE_COLOR, "CursorColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Default line color:"    , ConfigRow.TYPE_COLOR, "DefaultLineColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Grid lines color:"      , ConfigRow.TYPE_COLOR, "GridLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Selection box color:"   , ConfigRow.TYPE_COLOR, "SelectionBoxColorString"));
 
-            for (int i = 0; i < configOptions.Count; i++)
+            ConfigOptionsList.Add(new ConfigRow("Default grid width:"   , ConfigRow.TYPE_NUMBER, "SquaresWide"));
+            ConfigOptionsList.Add(new ConfigRow("Default grid height:"   , ConfigRow.TYPE_NUMBER, "SquaresTall"));
+            ConfigOptionsList.Add(new ConfigRow("Default square size:"   , ConfigRow.TYPE_NUMBER, "SquareSize"));
+            ConfigOptionsList.Add(new ConfigRow("Default X margin:"   , ConfigRow.TYPE_NUMBER, "MarginX"));
+            ConfigOptionsList.Add(new ConfigRow("Default Y margin:"   , ConfigRow.TYPE_NUMBER, "MarginY"));
+
+            for (int i = 0; i < ConfigOptionsList.Count; i++)
             {
-                AddElementToGrid(i, 0, configOptions[i].GridLabel);
-                AddElementToGrid(i, 1, configOptions[i].ValueTextBox);
-                if (configOptions[i].ConfigType == ConfigRow.TYPE_COLOR)
+                AddElementToGrid(i, 0, ConfigOptionsList[i].GridLabel);
+                AddElementToGrid(i, 1, ConfigOptionsList[i].ValueTextBox);
+                if (ConfigOptionsList[i].ConfigType == ConfigRow.TYPE_COLOR)
                 {
-                    AddElementToGrid(i, 2, configOptions[i].GetColorSelectButton());
+                    AddElementToGrid(i, 2, ConfigOptionsList[i].GetColorSelectButton());
                 }
             }
         }
@@ -48,11 +57,10 @@ namespace VGraph.src.ui
         {
             while (ConfigGrid.RowDefinitions.Count <= row)
             {
-                ConfigGrid.RowDefinitions.Add(new RowDefinition());
-            }
-            while (ConfigGrid.ColumnDefinitions.Count <= col)
-            {
-                ConfigGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                ConfigGrid.RowDefinitions.Add(new RowDefinition
+                {
+                    Height = new GridLength(32, GridUnitType.Pixel)
+                });
             }
             Grid.SetRow(target, row);
             Grid.SetColumn(target, col);
@@ -67,8 +75,9 @@ namespace VGraph.src.ui
             public Label GridLabel { get; }
             public TextBox ValueTextBox { get; }
             public int ConfigType { get; }
-            public object TargetObject { get; private set; }
-            public ConfigRow(string label, int configType, object targetObject)
+            public string TargetPropertyName { get; }
+            public string TargetPropertyValue { get; private set; }
+            public ConfigRow(string label, int configType, string targetObject)
             {
                 GridLabel = new Label
                 {
@@ -77,13 +86,15 @@ namespace VGraph.src.ui
                     Content = label
                 };
                 ConfigType = configType;
-                TargetObject = targetObject;
+                TargetPropertyName = targetObject;
+                var property = ConfigOptions.Instance.GetType().GetProperty(TargetPropertyName);
+                TargetPropertyValue = property.GetValue(ConfigOptions.Instance).ToString();
                 ValueTextBox = new TextBox
                 {
                     FontFamily = new FontFamily("Courier New"),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Text = TargetObject.ToString()
+                    Text = TargetPropertyValue
                 };
             }
 
@@ -101,7 +112,7 @@ namespace VGraph.src.ui
 
             private void SelectAColor(object sender, RoutedEventArgs e)
             {
-                SKColor currentColor = SKColor.Parse(TargetObject.ToString());
+                SKColor currentColor = SKColor.Parse(ValueTextBox.Text.ToString());
                 System.Windows.Forms.ColorDialog cd = new System.Windows.Forms.ColorDialog
                 {
                     AllowFullOpen = true,
@@ -109,10 +120,39 @@ namespace VGraph.src.ui
                 };
                 if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    TargetObject = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B, cd.Color.A);
-                    ValueTextBox.Text = TargetObject.ToString();
+                    ValueTextBox.Text = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B, currentColor.Alpha).ToString();
                 }
             }
+        }
+
+        private void ConfigOptionsWindow_OnOK(object sender, RoutedEventArgs e)
+        {
+            foreach (ConfigRow cr in ConfigOptionsList)
+            {
+                var propertyTarget = ConfigOptions.Instance.GetType().GetProperty(cr.TargetPropertyName);
+                if (cr.ConfigType == ConfigRow.TYPE_COLOR)
+                {
+                    propertyTarget.SetValue(ConfigOptions.Instance, cr.ValueTextBox.Text);
+                }
+                else if (cr.ConfigType == ConfigRow.TYPE_NUMBER)
+                {
+                    propertyTarget.SetValue(ConfigOptions.Instance, Convert.ToInt32(cr.ValueTextBox.Text));
+                }
+            }
+            ConfigOptions.SaveConfigFile();
+            ConfigOptions.LoadConfigFile();
+
+            foreach (var l in PageData.Instance.GetDataLayers())
+            {
+                l.Value.ForceRedraw();
+            }
+            MainWindowParent.MainCanvas.InvalidateVisual();
+            this.Close();
+        }
+
+        private void ConfigOptionsWindow_OnCancel(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

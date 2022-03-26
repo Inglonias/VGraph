@@ -35,7 +35,7 @@ namespace VGraph.src.config
         public int SquareSize { get; set; } = 24;
         public int MarginX { get; set; } = 24;
         public int MarginY { get; set; } = 24;
-        public byte BackgroundImageAlpha { get; set; } = 191;
+        public int BackgroundImageAlpha { get; set; } = 191;
 
         public static ConfigOptions Instance { get; private set; } = new ConfigOptions();
 
@@ -51,6 +51,10 @@ namespace VGraph.src.config
             }
         }
 
+        public static void SaveConfigFile()
+        {
+            SaveConfigFile(ConfigOptions.Instance);
+        }
         public static void SaveConfigFile(ConfigOptions target)
         {
             File.WriteAllText(CONFIG_FILE_NAME, target.PrettySerialize());

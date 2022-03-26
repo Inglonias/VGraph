@@ -32,6 +32,7 @@
 
         <CommandBinding Command="ui:MenuCommands.MergeLinesCmd" Executed="MergeLinesCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.MirrorLinesCmd" Executed="MirrorLinesCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.ConfigWindowCmd" Executed="ConfigWindowCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:UniversalCommands.MoveLinesUp" Executed="MoveLinesUpCommandBinding_Executed"/>
         <CommandBinding Command="ui:UniversalCommands.MoveLinesDown" Executed="MoveLinesDownCommandBinding_Executed"/>
