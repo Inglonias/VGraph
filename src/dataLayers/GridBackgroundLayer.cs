@@ -75,6 +75,7 @@ namespace VGraph.src.dataLayers
 
             //Disposables
             SKCanvas gridCanvas = new SKCanvas(grid);
+            gridCanvas.Clear(ConfigOptions.Instance.BackgroundPaperColor);
             SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = ConfigOptions.Instance.GridLinesColor };
 
             //Draw the background image within the border.

@@ -10,6 +10,7 @@ namespace VGraph.src.config
         [JsonIgnore]
         public static readonly string CONFIG_FILE_NAME = "userconfig.json";
         [JsonIgnore]
+        public SKColor BackgroundPaperColor { get; set; } = new SKColor(255, 255, 255, 255);
         public SKColor BorderLinesColor { get; set; } = new SKColor(64, 64, 64, 32);
         [JsonIgnore]
         public SKColor CenterLinesColor { get; set; } = new SKColor(32, 32, 32, 128);
@@ -22,6 +23,7 @@ namespace VGraph.src.config
         [JsonIgnore]
         public SKColor SelectionBoxColor { get; set; } = new SKColor(0, 0, 0, 255);
 
+        public string BackgroundPaperColorString { get; set; } = "#ffffffff";
         public string BorderLinesColorString { get; set; } = "#20404040";
         public string CenterLinesColorString { get; set; } = "#80202020";
         public string CursorColorString { get; set; } = "#ffff0000";
@@ -57,6 +59,7 @@ namespace VGraph.src.config
         public static void LoadConfigFile()
         {
             ConfigOptions target = JsonSerializer.Deserialize<ConfigOptions>(File.ReadAllText(CONFIG_FILE_NAME));
+            target.BackgroundPaperColor = SKColor.Parse(target.BackgroundPaperColorString);
             target.BorderLinesColor = SKColor.Parse(target.BorderLinesColorString);
             target.CenterLinesColor = SKColor.Parse(target.CenterLinesColorString);
             target.CursorColor = SKColor.Parse(target.CursorColorString);
@@ -71,6 +74,7 @@ namespace VGraph.src.config
             StringWriter rValWriter = new StringWriter();
 
             rValWriter.WriteLine("{");
+            rValWriter.WriteLine("    \"BackgroundPaperColorString\":\"" + BackgroundPaperColorString + "\",");
             rValWriter.WriteLine("    \"BorderLinesColorString\":\"" + BorderLinesColorString + "\",");
             rValWriter.WriteLine("    \"CenterLinesColorString\":\"" + CenterLinesColorString + "\",");
             rValWriter.WriteLine("    \"CursorColorString\":\"" + CursorColorString + "\",");
