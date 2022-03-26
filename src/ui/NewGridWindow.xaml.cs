@@ -13,6 +13,8 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class NewGridWindow : Window
     {
+        public MainWindow MainWindowParent { get; set; }
+
         public bool DeleteLines = true;
         public NewGridWindow()
         {
@@ -25,7 +27,6 @@ namespace VGraph.src.ui
             BackgroundOpacitySlider.Value = PageData.Instance.BackgroundImageAlpha;
             BackgroundOpacityTextBox.Text = PageData.Instance.BackgroundImageAlpha.ToString();
             ImagePathBox.Text = PageData.Instance.BackgroundImagePath;
-
             CalculateImageInfo();
 
         }
@@ -50,6 +51,7 @@ namespace VGraph.src.ui
                 {
                     lineLayer.ClearAllLines();
                 }
+                MainWindowParent.MainCanvas.InvalidateVisual();
                 Close();
             }
             catch (FormatException)

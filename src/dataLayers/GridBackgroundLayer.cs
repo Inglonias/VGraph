@@ -26,6 +26,11 @@ namespace VGraph.src.dataLayers
 
         public bool SetBackgroundImage(string path)
         {
+            if (path.Length == 0)
+            {
+                OriginalBackgroundImage = null;
+                return true;
+            }
             SKFileStream imageStream = new SKFileStream(path);
             if (!imageStream.IsValid)
             {

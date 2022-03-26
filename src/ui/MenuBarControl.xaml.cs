@@ -31,7 +31,10 @@ namespace VGraph.src.ui
 
         public void CreateNewGrid(bool deleteLines)
         {
-            NewGridWindow ngw = new NewGridWindow();
+            NewGridWindow ngw = new NewGridWindow
+            {
+                MainWindowParent = MainWindowParent
+            };
             ngw.DeleteLines = deleteLines;
             ngw.Show();
         }
