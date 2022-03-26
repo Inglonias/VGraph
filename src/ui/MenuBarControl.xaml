@@ -48,7 +48,9 @@
             </MenuItem>
             <MenuItem Header="_Tools">
                 <MenuItem Header="Merge Lines" Command="ui:MenuCommands.MergeLinesCmd" ToolTip="This will merge any adjacent, co-linear lines together, creating a single large line in their place" InputGestureText="Ctrl+Shift+M"/>
-                <MenuItem Header="Mirror Tool" Command="ui:MenuCommands.MirrorLinesCmd" ToolTip="This tool will allow you to mirror lines across any X or Y value." InputGestureText="Ctrl+R" IsEnabled="True"/>
+                <MenuItem Header="Mirror Tool" Command="ui:MenuCommands.MirrorLinesCmd" ToolTip="This tool will allow you to mirror lines across any X or Y value." InputGestureText="Ctrl+R"/>
+                <Separator />
+                <MenuItem Header="Preferences" Command="ui:MenuCommands.ConfigWindowCmd"/>
             </MenuItem>
         </Menu>
         <ToolBarPanel Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">

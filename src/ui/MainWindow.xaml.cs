@@ -22,7 +22,6 @@ namespace VGraph.src.ui
 
         public MainWindow()
         {
-            //Default values are best estimates for 1/4 inch squares on 8.5 x 11.
             LGrid = new GridBackgroundLayer();
             LLines = new LineLayer();
             LPreview = new PreviewLayer();

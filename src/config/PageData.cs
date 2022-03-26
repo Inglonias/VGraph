@@ -16,15 +16,15 @@ namespace VGraph.src.config
         public const string PREVIEW_LAYER = "Preview Layer";
         public const string CURSOR_LAYER  = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
-        public int SquaresWide { get; set; } = 32;
-        public int SquaresTall { get; set; } = 42;
-        public int SquareSize { get; set; } = 24;
-        public int MarginX { get; set; } = 24;
-        public int MarginY { get; set; } = 24;
-        public int TrueSquareSize { get; set; } = 24; //This size is used when saving or exporting.
-        public byte BackgroundImageAlpha { get; set; } = 128;
+        public int SquaresWide { get; set; }
+        public int SquaresTall { get; set; }
+        public int SquareSize { get; set; }
+        public int MarginX { get; set; }
+        public int MarginY { get; set; }
+        public int TrueSquareSize { get; set; } //This size is used when saving or exporting.
+        public byte BackgroundImageAlpha { get; set; }
         public string BackgroundImagePath { get; private set; } = "";
-        public SKColor CurrentLineColor { get; set; } = LineSegment.DEFAULT_COLOR;
+        public SKColor CurrentLineColor { get; set; }
 
 
         public bool ExportCenterLines { get; set; } = false;
@@ -95,6 +95,16 @@ namespace VGraph.src.config
 
         private PageData()
         {
+            ConfigOptions.Instance.InitializeConfigFile();
+            ConfigOptions.LoadConfigFile();
+            SquaresWide = ConfigOptions.Instance.SquaresWide;
+            SquaresTall = ConfigOptions.Instance.SquaresTall;
+            SquareSize = ConfigOptions.Instance.SquareSize;
+            MarginX = ConfigOptions.Instance.MarginX;
+            MarginY = ConfigOptions.Instance.MarginY;
+            TrueSquareSize = ConfigOptions.Instance.SquareSize;
+            BackgroundImageAlpha = Convert.ToByte(ConfigOptions.Instance.BackgroundImageAlpha);
+            CurrentLineColor = ConfigOptions.Instance.DefaultLineColor;
         }
 
         public static PageData Instance { get; } = new PageData();
