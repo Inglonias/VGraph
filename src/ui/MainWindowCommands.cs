@@ -9,8 +9,7 @@ namespace VGraph.src.ui
     {
         private void NewCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MainMenuBar.ShowConfigWindow();
-            //MainMenuBar.CreateNewGrid(true);
+            MainMenuBar.CreateNewGrid(true);
         }
 
         private void OpenCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
