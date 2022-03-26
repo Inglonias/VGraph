@@ -91,8 +91,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="16" IsDefault="True" Click="NewGridWindow_OnOK">OK</Button>
-            <Button Grid.Column="1" Margin="16" IsCancel="True" Click="NewGridWindow_OnCancel">Cancel</Button>
+            <Button Grid.Column="0" Margin="12" IsDefault="True" Click="NewGridWindow_OnOK">OK</Button>
+            <Button Grid.Column="1" Margin="12" IsCancel="True" Click="NewGridWindow_OnCancel">Cancel</Button>
         </Grid>
     </Grid>
 </Window>
