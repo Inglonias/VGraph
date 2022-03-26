@@ -39,6 +39,7 @@ namespace VGraph.src.config
 
         public static ConfigOptions Instance { get; private set; } = new ConfigOptions();
 
+        //Required to allow this class to be serialized and deserialized.
         public ConfigOptions()
         {
         }
@@ -73,6 +74,7 @@ namespace VGraph.src.config
             Instance = target;
         }
 
+        //This is a custom JSON serializer that produces pretty output. This will require more work from me if I add more config options, but... ehhh...
         private string PrettySerialize()
         {
             StringWriter rValWriter = new StringWriter();

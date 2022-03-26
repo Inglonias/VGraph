@@ -23,7 +23,7 @@ namespace VGraph.src.ui
     public partial class ConfigOptionsWindow : Window
     {
         public MainWindow MainWindowParent { get; set; }
-        private List<ConfigRow> ConfigOptionsList = new List<ConfigRow>();
+        private readonly List<ConfigRow> ConfigOptionsList = new List<ConfigRow>();
 
         public ConfigOptionsWindow()
         {
@@ -75,7 +75,7 @@ namespace VGraph.src.ui
             public Label GridLabel { get; }
             public TextBox ValueTextBox { get; }
             public int ConfigType { get; }
-            public string TargetPropertyName { get; }
+            public string TargetPropertyName { get; } //I'm using reflection to access properties by name to avoid having to write specialized code.
             public string TargetPropertyValue { get; private set; }
             public ConfigRow(string label, int configType, string targetObject)
             {
@@ -120,6 +120,8 @@ namespace VGraph.src.ui
                 };
                 if (cd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
+                    //The alpha values can't be changed with this color picker, so I'm leaving it the same to avoid confusion.
+                    //Alpha values can be edited in the text strings themselves, though.
                     ValueTextBox.Text = new SKColor(cd.Color.R, cd.Color.G, cd.Color.B, currentColor.Alpha).ToString();
                 }
             }
@@ -139,12 +141,13 @@ namespace VGraph.src.ui
                     propertyTarget.SetValue(ConfigOptions.Instance, Convert.ToInt32(cr.ValueTextBox.Text));
                 }
             }
+            //Write config to file and reload immediately.
             ConfigOptions.SaveConfigFile();
             ConfigOptions.LoadConfigFile();
 
             foreach (var l in PageData.Instance.GetDataLayers())
             {
-                l.Value.ForceRedraw();
+                l.Value.ForceRedraw(); //To apply property changes immediately.
             }
             MainWindowParent.MainCanvas.InvalidateVisual();
             this.Close();
