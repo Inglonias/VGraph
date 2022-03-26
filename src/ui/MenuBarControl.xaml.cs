@@ -36,6 +36,11 @@ namespace VGraph.src.ui
             ngw.Show();
         }
 
+        public void ShowConfigWindow()
+        {
+            ConfigOptionsWindow cow = new ConfigOptionsWindow();
+            cow.Show();
+        }
 
         public void OpenGrid()
         {
