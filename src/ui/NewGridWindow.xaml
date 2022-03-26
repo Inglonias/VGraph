@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VGraph.src.ui"
         mc:Ignorable="d"
-        Title="Create New Grid" Height="350" Width="350" ResizeMode="NoResize" ShowInTaskbar="False">
+        Height="370" Width="350" ResizeMode="NoResize" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>

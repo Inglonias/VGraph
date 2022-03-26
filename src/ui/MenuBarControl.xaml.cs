@@ -33,9 +33,9 @@ namespace VGraph.src.ui
         {
             NewGridWindow ngw = new NewGridWindow
             {
-                MainWindowParent = MainWindowParent
+                MainWindowParent = MainWindowParent,
+                DeleteLines = deleteLines
             };
-            ngw.DeleteLines = deleteLines;
             ngw.Show();
         }
 

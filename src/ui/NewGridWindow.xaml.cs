@@ -15,10 +15,19 @@ namespace VGraph.src.ui
     {
         public MainWindow MainWindowParent { get; set; }
 
-        public bool DeleteLines = true;
+        public bool DeleteLines;
         public NewGridWindow()
         {
             InitializeComponent();
+            if (DeleteLines)
+            {
+                this.Title = "Create New Grid";
+            }
+            else
+            {
+                this.Title = "Resize Grid";
+            }
+            InvalidateVisual();
             GridSquaresWide.Text = Convert.ToString(PageData.Instance.SquaresWide);
             GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
             GridSquareSize.Text = Convert.ToString(PageData.Instance.TrueSquareSize);
