@@ -16,10 +16,10 @@ namespace VGraph.src.ui
         public MainWindow MainWindowParent { get; set; }
 
         public bool DeleteLines;
-        public NewGridWindow()
+        public NewGridWindow(bool deleteLines)
         {
             InitializeComponent();
-            if (DeleteLines)
+            if (deleteLines)
             {
                 this.Title = "Create New Grid";
             }
@@ -27,6 +27,7 @@ namespace VGraph.src.ui
             {
                 this.Title = "Resize Grid";
             }
+            DeleteLines = deleteLines;
             InvalidateVisual();
             GridSquaresWide.Text = Convert.ToString(PageData.Instance.SquaresWide);
             GridSquaresTall.Text = Convert.ToString(PageData.Instance.SquaresTall);
