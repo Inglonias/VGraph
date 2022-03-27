@@ -8,6 +8,8 @@ There are many times when I have found myself wanting to use grid paper to make 
 
 ## Features
 * Draw straight lines between any two square corners
+* Use as many colors as you want in your drawing
+* Use a custom image as the background for your drawing, allowing for tracing and other cool tricks.
 * Draw a wide variety of shapes with just two clicks. Everything from right triangles to approximations of an ellipse.
 * Export your drawing to a PNG file.
 * Save files in JSON format for later use.
