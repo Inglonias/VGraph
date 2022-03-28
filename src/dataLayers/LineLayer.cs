@@ -259,6 +259,7 @@ namespace VGraph.src.dataLayers
 
         public void DeleteSelectedLines()
         {
+            CreateUndoPoint();
             for (int i = LineList.Count - 1; i >= 0; i--)
             {
                 if (LineList[i].IsSelected)
