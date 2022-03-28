@@ -405,9 +405,13 @@ namespace VGraph.src.dataLayers
                 if (dist < LineSegment.SELECT_RADIUS)
                 {
                     bool staySelected = l.IsSelected && maintainSelection;
-                    if (l.WasLineSelected(dist, point) || staySelected)
+                    if (staySelected && !l.WasLineSelected(dist, point))
                     {
                         l.IsSelected = true;
+                    }
+                    if (l.WasLineSelected(dist, point))
+                    {
+                        l.IsSelected = !l.IsSelected;
                         if (PageData.Instance.IsEyedropperActive)
                         {
                             PageData.Instance.CurrentLineColor = SKColor.Parse(l.LineColor);
