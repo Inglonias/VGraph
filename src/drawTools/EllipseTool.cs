@@ -39,7 +39,7 @@ namespace VGraph.src.drawTools
 
         protected LineSegment[] DrawEllipse(SKPointI start, int radiusA, int radiusB)
         {
-            int numVertices = 3600;
+            int numVertices = 3600 * ((Math.Max(radiusA, radiusB) / 25) + 1);
 
             List<SKPointI> vertices = new List<SKPointI>();
             double angleSpacing = (Math.PI * 2) / numVertices;
@@ -100,7 +100,8 @@ namespace VGraph.src.drawTools
 
             for (int i = 0; i < radiusStart.Length; i++)
             {
-                int numVertices = 900;
+                //This method draws by quadrant to ensure symmetry when the ellipse radius is not an integer.
+                int numVertices = 900 * ((Math.Max(radiusA, radiusB) / 25) + 1);
 
                 double angleSpacing = (Math.PI / 2) / numVertices;
                 for (int j = 0; j < numVertices; j++)
