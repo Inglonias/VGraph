@@ -389,6 +389,8 @@ namespace VGraph.src.dataLayers
 
         public bool HandleSelectionClick(Point point, bool maintainSelection)
         {
+            //This function does NOT handle box selections. Because of that, we're looking for one line that was clicked on.
+            //As soon as we find that line, we return true. If we go through the whole list and find nothing, return false.
             if (PageData.Instance.IsEyedropperActive)
             {
                 DeselectLines();
