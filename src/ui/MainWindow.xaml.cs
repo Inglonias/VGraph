@@ -90,8 +90,8 @@ namespace VGraph.src.ui
                 return;
             }
 
-            MainCanvas.Width = LGrid.GenerateLayerImage().Width;
-            MainCanvas.Height = LGrid.GenerateLayerImage().Height;
+            MainCanvas.Width = PageData.Instance.GetTotalWidth();
+            MainCanvas.Height = PageData.Instance.GetTotalHeight();
 
             e.Surface.Canvas.Clear(SKColors.White);
             int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - 100)));
@@ -114,10 +114,23 @@ namespace VGraph.src.ui
                 }
                 else
                 {
-                    SKImage renderThis = l.Value.GenerateLayerImage().Subset(viewport);
-                    if (renderThis != null) {
+                    SKImage renderThis;
+                    try
+                    {
+                        renderThis = l.Value.GenerateLayerImage().Subset(viewport);
+                    }
+                    catch
+                    {
+                        renderThis = l.Value.GenerateLayerImage();
+                    }
+                    if (renderThis != null)
+                    {
                         e.Surface.Canvas.DrawImage(renderThis, new SKPointI(viewLeft, viewTop));
                         renderThis.Dispose();
+                    }
+                    else
+                    {
+                        e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
                     }
                 }
             }
