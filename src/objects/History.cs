@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 
 namespace VGraph.src.objects
 {
@@ -7,9 +8,9 @@ namespace VGraph.src.objects
     /// Any elements that would push the stack beyond its capacity instead causes the oldest element to be deleted.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class History<T>
+    public class History<T> : IEnumerable
     {
-        private T[] HistArray;
+        private readonly T[] HistArray;
         public int Count { get; set; }
         public History(int capacity)
         {
@@ -57,6 +58,11 @@ namespace VGraph.src.objects
             {
                 HistArray[i] = default;
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return HistArray.GetEnumerator();
         }
     }
 }

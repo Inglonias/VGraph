@@ -41,10 +41,10 @@ namespace VGraph.src.ui
 
         private void AssignPageData()
         {
-            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
-            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
+            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]    = LGrid;
+            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]    = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
-            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER]  = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -77,7 +77,7 @@ namespace VGraph.src.ui
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
             bool anyLayerRedraw = false;
-            foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
+            foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
             {
                 if (l.Value.IsRedrawRequired())
                 {

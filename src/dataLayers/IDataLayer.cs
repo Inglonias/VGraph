@@ -15,9 +15,9 @@ namespace VGraph.src.dataLayers
         /// <returns>Returns true if the data layer should be redrawn, and false otherwise.</returns>
         bool IsRedrawRequired();
         /// <summary>
-        /// Draw the relevant data layer as an SKBitmap.
+        /// Draw the relevant data layer as an SKImage.
         /// </summary>
-        /// <returns>An SKBitmap representing the current data layer.</returns>
+        /// <returns>An SKImage representing the current data layer.</returns>
         SKImage GenerateLayerImage();
         /// <summary>
         /// Not every layer has to be the same size. This method exists to tell the rendering event where to start drawing this layer.

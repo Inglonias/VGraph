@@ -125,6 +125,7 @@ namespace VGraph.src.ui
 
         public void ExitApp()
         {
+            PageData.Instance.AbandonGPUContext();
             Environment.Exit(0);
         }
 

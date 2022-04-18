@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using OpenTK;
+using OpenTK.Graphics;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,7 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
+        public GRContext GPUContext = null;
         public const string GRID_LAYER    = "Grid Layer";
         public const string LINE_LAYER    = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
@@ -244,7 +247,7 @@ namespace VGraph.src.config
             {
                 if (!(l.Value is CursorLayer))
                 {
-                    canvas.DrawBitmap(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                    canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
                 }
             }
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
@@ -280,6 +283,35 @@ namespace VGraph.src.config
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 l.Value.ForceRedraw();
+            }
+        }
+
+        public SKSurface GetOpenGlSurface(int width, int height)
+        {
+            SKSurface gpuSurface;
+            if (ConfigOptions.Instance.HardwareAcceleration)
+            {
+                if (GPUContext == null)
+                {
+                    GLControl control = new GLControl(new GraphicsMode(32, 24, 8, 4));
+                    control.MakeCurrent();
+                    GPUContext = GRContext.CreateGl();
+                }
+                gpuSurface = SKSurface.Create(GPUContext, true, new SKImageInfo(width, height));
+            }
+            else
+            {
+                gpuSurface = SKSurface.Create(new SKImageInfo(width, height));
+            }
+            return gpuSurface;
+        }
+
+        public void AbandonGPUContext()
+        {
+            if (GPUContext != null)
+            {
+                GPUContext.AbandonContext();
+                GPUContext.Dispose();
             }
         }
     }

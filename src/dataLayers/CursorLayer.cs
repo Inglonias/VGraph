@@ -15,7 +15,7 @@ namespace VGraph.src.dataLayers
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
 
-        private SKBitmap Bitmap;
+        private SKImage LastImage;
 
         public CursorLayer()
         {
@@ -108,7 +108,7 @@ namespace VGraph.src.dataLayers
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
         }
 
-        public SKBitmap GenerateLayerImage()
+        public SKImage GenerateLayerImage()
         {
             //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
             //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -124,14 +124,14 @@ namespace VGraph.src.dataLayers
                     ClickDragPoint = CanvasPoint;
                     Console.WriteLine("ClickDrag set!");
                 }
-                canvasWidth = Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
-                canvasHeight = Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
+                canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
+                canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
 
-            Bitmap = new SKBitmap(canvasWidth, canvasHeight);
+            SKImage image = SKImage.Create(new SKImageInfo(canvasWidth, canvasHeight));
+            SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(canvasWidth, canvasHeight);
 
             //Disposables
-            SKCanvas canvas = new SKCanvas(Bitmap);
             SKPaint brush;
             if (ClickDragActive)
             {
@@ -141,19 +141,26 @@ namespace VGraph.src.dataLayers
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
                 SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
-                canvas.DrawRect(rect, brush);
+                gpuSurface.Canvas.DrawRect(rect, brush);
             }
             else
             {
                 brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
-                canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+                gpuSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 
-            //Dispose of them.
-            canvas.Dispose();
-            brush.Dispose();
+            image = gpuSurface.Snapshot();
 
-            return Bitmap;
+            //Dispose of them.
+            gpuSurface.Dispose();
+            brush.Dispose();
+            if (LastImage != null)
+            {
+                LastImage.Dispose();
+            }
+            LastImage = image;
+
+            return LastImage;
         }
 
         public bool IsRedrawRequired()

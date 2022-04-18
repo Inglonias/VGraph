@@ -14,7 +14,7 @@ namespace VGraph.src.dataLayers
 
         public bool OddMode { get; set; }
 
-        private SKBitmap LastBitmap;
+        private SKImage LastImage;
 
         private bool PreviewPointActive = false;
         private bool RedrawOverride = false;
@@ -29,18 +29,18 @@ namespace VGraph.src.dataLayers
             RedrawOverride = true;
         }
 
-        public SKBitmap GenerateLayerImage()
+        public SKImage GenerateLayerImage()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
 
-            if (LastBitmap == null || IsRedrawRequired())
+            if (LastImage == null || IsRedrawRequired())
             {
                 RedrawOverride = false;
-                SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKImage image = SKImage.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
                 //Disposables
-                SKCanvas canvas = new SKCanvas(bitmap);
+                SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
 
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
 
@@ -60,23 +60,25 @@ namespace VGraph.src.dataLayers
                         foreach (LineSegment line in previewLines)
                         {
                             SKPointI[] canvasPoints = line.GetCanvasPoints();
-                            canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
+                            gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
                         }
                     }
                 }
 
+                image = gpuSurface.Snapshot();
+
                 //Dispose of them.
-                canvas.Dispose();
+                gpuSurface.Dispose();
                 previewBrush.Dispose();
 
-                if (LastBitmap != null)
+                if (LastImage != null)
                 {
-                    LastBitmap.Dispose();
+                    LastImage.Dispose();
                 }
-                LastBitmap = bitmap;
+                LastImage = image;
             }
 
-            return LastBitmap;
+            return LastImage;
         }
 
         public SKPoint GetRenderPoint()
