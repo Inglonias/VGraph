@@ -119,7 +119,7 @@ namespace VGraph.src.ui
                     Console.WriteLine(l.Value.GetType().Name + " did not render!");
                 }
             }
-            e.Surface.Canvas.DrawImage(drawingSurface.Snapshot(), new SKPointI(0, 0));
+            e.Surface.Canvas.DrawImage(drawingSurface.Snapshot(viewport), new SKPointI(viewLeft, viewTop));
             drawingSurface.Dispose();
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);

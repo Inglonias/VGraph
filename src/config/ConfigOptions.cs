@@ -37,8 +37,6 @@ namespace VGraph.src.config
         public int MarginY { get; set; } = 24;
         public int BackgroundImageAlpha { get; set; } = 191;
 
-        public bool HardwareAcceleration { get; set; } = true;
-
         public static ConfigOptions Instance { get; private set; } = new ConfigOptions();
 
         //Required to allow this class to be serialized and deserialized.
@@ -94,8 +92,7 @@ namespace VGraph.src.config
             rValWriter.WriteLine("    \"SquareSize\": " + SquareSize + ",");
             rValWriter.WriteLine("    \"MarginX\": " + MarginX + ",");
             rValWriter.WriteLine("    \"MarginY\": " + MarginY + ",");
-            rValWriter.WriteLine("    \"BackgroundImageAlpha\": " + BackgroundImageAlpha + ",");
-            rValWriter.WriteLine("    \"HardwareAcceleration\": " + HardwareAcceleration.ToString().ToLower());
+            rValWriter.WriteLine("    \"BackgroundImageAlpha\": " + BackgroundImageAlpha);
             rValWriter.WriteLine("}");
 
             return rValWriter.ToString();
