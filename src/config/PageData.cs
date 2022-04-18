@@ -244,7 +244,7 @@ namespace VGraph.src.config
             {
                 if (!(l.Value is CursorLayer))
                 {
-                    canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                    canvas.DrawBitmap(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
                 }
             }
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);

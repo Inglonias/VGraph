@@ -66,7 +66,7 @@ namespace VGraph.src.dataLayers
             return DrawBackgroundImage;
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKBitmap GenerateLayerImage()
         {
             if (!RedrawRequired)
             {

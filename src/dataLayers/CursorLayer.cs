@@ -108,7 +108,7 @@ namespace VGraph.src.dataLayers
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKBitmap GenerateLayerImage()
         {
             //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
             //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());

@@ -29,7 +29,7 @@ namespace VGraph.src.dataLayers
             RedrawOverride = true;
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKBitmap GenerateLayerImage()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);

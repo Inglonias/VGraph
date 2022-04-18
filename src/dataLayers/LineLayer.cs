@@ -442,7 +442,7 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKBitmap GenerateLayerImage()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             if (LastBitmap == null || IsRedrawRequired())

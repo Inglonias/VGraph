@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,6 +7,7 @@ using SkiaSharp;
 
 using VGraph.src.config;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -19,6 +21,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
+        private readonly History<long> FrameRateHistory = new History<long>(30);
 
         public MainWindow()
         {
@@ -31,26 +34,23 @@ namespace VGraph.src.ui
 
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
-            LGrid.GenerateLayerBitmap();
+            LGrid.GenerateLayerImage();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
         }
 
         private void AssignPageData()
         {
-            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]    = LGrid;
-            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]    = LLines;
+            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
+            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
-            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER]  = LCursor;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
-
-            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
-            CursorStatusBar.InvalidateVisual();
         }
 
         private void HandleCursor(MouseEventArgs e)
@@ -74,8 +74,10 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             bool anyLayerRedraw = false;
-            foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
+            foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
                 if (l.Value.IsRedrawRequired())
                 {
@@ -88,15 +90,65 @@ namespace VGraph.src.ui
                 return;
             }
 
-            MainCanvas.Width = LGrid.GenerateLayerBitmap().Width;
-            MainCanvas.Height = LGrid.GenerateLayerBitmap().Height;
+            MainCanvas.Width = PageData.Instance.GetTotalWidth();
+            MainCanvas.Height = PageData.Instance.GetTotalHeight();
 
+            e.Surface.Canvas.Clear(SKColors.White);
+            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - 100)));
+            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - 100)));
+
+            SKRectI viewport = new SKRectI
+            {
+                Top = viewTop,
+                Left = viewLeft,
+                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
+                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
+            };
             e.Surface.Canvas.Clear(SKColors.White);
 
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                e.Surface.Canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                if (l.Value is CursorLayer)
+                {
+                    e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                }
+                else
+                {
+                    SKImage renderThis;
+                    try
+                    {
+                        renderThis = l.Value.GenerateLayerImage().Subset(viewport);
+                    }
+                    catch
+                    {
+                        renderThis = l.Value.GenerateLayerImage();
+                    }
+                    if (renderThis != null)
+                    {
+                        e.Surface.Canvas.DrawImage(renderThis, new SKPointI(viewLeft, viewTop));
+                        renderThis.Dispose();
+                    }
+                    else
+                    {
+                        e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                    }
+                }
             }
+            sw.Stop();
+            FrameRateHistory.Push(sw.ElapsedMilliseconds);
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )        Avg. Draw Time (ms): " + GetDrawTime();
+            CursorStatusBar.InvalidateVisual();
+        }
+
+        private string GetDrawTime()
+        {
+            long sum = 0;
+            foreach (long l in FrameRateHistory)
+            {
+                sum += l;
+            }
+
+            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
         }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -131,6 +183,11 @@ namespace VGraph.src.ui
         {
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
+        }
+
+        private void VGraphMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainMenuBar.ExitApp();
         }
     }
 }
