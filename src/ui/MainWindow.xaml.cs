@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,6 +7,7 @@ using SkiaSharp;
 
 using VGraph.src.config;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -19,6 +21,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
+        private History<long> FrameRateHistory = new History<long>(30);
 
         public MainWindow()
         {
@@ -48,9 +51,6 @@ namespace VGraph.src.ui
         {
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
-
-            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
-            CursorStatusBar.InvalidateVisual();
         }
 
         private void HandleCursor(MouseEventArgs e)
@@ -74,6 +74,8 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             bool anyLayerRedraw = false;
             foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
             {
@@ -97,6 +99,21 @@ namespace VGraph.src.ui
             {
                 e.Surface.Canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
             }
+            sw.Stop();
+            FrameRateHistory.Push(sw.ElapsedMilliseconds);
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )        Avg. Draw Time (ms): " + GetDrawTime();
+            CursorStatusBar.InvalidateVisual();
+        }
+
+        private string GetDrawTime()
+        {
+            long sum = 0;
+            foreach (long l in FrameRateHistory)
+            {
+                sum += l;
+            }
+
+            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
         }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)

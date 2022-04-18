@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using OpenTK;
+using OpenTK.Graphics;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,6 +13,7 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
+        public GRContext GPUContext = null;
         public const string GRID_LAYER    = "Grid Layer";
         public const string LINE_LAYER    = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
@@ -281,6 +284,19 @@ namespace VGraph.src.config
             {
                 l.Value.ForceRedraw();
             }
+        }
+
+        public SKSurface GetOpenGlSurface(int width, int height)
+        {
+            if (GPUContext == null)
+            {
+                GLControl control = new GLControl(new GraphicsMode(32, 24, 8, 4));
+                control.MakeCurrent();
+                GPUContext = GRContext.CreateGl();
+            }
+            var gpuSurface = SKSurface.Create(GPUContext, true, new SKImageInfo(width, height));
+            //var gpuSurface = SKSurface.Create(new SKImageInfo(width, height));
+            return gpuSurface;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace VGraph.src.dataLayers
                 SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
 
                 //Disposables
-                SKCanvas canvas = new SKCanvas(bitmap);
+                SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
 
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
 
@@ -60,13 +60,18 @@ namespace VGraph.src.dataLayers
                         foreach (LineSegment line in previewLines)
                         {
                             SKPointI[] canvasPoints = line.GetCanvasPoints();
-                            canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
+                            gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
                         }
                     }
                 }
 
+                using (var image = gpuSurface.Snapshot())
+                {
+                    bitmap = SKBitmap.FromImage(image);
+                }
+
                 //Dispose of them.
-                canvas.Dispose();
+                gpuSurface.Dispose();
                 previewBrush.Dispose();
 
                 if (LastBitmap != null)

@@ -124,14 +124,14 @@ namespace VGraph.src.dataLayers
                     ClickDragPoint = CanvasPoint;
                     Console.WriteLine("ClickDrag set!");
                 }
-                canvasWidth = Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
-                canvasHeight = Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
+                canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
+                canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
 
             Bitmap = new SKBitmap(canvasWidth, canvasHeight);
+            SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(canvasWidth, canvasHeight);
 
             //Disposables
-            SKCanvas canvas = new SKCanvas(Bitmap);
             SKPaint brush;
             if (ClickDragActive)
             {
@@ -141,16 +141,21 @@ namespace VGraph.src.dataLayers
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
                 SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
-                canvas.DrawRect(rect, brush);
+                gpuSurface.Canvas.DrawRect(rect, brush);
             }
             else
             {
                 brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
-                canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+                gpuSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+            }
+
+            using (var image = gpuSurface.Snapshot())
+            {
+                Bitmap = SKBitmap.FromImage(image);
             }
 
             //Dispose of them.
-            canvas.Dispose();
+            gpuSurface.Dispose();
             brush.Dispose();
 
             return Bitmap;

@@ -451,7 +451,8 @@ namespace VGraph.src.dataLayers
                 SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
 
                 //Disposables
-                SKCanvas canvas = new SKCanvas(bitmap);
+                //SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKSurface gpuSurface = SKSurface.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
@@ -464,13 +465,18 @@ namespace VGraph.src.dataLayers
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {
-                        canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
+                        gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                    gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                }
+
+                using (var image = gpuSurface.Snapshot())
+                {
+                    bitmap = SKBitmap.FromImage(image);
                 }
 
                 //Dispose of them.
-                canvas.Dispose();
+                gpuSurface.Dispose();
                 selectedBrush.Dispose();
                 standardBrush.Dispose();
 
