@@ -20,7 +20,7 @@ namespace VGraph.src.dataLayers
         private SKBitmap OriginalBackgroundImage = null;
 
         public SKImageInfo BackgroundImageOriginalInfo { get; private set; }
-        private SKBitmap GridBitmap = null;
+        private SKImage LastImage = null;
 
         public GridBackgroundLayer()
         {
@@ -68,17 +68,17 @@ namespace VGraph.src.dataLayers
             return DrawBackgroundImage;
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKImage GenerateLayerImage()
         {
             if (!RedrawRequired)
             {
-                return GridBitmap;
+                return LastImage;
             }
 
             int xSize = (PageData.Instance.SquaresWide * PageData.Instance.SquareSize) + (PageData.Instance.MarginX * 2);
             int ySize = (PageData.Instance.SquaresTall * PageData.Instance.SquareSize) + (PageData.Instance.MarginY * 2);
 
-            SKBitmap grid = new SKBitmap(xSize, ySize);
+            SKImage grid = SKImage.Create( new SKImageInfo(xSize, ySize));
 
             //Disposables
             SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -133,22 +133,19 @@ namespace VGraph.src.dataLayers
                     gpuSurface.Canvas.DrawLine(quarterMarginX, halfY, PageData.Instance.GetTotalWidth() - quarterMarginX, halfY, centerBrush);
                 }
             }
-            using (var image = gpuSurface.Snapshot())
-            {
-                grid = SKBitmap.FromImage(image);
-            }
+            grid = gpuSurface.Snapshot();
             //Dispose of them.
             gpuSurface.Dispose();
             gridBrush.Dispose();
             borderBrush.Dispose();
 
-            if (GridBitmap != null)
+            if (LastImage != null)
             {
-                GridBitmap.Dispose();
+                LastImage.Dispose();
             }
-            GridBitmap = grid;
+            LastImage = grid;
             RedrawRequired = false;
-            return GridBitmap;
+            return LastImage;
         }
 
         public bool IsRedrawRequired()

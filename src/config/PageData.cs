@@ -247,7 +247,7 @@ namespace VGraph.src.config
             {
                 if (!(l.Value is CursorLayer))
                 {
-                    canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                    canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
                 }
             }
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);
@@ -288,15 +288,31 @@ namespace VGraph.src.config
 
         public SKSurface GetOpenGlSurface(int width, int height)
         {
-            if (GPUContext == null)
+            SKSurface gpuSurface;
+            if (ConfigOptions.Instance.HardwareAcceleration)
             {
-                GLControl control = new GLControl(new GraphicsMode(32, 24, 8, 4));
-                control.MakeCurrent();
-                GPUContext = GRContext.CreateGl();
+                if (GPUContext == null)
+                {
+                    GLControl control = new GLControl(new GraphicsMode(32, 24, 8, 4));
+                    control.MakeCurrent();
+                    GPUContext = GRContext.CreateGl();
+                }
+                gpuSurface = SKSurface.Create(GPUContext, true, new SKImageInfo(width, height));
             }
-            var gpuSurface = SKSurface.Create(GPUContext, true, new SKImageInfo(width, height));
-            //var gpuSurface = SKSurface.Create(new SKImageInfo(width, height));
+            else
+            {
+                gpuSurface = SKSurface.Create(new SKImageInfo(width, height));
+            }
             return gpuSurface;
+        }
+
+        public void AbandonGPUContext()
+        {
+            if (GPUContext != null)
+            {
+                GPUContext.AbandonContext();
+                GPUContext.Dispose();
+            }
         }
     }
 }

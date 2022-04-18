@@ -21,7 +21,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
-        private History<long> FrameRateHistory = new History<long>(30);
+        private readonly History<long> FrameRateHistory = new History<long>(30);
 
         public MainWindow()
         {
@@ -34,7 +34,7 @@ namespace VGraph.src.ui
 
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
-            LGrid.GenerateLayerBitmap();
+            LGrid.GenerateLayerImage();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
         }
@@ -90,14 +90,14 @@ namespace VGraph.src.ui
                 return;
             }
 
-            MainCanvas.Width = LGrid.GenerateLayerBitmap().Width;
-            MainCanvas.Height = LGrid.GenerateLayerBitmap().Height;
+            MainCanvas.Width = LGrid.GenerateLayerImage().Width;
+            MainCanvas.Height = LGrid.GenerateLayerImage().Height;
 
             e.Surface.Canvas.Clear(SKColors.White);
 
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                e.Surface.Canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
             }
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
@@ -148,6 +148,11 @@ namespace VGraph.src.ui
         {
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
+        }
+
+        private void VGraphMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MainMenuBar.ExitApp();
         }
     }
 }

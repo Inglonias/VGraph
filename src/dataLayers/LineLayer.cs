@@ -24,7 +24,7 @@ namespace VGraph.src.dataLayers
         public const string ELLIPSE_TOOL = "Ellipse_Tool";
 
         public List<LineSegment> LineList { get; private set; } = new List<LineSegment>();
-        private SKBitmap LastBitmap;
+        private SKImage LastImage;
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
 
@@ -442,13 +442,13 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKImage GenerateLayerImage()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
-            if (LastBitmap == null || IsRedrawRequired())
+            if (LastImage == null || IsRedrawRequired())
             {
                 RedrawRequired = false;
-                SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKImage image = SKImage.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
                 //Disposables
                 //SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -469,26 +469,20 @@ namespace VGraph.src.dataLayers
                     }
                     gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
-
-                using (var image = gpuSurface.Snapshot())
+                image = gpuSurface.Snapshot();
+                if (LastImage != null)
                 {
-                    bitmap = SKBitmap.FromImage(image);
+                    LastImage.Dispose();
                 }
-
+                LastImage = image;
                 //Dispose of them.
                 gpuSurface.Dispose();
                 selectedBrush.Dispose();
                 standardBrush.Dispose();
-
-                if (LastBitmap != null)
-                {
-                    LastBitmap.Dispose();
-                }
-                RedrawRequired = false;
-                LastBitmap = bitmap;
+                RedrawRequired = false;                
             }
 
-            return LastBitmap;
+            return LastImage;
         }
 
         public bool IsRedrawRequired()

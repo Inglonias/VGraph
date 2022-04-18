@@ -15,7 +15,7 @@ namespace VGraph.src.dataLayers
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
 
-        private SKBitmap Bitmap;
+        private SKImage LastImage;
 
         public CursorLayer()
         {
@@ -108,7 +108,7 @@ namespace VGraph.src.dataLayers
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKImage GenerateLayerImage()
         {
             //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
             //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -128,7 +128,7 @@ namespace VGraph.src.dataLayers
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
 
-            Bitmap = new SKBitmap(canvasWidth, canvasHeight);
+            SKImage image = SKImage.Create(new SKImageInfo(canvasWidth, canvasHeight));
             SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(canvasWidth, canvasHeight);
 
             //Disposables
@@ -149,16 +149,18 @@ namespace VGraph.src.dataLayers
                 gpuSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 
-            using (var image = gpuSurface.Snapshot())
-            {
-                Bitmap = SKBitmap.FromImage(image);
-            }
+            image = gpuSurface.Snapshot();
 
             //Dispose of them.
             gpuSurface.Dispose();
             brush.Dispose();
+            if (LastImage != null)
+            {
+                LastImage.Dispose();
+            }
+            LastImage = image;
 
-            return Bitmap;
+            return LastImage;
         }
 
         public bool IsRedrawRequired()

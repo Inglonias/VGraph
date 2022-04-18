@@ -14,7 +14,7 @@ namespace VGraph.src.dataLayers
 
         public bool OddMode { get; set; }
 
-        private SKBitmap LastBitmap;
+        private SKImage LastImage;
 
         private bool PreviewPointActive = false;
         private bool RedrawOverride = false;
@@ -29,15 +29,15 @@ namespace VGraph.src.dataLayers
             RedrawOverride = true;
         }
 
-        public SKBitmap GenerateLayerBitmap()
+        public SKImage GenerateLayerImage()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
 
-            if (LastBitmap == null || IsRedrawRequired())
+            if (LastImage == null || IsRedrawRequired())
             {
                 RedrawOverride = false;
-                SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKImage image = SKImage.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
                 //Disposables
                 SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -65,23 +65,20 @@ namespace VGraph.src.dataLayers
                     }
                 }
 
-                using (var image = gpuSurface.Snapshot())
-                {
-                    bitmap = SKBitmap.FromImage(image);
-                }
+                image = gpuSurface.Snapshot();
 
                 //Dispose of them.
                 gpuSurface.Dispose();
                 previewBrush.Dispose();
 
-                if (LastBitmap != null)
+                if (LastImage != null)
                 {
-                    LastBitmap.Dispose();
+                    LastImage.Dispose();
                 }
-                LastBitmap = bitmap;
+                LastImage = image;
             }
 
-            return LastBitmap;
+            return LastImage;
         }
 
         public SKPoint GetRenderPoint()
