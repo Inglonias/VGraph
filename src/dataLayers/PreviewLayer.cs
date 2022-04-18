@@ -37,10 +37,11 @@ namespace VGraph.src.dataLayers
             if (LastImage == null || IsRedrawRequired())
             {
                 RedrawOverride = false;
-                SKImage image = SKImage.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
-
+                int canvasWidth = PageData.Instance.GetTotalWidth();
+                int canvasHeight = PageData.Instance.GetTotalHeight();
                 //Disposables
-                SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKImage image;
+                SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
 
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
 
@@ -60,15 +61,15 @@ namespace VGraph.src.dataLayers
                         foreach (LineSegment line in previewLines)
                         {
                             SKPointI[] canvasPoints = line.GetCanvasPoints();
-                            gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
+                            drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
                         }
                     }
                 }
 
-                image = gpuSurface.Snapshot();
+                image = drawingSurface.Snapshot();
 
                 //Dispose of them.
-                gpuSurface.Dispose();
+                drawingSurface.Dispose();
                 previewBrush.Dispose();
 
                 if (LastImage != null)

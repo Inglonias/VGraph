@@ -448,12 +448,12 @@ namespace VGraph.src.dataLayers
             if (LastImage == null || IsRedrawRequired())
             {
                 RedrawRequired = false;
-                SKImage image = SKImage.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
+                int canvasWidth = PageData.Instance.GetTotalWidth();
+                int canvasHeight = PageData.Instance.GetTotalHeight();
 
                 //Disposables
-                //SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
-                SKSurface gpuSurface = SKSurface.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
-
+                SKImage image;
+                SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
@@ -465,18 +465,18 @@ namespace VGraph.src.dataLayers
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
                     if (line.IsSelected)
                     {
-                        gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
+                        drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    gpuSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                    drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
-                image = gpuSurface.Snapshot();
+                image = drawingSurface.Snapshot();
                 if (LastImage != null)
                 {
                     LastImage.Dispose();
                 }
                 LastImage = image;
                 //Dispose of them.
-                gpuSurface.Dispose();
+                drawingSurface.Dispose();
                 selectedBrush.Dispose();
                 standardBrush.Dispose();
                 RedrawRequired = false;                

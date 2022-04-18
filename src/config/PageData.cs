@@ -285,34 +285,5 @@ namespace VGraph.src.config
                 l.Value.ForceRedraw();
             }
         }
-
-        public SKSurface GetOpenGlSurface(int width, int height)
-        {
-            SKSurface gpuSurface;
-            if (ConfigOptions.Instance.HardwareAcceleration)
-            {
-                if (GPUContext == null)
-                {
-                    GLControl control = new GLControl(new GraphicsMode(32, 24, 8, 4));
-                    control.MakeCurrent();
-                    GPUContext = GRContext.CreateGl();
-                }
-                gpuSurface = SKSurface.Create(GPUContext, true, new SKImageInfo(width, height));
-            }
-            else
-            {
-                gpuSurface = SKSurface.Create(new SKImageInfo(width, height));
-            }
-            return gpuSurface;
-        }
-
-        public void AbandonGPUContext()
-        {
-            if (GPUContext != null)
-            {
-                GPUContext.AbandonContext();
-                GPUContext.Dispose();
-            }
-        }
     }
 }

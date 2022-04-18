@@ -127,12 +127,11 @@ namespace VGraph.src.dataLayers
                 canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
-
-            SKImage image = SKImage.Create(new SKImageInfo(canvasWidth, canvasHeight));
-            SKSurface gpuSurface = PageData.Instance.GetOpenGlSurface(canvasWidth, canvasHeight);
-
             //Disposables
+            SKImage image;
+            SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
             SKPaint brush;
+
             if (ClickDragActive)
             {
                 float strokeSize = Math.Max(radius / 2, 1);
@@ -141,18 +140,18 @@ namespace VGraph.src.dataLayers
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
                 SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
-                gpuSurface.Canvas.DrawRect(rect, brush);
+                drawingSurface.Canvas.DrawRect(rect, brush);
             }
             else
             {
                 brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
-                gpuSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+                drawingSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 
-            image = gpuSurface.Snapshot();
+            image = drawingSurface.Snapshot();
 
             //Dispose of them.
-            gpuSurface.Dispose();
+            drawingSurface.Dispose();
             brush.Dispose();
             if (LastImage != null)
             {
