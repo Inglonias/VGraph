@@ -117,6 +117,7 @@ namespace VGraph.src.ui
                     SKImage renderThis = l.Value.GenerateLayerImage().Subset(viewport);
                     if (renderThis != null) {
                         e.Surface.Canvas.DrawImage(renderThis, new SKPointI(viewLeft, viewTop));
+                        renderThis.Dispose();
                     }
                 }
             }
