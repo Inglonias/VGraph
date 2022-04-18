@@ -96,13 +96,13 @@ namespace VGraph.src.dataLayers
             return SKRect.Empty;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
             if (ClickDragActive)
             {
-                float renderX = Convert.ToSingle(Math.Min(CanvasPoint.X, ClickDragPoint.X));
-                float renderY = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
-                return new SKPoint(renderX, renderY);
+                int renderX = Convert.ToInt32(Math.Min(CanvasPoint.X, ClickDragPoint.X));
+                int renderY = Convert.ToInt32(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
+                return new SKPointI(renderX, renderY);
             }
             int radius = Math.Max(1, PageData.Instance.SquareSize / 6);
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);

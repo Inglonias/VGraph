@@ -448,26 +448,34 @@ namespace VGraph.src.dataLayers
             if (LastImage == null || IsRedrawRequired())
             {
                 RedrawRequired = false;
-                int canvasWidth = PageData.Instance.GetTotalWidth();
-                int canvasHeight = PageData.Instance.GetTotalHeight();
+                SKRectI layerSize = GetLayerSize();
+                int canvasWidth = layerSize.Width;
+                int canvasHeight = layerSize.Height;
 
                 //Disposables
                 SKImage image;
                 SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
+                if (drawingSurface == null)
+                {
+                    return null;
+                }
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
+                SKPointI topLeft = new SKPointI(layerSize.Left, layerSize.Top); 
                 foreach (LineSegment line in LineList)
                 {
                     SKColor lineColor = LineSegment.DEFAULT_COLOR;
                     SKColor.TryParse(line.LineColor, out lineColor);
                     standardBrush.Color = lineColor;
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
+                    SKPointI renderStart = new SKPointI(canvasPoints[LineSegment.START].X - topLeft.X, canvasPoints[LineSegment.START].Y - topLeft.Y);
+                    SKPointI renderEnd = new SKPointI(canvasPoints[LineSegment.END].X - topLeft.X, canvasPoints[LineSegment.END].Y - topLeft.Y);
                     if (line.IsSelected)
                     {
-                        drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
+                        drawingSurface.Canvas.DrawLine(renderStart, renderEnd, selectedBrush);
                     }
-                    drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                    drawingSurface.Canvas.DrawLine(renderStart, renderEnd, standardBrush);
                 }
                 image = drawingSurface.Snapshot();
                 if (LastImage != null)
@@ -487,12 +495,63 @@ namespace VGraph.src.dataLayers
 
         public bool IsRedrawRequired()
         {
-            return RedrawRequired;
+            return RedrawRequired || LineList.Count == 0;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
-            return new SKPointI(0, 0);
+            int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
+            int minX = PageData.Instance.GetTotalWidth();
+            int minY = PageData.Instance.GetTotalHeight();
+
+            foreach (LineSegment l in LineList)
+            {
+                foreach (SKPointI p in l.GetCanvasPoints())
+                {
+                    if (p.X < minX)
+                    {
+                        minX = p.X;
+                    }
+                    if (p.Y < minY)
+                    {
+                        minY = p.Y;
+                    }
+                }
+            }
+
+            return new SKPointI(minX - drawRadius, minY - drawRadius);
+        }
+
+        private SKRectI GetLayerSize()
+        {
+            int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
+            int minX = PageData.Instance.GetTotalWidth();
+            int minY = PageData.Instance.GetTotalHeight();
+            int maxX = 0;
+            int maxY = 0;
+            foreach (LineSegment l in LineList)
+            {
+                foreach (SKPointI p in l.GetCanvasPoints())
+                {
+                    if (p.X < minX)
+                    {
+                        minX = p.X;
+                    }
+                    if (p.Y < minY)
+                    {
+                        minY = p.Y;
+                    }
+                    if (p.X > maxX)
+                    {
+                        maxX = p.X;
+                    }
+                    if (p.Y > maxY)
+                    {
+                        maxY = p.Y;
+                    }
+                }
+            }
+            return new SKRectI(minX - drawRadius, minY - drawRadius, maxX + drawRadius, maxY + drawRadius);
         }
 
         public void ForceRedraw()

@@ -1,6 +1,4 @@
-﻿using OpenTK;
-using OpenTK.Graphics;
-using SkiaSharp;
+﻿using SkiaSharp;
 
 using VGraph.src.config;
 
@@ -75,10 +73,7 @@ namespace VGraph.src.dataLayers
                 return LastImage;
             }
 
-            int xSize = (PageData.Instance.SquaresWide * PageData.Instance.SquareSize) + (PageData.Instance.MarginX * 2);
-            int ySize = (PageData.Instance.SquaresTall * PageData.Instance.SquareSize) + (PageData.Instance.MarginY * 2);
-
-            SKImage grid = SKImage.Create( new SKImageInfo(xSize, ySize));
+            SKImage grid;
 
             //Disposables
             int canvasWidth = PageData.Instance.GetTotalWidth();
@@ -160,7 +155,7 @@ namespace VGraph.src.dataLayers
             RedrawRequired = true;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
             return new SKPointI(0, 0);
         }

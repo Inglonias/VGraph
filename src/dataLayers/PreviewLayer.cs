@@ -82,7 +82,7 @@ namespace VGraph.src.dataLayers
             return LastImage;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
             return new SKPointI(0, 0); //TODO: Make this smarter.
         }

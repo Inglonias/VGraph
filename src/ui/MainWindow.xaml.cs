@@ -104,36 +104,23 @@ namespace VGraph.src.ui
                 Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
                 Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
             };
-            e.Surface.Canvas.Clear(SKColors.White);
+            SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                if (l.Value is CursorLayer)
+                SKImage renderThis = l.Value.GenerateLayerImage();
+                if (renderThis != null)
                 {
-                    e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                    drawingSurface.Canvas.DrawImage(renderThis, l.Value.GetRenderPoint());
+                    //renderThis.Dispose();
                 }
                 else
                 {
-                    SKImage renderThis;
-                    try
-                    {
-                        renderThis = l.Value.GenerateLayerImage().Subset(viewport);
-                    }
-                    catch
-                    {
-                        renderThis = l.Value.GenerateLayerImage();
-                    }
-                    if (renderThis != null)
-                    {
-                        e.Surface.Canvas.DrawImage(renderThis, new SKPointI(viewLeft, viewTop));
-                        renderThis.Dispose();
-                    }
-                    else
-                    {
-                        e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
-                    }
+                    Console.WriteLine(l.Value.GetType().Name + " did not render!");
                 }
             }
+            e.Surface.Canvas.DrawImage(drawingSurface.Snapshot(), new SKPointI(0, 0));
+            drawingSurface.Dispose();
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
             CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )        Avg. Draw Time (ms): " + GetDrawTime();
