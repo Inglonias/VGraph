@@ -94,10 +94,31 @@ namespace VGraph.src.ui
             MainCanvas.Height = LGrid.GenerateLayerImage().Height;
 
             e.Surface.Canvas.Clear(SKColors.White);
+            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset)));
+            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset)));
+
+            SKRectI viewport = new SKRectI
+            {
+                Top = viewTop,
+                Left = viewLeft,
+                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth),
+                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight)
+            };
+            e.Surface.Canvas.Clear(SKColors.White);
 
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                if (l.Value is CursorLayer)
+                {
+                    e.Surface.Canvas.DrawImage(l.Value.GenerateLayerImage(), l.Value.GetRenderPoint());
+                }
+                else
+                {
+                    SKImage renderThis = l.Value.GenerateLayerImage().Subset(viewport);
+                    if (renderThis != null) {
+                        e.Surface.Canvas.DrawImage(renderThis, new SKPointI(viewLeft, viewTop));
+                    }
+                }
             }
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
