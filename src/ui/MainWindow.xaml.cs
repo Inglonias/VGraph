@@ -94,15 +94,15 @@ namespace VGraph.src.ui
             MainCanvas.Height = LGrid.GenerateLayerImage().Height;
 
             e.Surface.Canvas.Clear(SKColors.White);
-            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset)));
-            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset)));
+            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - 100)));
+            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - 100)));
 
             SKRectI viewport = new SKRectI
             {
                 Top = viewTop,
                 Left = viewLeft,
-                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth),
-                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight)
+                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
+                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
             };
             e.Surface.Canvas.Clear(SKColors.White);
 
