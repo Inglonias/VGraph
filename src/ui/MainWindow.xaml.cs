@@ -92,7 +92,7 @@ namespace VGraph.src.ui
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
 
-            e.Surface.Canvas.Clear(SKColors.White);
+            e.Surface.Canvas.Clear(ConfigOptions.Instance.BackgroundPaperColor);
             int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - 100)));
             int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - 100)));
 
