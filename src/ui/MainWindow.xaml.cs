@@ -106,6 +106,12 @@ namespace VGraph.src.ui
                 Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
                 Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
             };
+            //Only happens during initial render.
+            if (PrimaryBufferPanel.ViewportWidth == 0 || PrimaryBufferPanel.ViewportHeight == 0)
+            {
+                viewport.Right = PageData.Instance.GetTotalWidth();
+                viewport.Bottom = PageData.Instance.GetTotalHeight();
+            }
             SKBitmap drawingImage = new SKBitmap(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
             SKCanvas drawingSurface = new SKCanvas(drawingImage);
             /* Actually render the layers.
