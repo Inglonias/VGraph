@@ -24,7 +24,7 @@ namespace VGraph.src.dataLayers
         public const string ELLIPSE_TOOL = "Ellipse_Tool";
 
         public List<LineSegment> LineList { get; private set; } = new List<LineSegment>();
-        private SKBitmap LastBitmap;
+        private SKBitmap LastImage;
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
 
@@ -445,54 +445,114 @@ namespace VGraph.src.dataLayers
         public SKBitmap GenerateLayerBitmap()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
-            if (LastBitmap == null || IsRedrawRequired())
+            if (LastImage == null || IsRedrawRequired())
             {
                 RedrawRequired = false;
-                SKBitmap bitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+                SKRectI layerSize = GetLayerSize();
+                int canvasWidth = layerSize.Width;
+                int canvasHeight = layerSize.Height;
+                if (canvasWidth < 1 || canvasHeight < 1)
+                {
+                    return null;
+                }
 
                 //Disposables
-                SKCanvas canvas = new SKCanvas(bitmap);
-
+                SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+                SKCanvas drawingSurface = new SKCanvas(image);
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
+                SKPointI topLeft = GetRenderPoint();
                 foreach (LineSegment line in LineList)
                 {
                     SKColor lineColor = LineSegment.DEFAULT_COLOR;
                     SKColor.TryParse(line.LineColor, out lineColor);
                     standardBrush.Color = lineColor;
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
+                    canvasPoints[LineSegment.START].X -= topLeft.X;
+                    canvasPoints[LineSegment.START].Y -= topLeft.Y;
+                    canvasPoints[LineSegment.END].X -= topLeft.X;
+                    canvasPoints[LineSegment.END].Y -= topLeft.Y;
                     if (line.IsSelected)
                     {
-                        canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
+                        drawingSurface.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                    drawingSurface.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
-
+                if (LastImage != null)
+                {
+                    LastImage.Dispose();
+                }
+                LastImage = image;
                 //Dispose of them.
-                canvas.Dispose();
+                drawingSurface.Dispose();
                 selectedBrush.Dispose();
                 standardBrush.Dispose();
-
-                if (LastBitmap != null)
-                {
-                    LastBitmap.Dispose();
-                }
-                RedrawRequired = false;
-                LastBitmap = bitmap;
+                RedrawRequired = false;                
             }
 
-            return LastBitmap;
+            return LastImage;
         }
 
         public bool IsRedrawRequired()
         {
-            return RedrawRequired;
+            return RedrawRequired || LineList.Count == 0;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
-            return new SKPointI(0, 0);
+            int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
+            int minX = PageData.Instance.GetTotalWidth();
+            int minY = PageData.Instance.GetTotalHeight();
+
+            foreach (LineSegment l in LineList)
+            {
+                foreach (SKPointI p in l.GetCanvasPoints())
+                {
+                    if (p.X < minX)
+                    {
+                        minX = p.X;
+                    }
+                    if (p.Y < minY)
+                    {
+                        minY = p.Y;
+                    }
+                }
+            }
+
+            return new SKPointI(minX - drawRadius, minY - drawRadius);
+        }
+
+        private SKRectI GetLayerSize()
+        {
+            int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
+            int minX = PageData.Instance.GetTotalWidth();
+            int minY = PageData.Instance.GetTotalHeight();
+            int maxX = 0;
+            int maxY = 0;
+            foreach (LineSegment l in LineList)
+            {
+                foreach (SKPointI p in l.GetCanvasPoints())
+                {
+                    if (p.X < minX)
+                    {
+                        minX = p.X;
+                    }
+                    if (p.Y < minY)
+                    {
+                        minY = p.Y;
+                    }
+                    if (p.X > maxX)
+                    {
+                        maxX = p.X;
+                    }
+                    if (p.Y > maxY)
+                    {
+                        maxY = p.Y;
+                    }
+                }
+            }
+            return new SKRectI(minX - drawRadius, minY - drawRadius, maxX + drawRadius, maxY + drawRadius);
         }
 
         public void ForceRedraw()

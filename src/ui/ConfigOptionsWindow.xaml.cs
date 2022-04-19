@@ -45,7 +45,14 @@ namespace VGraph.src.ui
             for (int i = 0; i < ConfigOptionsList.Count; i++)
             {
                 AddElementToGrid(i, 0, ConfigOptionsList[i].GridLabel);
-                AddElementToGrid(i, 1, ConfigOptionsList[i].ValueTextBox);
+                if (ConfigOptionsList[i].ConfigType != ConfigRow.TYPE_CHECK)
+                {
+                    AddElementToGrid(i, 1, ConfigOptionsList[i].ValueTextBox);
+                }
+                else
+                {
+                    AddElementToGrid(i, 1, ConfigOptionsList[i].ValueCheckBox);
+                }
                 if (ConfigOptionsList[i].ConfigType == ConfigRow.TYPE_COLOR)
                 {
                     AddElementToGrid(i, 2, ConfigOptionsList[i].GetColorSelectButton());
@@ -71,9 +78,11 @@ namespace VGraph.src.ui
         {
             public static readonly int TYPE_NUMBER = 0;
             public static readonly int TYPE_COLOR = 1;
+            public static readonly int TYPE_CHECK = 2;
 
             public Label GridLabel { get; }
             public TextBox ValueTextBox { get; }
+            public CheckBox ValueCheckBox { get; }
             public int ConfigType { get; }
             public string TargetPropertyName { get; } //I'm using reflection to access properties by name to avoid having to write specialized code.
             public string TargetPropertyValue { get; private set; }
@@ -89,13 +98,25 @@ namespace VGraph.src.ui
                 TargetPropertyName = targetObject;
                 var property = ConfigOptions.Instance.GetType().GetProperty(TargetPropertyName);
                 TargetPropertyValue = property.GetValue(ConfigOptions.Instance).ToString();
-                ValueTextBox = new TextBox
+                if (configType == ConfigRow.TYPE_CHECK)
                 {
-                    FontFamily = new FontFamily("Courier New"),
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Text = TargetPropertyValue
-                };
+                    ValueCheckBox = new CheckBox()
+                    {
+                        IsChecked = Convert.ToBoolean(TargetPropertyValue),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                    };
+                }
+                else
+                {
+                    ValueTextBox = new TextBox
+                    {
+                        FontFamily = new FontFamily("Courier New"),
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Text = TargetPropertyValue
+                    };
+                }
             }
 
             public Button GetColorSelectButton()
@@ -139,6 +160,10 @@ namespace VGraph.src.ui
                 else if (cr.ConfigType == ConfigRow.TYPE_NUMBER)
                 {
                     propertyTarget.SetValue(ConfigOptions.Instance, Convert.ToInt32(cr.ValueTextBox.Text));
+                }
+                else if (cr.ConfigType == ConfigRow.TYPE_CHECK)
+                {
+                    propertyTarget.SetValue(ConfigOptions.Instance, cr.ValueCheckBox.IsChecked);
                 }
             }
             //Write config to file and reload immediately.

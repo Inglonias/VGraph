@@ -15,7 +15,7 @@ namespace VGraph.src.dataLayers
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
 
-        private SKBitmap Bitmap;
+        private SKBitmap LastImage;
 
         public CursorLayer()
         {
@@ -96,13 +96,13 @@ namespace VGraph.src.dataLayers
             return SKRect.Empty;
         }
 
-        public SKPoint GetRenderPoint()
+        public SKPointI GetRenderPoint()
         {
             if (ClickDragActive)
             {
-                float renderX = Convert.ToSingle(Math.Min(CanvasPoint.X, ClickDragPoint.X));
-                float renderY = Convert.ToSingle(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
-                return new SKPoint(renderX, renderY);
+                int renderX = Convert.ToInt32(Math.Min(CanvasPoint.X, ClickDragPoint.X));
+                int renderY = Convert.ToInt32(Math.Min(CanvasPoint.Y, ClickDragPoint.Y));
+                return new SKPointI(renderX, renderY);
             }
             int radius = Math.Max(1, PageData.Instance.SquareSize / 6);
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
@@ -124,15 +124,14 @@ namespace VGraph.src.dataLayers
                     ClickDragPoint = CanvasPoint;
                     Console.WriteLine("ClickDrag set!");
                 }
-                canvasWidth = Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X));
-                canvasHeight = Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
+                canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
+                canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
-
-            Bitmap = new SKBitmap(canvasWidth, canvasHeight);
-
             //Disposables
-            SKCanvas canvas = new SKCanvas(Bitmap);
+            SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+            SKCanvas drawingSurface = new SKCanvas(image);
             SKPaint brush;
+
             if (ClickDragActive)
             {
                 float strokeSize = Math.Max(radius / 2, 1);
@@ -141,19 +140,24 @@ namespace VGraph.src.dataLayers
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
                 SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
-                canvas.DrawRect(rect, brush);
+                drawingSurface.DrawRect(rect, brush);
             }
             else
             {
                 brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
-                canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+                drawingSurface.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
 
             //Dispose of them.
-            canvas.Dispose();
+            drawingSurface.Dispose();
             brush.Dispose();
+            if (LastImage != null)
+            {
+                LastImage.Dispose();
+            }
+            LastImage = image;
 
-            return Bitmap;
+            return LastImage;
         }
 
         public bool IsRedrawRequired()

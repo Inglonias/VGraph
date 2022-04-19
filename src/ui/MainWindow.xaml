@@ -10,7 +10,7 @@
         Title="VGraph" Height="450" Width="800"
         MouseUp="MainCanvas_OnMouseUp"
         MouseLeave="MainCanvas_OnMouseMove"
-        MouseEnter="MainCanvas_OnMouseMove">
+        MouseEnter="MainCanvas_OnMouseMove" Closing="VGraphMainWindow_Closing">
     <Window.CommandBindings>
         <CommandBinding Command="ui:MenuCommands.NewGridCmd" Executed="NewCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.OpenGridCmd" Executed="OpenCommandBinding_Executed"/>
