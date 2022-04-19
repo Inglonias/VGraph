@@ -11,7 +11,6 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
-        public GRContext GPUContext = null;
         public const string GRID_LAYER    = "Grid Layer";
         public const string LINE_LAYER    = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
