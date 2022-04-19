@@ -41,7 +41,6 @@ namespace VGraph.src.ui
             ConfigOptionsList.Add(new ConfigRow("Default square size:"   , ConfigRow.TYPE_NUMBER, "SquareSize"));
             ConfigOptionsList.Add(new ConfigRow("Default X margin:"   , ConfigRow.TYPE_NUMBER, "MarginX"));
             ConfigOptionsList.Add(new ConfigRow("Default Y margin:"   , ConfigRow.TYPE_NUMBER, "MarginY"));
-            ConfigOptionsList.Add(new ConfigRow("Hardware Acceleration:", ConfigRow.TYPE_CHECK, "HardwareAcceleration"));
 
             for (int i = 0; i < ConfigOptionsList.Count; i++)
             {

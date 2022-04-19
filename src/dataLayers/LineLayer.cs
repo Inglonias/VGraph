@@ -462,20 +462,22 @@ namespace VGraph.src.dataLayers
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
-                SKPointI topLeft = new SKPointI(layerSize.Left, layerSize.Top); 
+                SKPointI topLeft = GetRenderPoint();
                 foreach (LineSegment line in LineList)
                 {
                     SKColor lineColor = LineSegment.DEFAULT_COLOR;
                     SKColor.TryParse(line.LineColor, out lineColor);
                     standardBrush.Color = lineColor;
                     SKPointI[] canvasPoints = line.GetCanvasPoints();
-                    SKPointI renderStart = new SKPointI(canvasPoints[LineSegment.START].X - topLeft.X, canvasPoints[LineSegment.START].Y - topLeft.Y);
-                    SKPointI renderEnd = new SKPointI(canvasPoints[LineSegment.END].X - topLeft.X, canvasPoints[LineSegment.END].Y - topLeft.Y);
+                    canvasPoints[LineSegment.START].X -= topLeft.X;
+                    canvasPoints[LineSegment.START].Y -= topLeft.Y;
+                    canvasPoints[LineSegment.END].X -= topLeft.X;
+                    canvasPoints[LineSegment.END].Y -= topLeft.Y;
                     if (line.IsSelected)
                     {
-                        drawingSurface.Canvas.DrawLine(renderStart, renderEnd, selectedBrush);
+                        drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    drawingSurface.Canvas.DrawLine(renderStart, renderEnd, standardBrush);
+                    drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
                 image = drawingSurface.Snapshot();
                 if (LastImage != null)
