@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -21,7 +21,6 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
-        private readonly History<long> FrameRateHistory = new History<long>(30);
 
         public MainWindow()
         {
@@ -50,6 +49,8 @@ namespace VGraph.src.ui
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
         {
             HandleCursor(e);
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
+            CursorStatusBar.InvalidateVisual();
             MainCanvas.InvalidateVisual();
         }
 
@@ -74,8 +75,6 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
             bool anyLayerRedraw = false;
             foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
             {
@@ -111,31 +110,15 @@ namespace VGraph.src.ui
                 SKImage renderThis = l.Value.GenerateLayerImage();
                 if (renderThis != null)
                 {
-                    drawingSurface.Canvas.DrawImage(renderThis, l.Value.GetRenderPoint());
+                    if (l.Value.GetRenderPoint().X < viewport.Right && l.Value.GetRenderPoint().Y < viewport.Bottom)
+                    {
+                        drawingSurface.Canvas.DrawImage(renderThis, l.Value.GetRenderPoint());
+                    }
                     //renderThis.Dispose();
-                }
-                else
-                {
-                    Console.WriteLine(l.Value.GetType().Name + " did not render!");
                 }
             }
             e.Surface.Canvas.DrawImage(drawingSurface.Snapshot(viewport), new SKPointI(viewLeft, viewTop));
             drawingSurface.Dispose();
-            sw.Stop();
-            FrameRateHistory.Push(sw.ElapsedMilliseconds);
-            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )        Avg. Draw Time (ms): " + GetDrawTime();
-            CursorStatusBar.InvalidateVisual();
-        }
-
-        private string GetDrawTime()
-        {
-            long sum = 0;
-            foreach (long l in FrameRateHistory)
-            {
-                sum += l;
-            }
-
-            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
         }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
