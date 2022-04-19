@@ -22,7 +22,7 @@ namespace VGraph.src.ui
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
         private readonly History<long> FrameRateHistory = new History<long>(10);
-
+.
         public MainWindow()
         {
             LGrid = new GridBackgroundLayer();
@@ -34,7 +34,7 @@ namespace VGraph.src.ui
 
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
-            LGrid.GenerateLayerImage();
+            LGrid.GenerateLayerBitmap();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
         }
@@ -106,41 +106,50 @@ namespace VGraph.src.ui
                 Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
                 Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
             };
-            SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
-
+            SKBitmap drawingImage = new SKBitmap(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
+            SKCanvas drawingSurface = new SKCanvas(drawingImage);
             /* Actually render the layers.
              * The goal here is to do everything in our power to avoid having to actually render anything, since rendering is the single
              * most expensive thing we do here. */
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                SKImage fullLayer = l.Value.GenerateLayerImage();
-                SKImage renderThis = null;
-                SKPointI topLeft = new SKPointI(Math.Max(0, viewport.Left - l.Value.GetRenderPoint().X), Math.Max(0, viewport.Top - l.Value.GetRenderPoint().Y));
-                if (fullLayer != null && (fullLayer.Handle.ToInt64() > 0))
+                SKBitmap fullLayer = l.Value.GenerateLayerBitmap();
+
+                if (fullLayer != null)
                 {
-                    SKPointI bottomRight = new SKPointI(Math.Min(fullLayer.Width, viewport.Right - l.Value.GetRenderPoint().X), Math.Min(fullLayer.Height, viewport.Bottom - l.Value.GetRenderPoint().Y));
-                    SKRectI relativeViewport = new SKRectI(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
-                    renderThis = fullLayer.Subset(relativeViewport);
-                }
-                if (renderThis != null)
-                {
-                    SKPointI renderPoint = new SKPointI(topLeft.X + l.Value.GetRenderPoint().X, topLeft.Y + l.Value.GetRenderPoint().Y);
-                    SKRectI renderRect = new SKRectI(renderPoint.X, renderPoint.Y, renderPoint.X + renderThis.Width, renderPoint.Y + renderThis.Height);
-                    if (renderRect.IntersectsWith(viewport))
+                    int layerLeft = Math.Max(0, viewport.Left - l.Value.GetRenderPoint().X);
+                    int layerTop = Math.Max(0, viewport.Top - l.Value.GetRenderPoint().Y);
+                    int layerRight = Math.Min(fullLayer.Width, viewport.Right - l.Value.GetRenderPoint().X);
+                    int layerBottom = Math.Min(fullLayer.Height, viewport.Bottom - l.Value.GetRenderPoint().Y);
+                    SKRectI layerViewport = new SKRectI(layerLeft, layerTop, layerRight, layerBottom);
+                    SKRectI actualPosition = new SKRectI()
                     {
-                        drawingSurface.Canvas.DrawImage(renderThis, renderPoint);
+                        Left   = l.Value.GetRenderPoint().X,
+                        Top    = l.Value.GetRenderPoint().Y,
+                        Right  = l.Value.GetRenderPoint().X + fullLayer.Width,
+                        Bottom = l.Value.GetRenderPoint().Y + fullLayer.Height
+                    };
+                    //Don't render if we won't even see it.
+                    if (viewport.IntersectsWith(actualPosition))
+                    {
+                        //If the layer is smaller than the viewport, don't resize it!
+                        if ((layerViewport.Width < viewport.Width) || (layerViewport.Height < viewport.Height))
+                        {
+                            drawingSurface.DrawBitmap(fullLayer, l.Value.GetRenderPoint());
+                        }
+                        else
+                        {
+                            drawingSurface.DrawBitmap(fullLayer, layerViewport, viewport);
+                        }
                     }
                 }
-                else
-                {
-                    //Console.WriteLine(l.Value.GetType().ToString() + " is null.");
-                }
             }
-            e.Surface.Canvas.DrawSurface(drawingSurface, new SKPointI(0, 0));
+            e.Surface.Canvas.DrawBitmap(drawingImage, viewport, viewport);
+            drawingImage.Dispose();
             drawingSurface.Dispose();
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
-            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " ) ";
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " )";
             CursorStatusTextBlock.Text += "        Avg. Draw Time (ms): " + GetDrawTime();
             CursorStatusBar.InvalidateVisual();
         }

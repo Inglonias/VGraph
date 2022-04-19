@@ -15,10 +15,10 @@ namespace VGraph.src.dataLayers
         /// <returns>Returns true if the data layer should be redrawn, and false otherwise.</returns>
         bool IsRedrawRequired();
         /// <summary>
-        /// Draw the relevant data layer as an SKImage.
+        /// Draw the relevant data layer as an SKBitmap.
         /// </summary>
-        /// <returns>An SKImage representing the current data layer.</returns>
-        SKImage GenerateLayerImage();
+        /// <returns>An SKBitmap representing the current data layer.</returns>
+        SKBitmap GenerateLayerBitmap();
         /// <summary>
         /// Not every layer has to be the same size. This method exists to tell the rendering event where to start drawing this layer.
         /// The background and line layers currently return (0, 0) here, but the cursor layer is a special case.

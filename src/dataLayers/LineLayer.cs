@@ -24,7 +24,7 @@ namespace VGraph.src.dataLayers
         public const string ELLIPSE_TOOL = "Ellipse_Tool";
 
         public List<LineSegment> LineList { get; private set; } = new List<LineSegment>();
-        private SKImage LastImage;
+        private SKBitmap LastImage;
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
 
@@ -442,7 +442,7 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        public SKImage GenerateLayerImage()
+        public SKBitmap GenerateLayerBitmap()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             if (LastImage == null || IsRedrawRequired())
@@ -451,14 +451,14 @@ namespace VGraph.src.dataLayers
                 SKRectI layerSize = GetLayerSize();
                 int canvasWidth = layerSize.Width;
                 int canvasHeight = layerSize.Height;
-
-                //Disposables
-                SKImage image;
-                SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
-                if (drawingSurface == null)
+                if (canvasWidth < 1 || canvasHeight < 1)
                 {
                     return null;
                 }
+
+                //Disposables
+                SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+                SKCanvas drawingSurface = new SKCanvas(image);
                 SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
@@ -475,11 +475,10 @@ namespace VGraph.src.dataLayers
                     canvasPoints[LineSegment.END].Y -= topLeft.Y;
                     if (line.IsSelected)
                     {
-                        drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
+                        drawingSurface.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], selectedBrush);
                     }
-                    drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
+                    drawingSurface.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], standardBrush);
                 }
-                image = drawingSurface.Snapshot();
                 if (LastImage != null)
                 {
                     LastImage.Dispose();

@@ -15,7 +15,7 @@ namespace VGraph.src.dataLayers
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
 
-        private SKImage LastImage;
+        private SKBitmap LastImage;
 
         public CursorLayer()
         {
@@ -108,7 +108,7 @@ namespace VGraph.src.dataLayers
             return new SKPointI(CursorPoint.X - radius, CursorPoint.Y - radius);
         }
 
-        public SKImage GenerateLayerImage()
+        public SKBitmap GenerateLayerBitmap()
         {
             //This code is commented out as a monument to my own stupidity. This canvas ABSOLUTELY DID NOT need to be this big.
             //SKBitmap replaceBitmap = new SKBitmap(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
@@ -128,8 +128,8 @@ namespace VGraph.src.dataLayers
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
             //Disposables
-            SKImage image;
-            SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(canvasWidth, canvasHeight));
+            SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+            SKCanvas drawingSurface = new SKCanvas(image);
             SKPaint brush;
 
             if (ClickDragActive)
@@ -140,15 +140,13 @@ namespace VGraph.src.dataLayers
                 float bottom = Convert.ToSingle(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y));
 
                 SKRect rect = new SKRect(strokeSize, strokeSize, right - Math.Max(radius / 2, 1), bottom - Math.Max(radius / 2, 1));
-                drawingSurface.Canvas.DrawRect(rect, brush);
+                drawingSurface.DrawRect(rect, brush);
             }
             else
             {
                 brush = new SKPaint { Style = SKPaintStyle.Fill, Color = ConfigOptions.Instance.CursorColor };
-                drawingSurface.Canvas.DrawCircle(new SKPointI(radius, radius), radius, brush);
+                drawingSurface.DrawCircle(new SKPointI(radius, radius), radius, brush);
             }
-
-            image = drawingSurface.Snapshot();
 
             //Dispose of them.
             drawingSurface.Dispose();

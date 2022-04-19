@@ -16,7 +16,7 @@ namespace VGraph.src.dataLayers
 
         public bool OddMode { get; set; }
 
-        private SKImage LastImage;
+        private SKBitmap LastImage;
 
         private bool PreviewPointActive = false;
         private bool RedrawOverride = false;
@@ -31,7 +31,7 @@ namespace VGraph.src.dataLayers
             RedrawOverride = true;
         }
 
-        public SKImage GenerateLayerImage()
+        public SKBitmap GenerateLayerBitmap()
         {
             int drawRadius = Math.Max(0, PageData.Instance.SquareSize / 6);
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
@@ -39,14 +39,17 @@ namespace VGraph.src.dataLayers
             if (LastImage == null || IsRedrawRequired())
             {
                 RedrawOverride = false;
-                int canvasWidth = PageData.Instance.GetTotalWidth();
-                int canvasHeight = PageData.Instance.GetTotalHeight();
+                int canvasWidth = GetLayerSize().Width;
+                int canvasHeight = GetLayerSize().Height;
+                if (canvasWidth < 1 || canvasHeight < 1)
+                {
+                    return null;
+                }
+
                 //Disposables
-                SKImage image;
-                SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(GetLayerSize().Width, GetLayerSize().Height));
-
+                SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+                SKCanvas drawingSurface = new SKCanvas(image);
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
-
 
                 if (PreviewPointActive)
                 {
@@ -68,7 +71,7 @@ namespace VGraph.src.dataLayers
                             canvasPoints[LineSegment.START].Y -= topLeft.Y;
                             canvasPoints[LineSegment.END].X -= topLeft.X;
                             canvasPoints[LineSegment.END].Y -= topLeft.Y;
-                            drawingSurface.Canvas.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
+                            drawingSurface.DrawLine(canvasPoints[LineSegment.START], canvasPoints[LineSegment.END], previewBrush);
                         }
                     }
                 }
@@ -76,8 +79,6 @@ namespace VGraph.src.dataLayers
                 {
                     PreviewLines = null;
                 }
-
-                image = drawingSurface.Snapshot();
 
                 //Dispose of them.
                 drawingSurface.Dispose();
