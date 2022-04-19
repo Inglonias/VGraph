@@ -7,7 +7,7 @@ using SkiaSharp;
 
 using VGraph.src.config;
 using VGraph.src.dataLayers;
-using VGraph.src.objects;
+//using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -17,6 +17,7 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const int VIEWPORT_BORDER = 200;
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
@@ -96,15 +97,15 @@ namespace VGraph.src.ui
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
 
             e.Surface.Canvas.Clear(ConfigOptions.Instance.BackgroundPaperColor);
-            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - 100)));
-            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - 100)));
+            int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - VIEWPORT_BORDER)));
+            int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - VIEWPORT_BORDER)));
 
             SKRectI viewport = new SKRectI
             {
                 Top = viewTop,
                 Left = viewLeft,
-                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + 100),
-                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + 100)
+                Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + VIEWPORT_BORDER),
+                Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + VIEWPORT_BORDER)
             };
             //Only happens during initial render.
             if (PrimaryBufferPanel.ViewportWidth == 0 || PrimaryBufferPanel.ViewportHeight == 0)
@@ -130,9 +131,9 @@ namespace VGraph.src.ui
                     SKRectI layerViewport = new SKRectI(layerLeft, layerTop, layerRight, layerBottom);
                     SKRectI actualPosition = new SKRectI()
                     {
-                        Left   = l.Value.GetRenderPoint().X,
-                        Top    = l.Value.GetRenderPoint().Y,
-                        Right  = l.Value.GetRenderPoint().X + fullLayer.Width,
+                        Left = l.Value.GetRenderPoint().X,
+                        Top = l.Value.GetRenderPoint().Y,
+                        Right = l.Value.GetRenderPoint().X + fullLayer.Width,
                         Bottom = l.Value.GetRenderPoint().Y + fullLayer.Height
                     };
                     //Don't render if we won't even see it.
@@ -160,16 +161,16 @@ namespace VGraph.src.ui
             //CursorStatusBar.InvalidateVisual();
         }
 
-//        private string GetDrawTime()
-//        {
-//            long sum = 0;
-//            foreach (long l in FrameRateHistory)
-//            {
-//                sum += l;
-//            }
-//
-//            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
-//        }
+        //        private string GetDrawTime()
+        //        {
+        //            long sum = 0;
+        //            foreach (long l in FrameRateHistory)
+        //            {
+        //                sum += l;
+        //            }
+        //
+        //            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
+        //        }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
