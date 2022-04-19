@@ -21,6 +21,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
+        private readonly History<long> FrameRateHistory = new History<long>(10);
 
         public MainWindow()
         {
@@ -40,10 +41,10 @@ namespace VGraph.src.ui
 
         private void AssignPageData()
         {
-            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER]    = LGrid;
-            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER]    = LLines;
+            PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
+            PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
-            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER]  = LCursor;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
@@ -75,8 +76,10 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             bool anyLayerRedraw = false;
-            foreach (KeyValuePair<string,IDataLayer> l in PageData.Instance.GetDataLayers())
+            foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
                 if (l.Value.IsRedrawRequired())
                 {
@@ -105,20 +108,52 @@ namespace VGraph.src.ui
             };
             SKSurface drawingSurface = SKSurface.Create(new SKImageInfo(PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight()));
 
+            /* Actually render the layers.
+             * The goal here is to do everything in our power to avoid having to actually render anything, since rendering is the single
+             * most expensive thing we do here. */
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
-                SKImage renderThis = l.Value.GenerateLayerImage();
+                SKImage fullLayer = l.Value.GenerateLayerImage();
+                SKImage renderThis = null;
+                SKPointI topLeft = new SKPointI(Math.Max(0, viewport.Left - l.Value.GetRenderPoint().X), Math.Max(0, viewport.Top - l.Value.GetRenderPoint().Y));
+                if (fullLayer != null && (fullLayer.Handle.ToInt64() > 0))
+                {
+                    SKPointI bottomRight = new SKPointI(Math.Min(fullLayer.Width, viewport.Right - l.Value.GetRenderPoint().X), Math.Min(fullLayer.Height, viewport.Bottom - l.Value.GetRenderPoint().Y));
+                    SKRectI relativeViewport = new SKRectI(topLeft.X, topLeft.Y, bottomRight.X, bottomRight.Y);
+                    renderThis = fullLayer.Subset(relativeViewport);
+                }
                 if (renderThis != null)
                 {
-                    if (l.Value.GetRenderPoint().X < viewport.Right && l.Value.GetRenderPoint().Y < viewport.Bottom)
+                    SKPointI renderPoint = new SKPointI(topLeft.X + l.Value.GetRenderPoint().X, topLeft.Y + l.Value.GetRenderPoint().Y);
+                    SKRectI renderRect = new SKRectI(renderPoint.X, renderPoint.Y, renderPoint.X + renderThis.Width, renderPoint.Y + renderThis.Height);
+                    if (renderRect.IntersectsWith(viewport))
                     {
-                        drawingSurface.Canvas.DrawImage(renderThis, l.Value.GetRenderPoint());
+                        drawingSurface.Canvas.DrawImage(renderThis, renderPoint);
                     }
-                    //renderThis.Dispose();
+                }
+                else
+                {
+                    //Console.WriteLine(l.Value.GetType().ToString() + " is null.");
                 }
             }
-            e.Surface.Canvas.DrawImage(drawingSurface.Snapshot(viewport), new SKPointI(viewLeft, viewTop));
+            e.Surface.Canvas.DrawSurface(drawingSurface, new SKPointI(0, 0));
             drawingSurface.Dispose();
+            sw.Stop();
+            FrameRateHistory.Push(sw.ElapsedMilliseconds);
+            CursorStatusTextBlock.Text = "Cursor position: ( " + LCursor.GetCursorGridPoints().X + " , " + LCursor.GetCursorGridPoints().Y + " ) ";
+            CursorStatusTextBlock.Text += "        Avg. Draw Time (ms): " + GetDrawTime();
+            CursorStatusBar.InvalidateVisual();
+        }
+
+        private string GetDrawTime()
+        {
+            long sum = 0;
+            foreach (long l in FrameRateHistory)
+            {
+                sum += l;
+            }
+
+            return (sum / Convert.ToDouble(FrameRateHistory.Count)).ToString();
         }
 
         private void MainCanvas_OnMouseDown(object sender, MouseButtonEventArgs e)
