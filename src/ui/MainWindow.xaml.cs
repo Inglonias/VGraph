@@ -22,7 +22,7 @@ namespace VGraph.src.ui
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
         private readonly History<long> FrameRateHistory = new History<long>(10);
-.
+
         public MainWindow()
         {
             LGrid = new GridBackgroundLayer();
