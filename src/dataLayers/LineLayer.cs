@@ -144,8 +144,8 @@ namespace VGraph.src.dataLayers
             const int SUCCESS = 0;
             const int LINES_ACROSS_CREASE = 1;
 
-            List<LineSegment> linesToMirror = new List<LineSegment>();
-            List<LineSegment> linesAcrossCrease = new List<LineSegment>();
+            List<LineSegment> linesToMirror = new();
+            List<LineSegment> linesAcrossCrease = new();
 
             //Check if any lines cross the crease. If they do, select them and pop up a message.
             foreach (LineSegment l in LineList)

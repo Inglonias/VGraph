@@ -119,11 +119,9 @@ namespace VGraph.src.dataLayers
 
             if (ClickDragActive)
             {
-                if (ClickDragPoint == null)
-                {
-                    ClickDragPoint = CanvasPoint;
-                    Console.WriteLine("ClickDrag set!");
-                }
+
+                ClickDragPoint = CanvasPoint;
+                
                 canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }

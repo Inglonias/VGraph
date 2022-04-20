@@ -22,6 +22,7 @@ namespace VGraph.src.objects
 
         public LineSegment()
         {
+            LineColor = DEFAULT_COLOR.ToString();
         }
 
         public LineSegment(SKPointI startPoint, SKPointI endPoint)
