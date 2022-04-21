@@ -77,7 +77,7 @@ namespace VGraph.src.drawTools
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
                 SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
                 LineSegment l = new LineSegment(offsetStart, offsetEnd);
-                if (!lines.Contains(l))
+                if (!lines.Contains(l) && !l.StartPointGrid.Equals(l.EndPointGrid))
                 {
                     lines.Add(l);
                 }
@@ -140,7 +140,7 @@ namespace VGraph.src.drawTools
                 SKPointI offsetStart = new SKPointI(vertices[i - 1].X + start.X, vertices[i - 1].Y + start.Y);
                 SKPointI offsetEnd = new SKPointI(vertices[i].X + start.X, vertices[i].Y + start.Y);
                 LineSegment l = new LineSegment(offsetStart, offsetEnd);
-                if (!lines.Contains(l))
+                if (!lines.Contains(l)  && !l.StartPointGrid.Equals(l.EndPointGrid))
                 {
                     lines.Add(l);
                 }

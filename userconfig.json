@@ -1,0 +1,15 @@
+{
+    "BackgroundPaperColorString":"#ffffffff",
+    "BorderLinesColorString":"#20404040",
+    "CenterLinesColorString":"#80202020",
+    "CursorColorString":"#ffff0000",
+    "DefaultLineColorString":"#ff0080ff",
+    "GridLinesColorString":"#40404040",
+    "SelectionBoxColorString":"#ff000000",
+    "SquaresWide": 32,
+    "SquaresTall": 42,
+    "SquareSize": 24,
+    "MarginX": 24,
+    "MarginY": 24,
+    "BackgroundImageAlpha": 191
+}

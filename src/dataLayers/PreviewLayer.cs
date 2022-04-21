@@ -5,7 +5,7 @@ using VGraph.src.objects;
 
 namespace VGraph.src.dataLayers
 {
-    internal class PreviewLayer : IDataLayer
+    public class PreviewLayer : IDataLayer
     {
         bool IDataLayer.DrawInExport => false;
 

@@ -242,9 +242,13 @@ namespace VGraph.src.config
             gridBackgroundLayer.DrawBackgroundImage = ExportBackgroundImage;
             foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
-                if (!(l.Value is CursorLayer))
+                if (l.Value.DrawInExport)
                 {
-                    canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                    SKBitmap? layer = l.Value.GenerateLayerBitmap();
+                    if (layer != null)
+                    {
+                        canvas.DrawBitmap(l.Value.GenerateLayerBitmap(), l.Value.GetRenderPoint());
+                    }
                 }
             }
             bool result = composite.Encode(exportedImage, SKEncodedImageFormat.Png, 0);

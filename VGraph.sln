@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VGraph", "VGraph.csproj", "{2D80C58D-9691-4C82-B91B-6563440791C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VGraphTestSuite", "VGraphTestSuite\VGraphTestSuite.csproj", "{C87610DF-233A-46CF-B26F-9429ACCBD227}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2D80C58D-9691-4C82-B91B-6563440791C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D80C58D-9691-4C82-B91B-6563440791C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D80C58D-9691-4C82-B91B-6563440791C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C87610DF-233A-46CF-B26F-9429ACCBD227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87610DF-233A-46CF-B26F-9429ACCBD227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87610DF-233A-46CF-B26F-9429ACCBD227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87610DF-233A-46CF-B26F-9429ACCBD227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
