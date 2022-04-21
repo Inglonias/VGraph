@@ -22,25 +22,31 @@ namespace VGraphTestSuite
         [TestMethod]
         public void MergeLineTest()
         {
-            Assert.Fail("Not implemented");
+            string testPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\vgps\\GridMergeTest.vgp");
+            Assert.IsTrue(PageData.Instance.FileOpen(testPath));
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lLines.SelectAllLines();
+            Assert.AreEqual(lLines.GetSelectedLines().Length, 7);
+            lLines.DeselectLines();
+            lLines.MergeAllLines();
+            lLines.SelectAllLines();
+            Assert.AreEqual(lLines.GetSelectedLines().Length, 4);
         }
 
         [TestMethod]
         public void MirrorLineTest()
         {
-            Assert.Fail("Not implemented");
-        }
-
-        [TestMethod]
-        public void SelectLineTest()
-        {
-            Assert.Fail("Not implemented");
-        }
-
-        [TestMethod]
-        public void ResizeGridTest()
-        {
-            Assert.Fail("Not implemented");
+            string testPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\vgps\\GridMirrorTest.vgp");
+            Assert.IsTrue(PageData.Instance.FileOpen(testPath));
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            lLines.MirrorLines(0, 5, false);
+            lLines.SelectAllLines();
+            Assert.AreEqual(lLines.GetSelectedLines().Length, 4);
+            SKPointI intersection = new(5, 5);
+            foreach (LineSegment l in lLines.GetSelectedLines())
+            {
+                Assert.IsTrue(intersection.Equals(l.StartPointGrid) || intersection.Equals(l.EndPointGrid));
+            }
         }
     }
 }
