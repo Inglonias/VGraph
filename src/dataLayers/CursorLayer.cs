@@ -5,7 +5,7 @@ using VGraph.src.config;
 
 namespace VGraph.src.dataLayers
 {
-    internal class CursorLayer : IDataLayer
+    public class CursorLayer : IDataLayer
     {
         bool IDataLayer.DrawInExport => false;
 
