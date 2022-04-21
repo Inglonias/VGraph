@@ -109,9 +109,23 @@
                             MouseEnter="MainCanvas_OnMouseMove">
             </skia:SKElement>
         </ScrollViewer>
-        <StatusBar HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Name="CursorStatusBar">
-            <StatusBarItem>
+        <StatusBar HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Name="StatusBar">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="7*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="0" HorizontalAlignment="Left">
                 <TextBlock Name="CursorStatusTextBlock"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1" HorizontalAlignment="Left">
+                <TextBlock Name="DrawTimeTextBlock"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>
