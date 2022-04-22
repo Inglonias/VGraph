@@ -118,10 +118,7 @@ namespace VGraph.src.dataLayers
             int canvasHeight = radius * 2;
 
             if (ClickDragActive)
-            {
-
-                ClickDragPoint = CanvasPoint;
-                
+            {                
                 canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }
