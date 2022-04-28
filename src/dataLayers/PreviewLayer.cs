@@ -183,6 +183,7 @@ namespace VGraph.src.dataLayers
                 {
                     lLines.CreateUndoPoint();
                     lLines.AddNewLines(lines);
+                    PageData.Instance.IsCanvasDirty = true;
                     ForceRedraw();
                 }
             }

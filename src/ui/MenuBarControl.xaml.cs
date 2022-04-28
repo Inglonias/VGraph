@@ -57,10 +57,23 @@ namespace VGraph.src.ui
             if (result == true)
             {
                 PageData.Instance.FileOpen(d.FileName);
+                MainWindowParent.Title = "VGraph - " + System.IO.Path.GetFileName(PageData.Instance.LastSavePath);
             }
         }
 
         public void SaveGrid()
+        {
+            if (PageData.Instance.LastSavePath.Length == 0)
+            {
+                SaveGridAs();
+            }
+            else
+            {
+                PageData.Instance.FileSave();
+            }
+        }
+
+        public void SaveGridAs()
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -72,6 +85,7 @@ namespace VGraph.src.ui
             if (result == true)
             {
                 PageData.Instance.FileSave(d.FileName);
+                MainWindowParent.Title = "VGraph - " + System.IO.Path.GetFileName(PageData.Instance.LastSavePath);
             }
         }
 

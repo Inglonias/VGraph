@@ -15,6 +15,7 @@
         <CommandBinding Command="ui:MenuCommands.NewGridCmd" Executed="NewCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.OpenGridCmd" Executed="OpenCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.SaveGridCmd" Executed="SaveCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.SaveGridAsCmd" Executed="SaveAsCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ExportGridCmd" Executed="ExportCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ImportGridCmd" Executed="ImportCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ExitCmd" Executed="ExitCommandBinding_Executed"/>

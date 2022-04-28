@@ -22,6 +22,11 @@ namespace VGraph.src.ui
             MainMenuBar.SaveGrid();
         }
 
+        private void SaveAsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MainMenuBar.SaveGridAs();
+        }
+
         private void ExportCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MainMenuBar.ExportGrid();
@@ -169,6 +174,7 @@ namespace VGraph.src.ui
         public static RoutedCommand NewGridCmd         = new RoutedCommand("NewGridCmd", typeof(MenuCommands));
         public static RoutedCommand OpenGridCmd        = new RoutedCommand("OpenGridCmd", typeof(MenuCommands));
         public static RoutedCommand SaveGridCmd        = new RoutedCommand("SaveGridCmd", typeof(MenuCommands));
+        public static RoutedCommand SaveGridAsCmd      = new RoutedCommand("SaveGridAsCmd", typeof(MenuCommands));
         public static RoutedCommand ExportGridCmd      = new RoutedCommand("ExportGridCmd", typeof(MenuCommands));
         public static RoutedCommand ImportGridCmd      = new RoutedCommand("ImportGridCmd", typeof(MenuCommands));
         public static RoutedCommand ExitCmd            = new RoutedCommand("ExitCmd", typeof(MenuCommands));

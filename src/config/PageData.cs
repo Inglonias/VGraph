@@ -24,6 +24,7 @@ namespace VGraph.src.config
         public int TrueSquareSize { get; set; } //This size is used when saving or exporting.
         public byte BackgroundImageAlpha { get; set; }
         public string BackgroundImagePath { get; private set; } = "";
+        public string LastSavePath { get; private set; } = "";
         public SKColor CurrentLineColor { get; set; }
 
 
@@ -31,6 +32,7 @@ namespace VGraph.src.config
         public bool ExportGridLines { get; set; } = true;
         public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
+        public bool IsCanvasDirty { get; set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
@@ -144,6 +146,7 @@ namespace VGraph.src.config
                 return false;
             }
 
+            LastSavePath = fileName;
             return true;
         }
 
@@ -210,8 +213,14 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            LastSavePath = fileName;
+            IsCanvasDirty = false;
             return true;
+        }
+
+        public bool FileSave()
+        {
+            return FileSave(LastSavePath);
         }
 
         /// <summary>
