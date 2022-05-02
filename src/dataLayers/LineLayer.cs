@@ -273,6 +273,11 @@ namespace VGraph.src.dataLayers
 
         public void MoveSelectedLines(int x, int y)
         {
+            LineSegment[] targetLines = GetSelectedLines();
+            if (targetLines.Length == 0)
+            {
+                return;
+            }
             bool moveValid = true;
             foreach (LineSegment l in GetSelectedLines())
             {
@@ -295,10 +300,7 @@ namespace VGraph.src.dataLayers
                 l.StartPointGrid = new SKPointI(l.StartPointGrid.X + x, l.StartPointGrid.Y + y);
                 l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
             }
-            if (GetSelectedLines().Length > 0)
-            {
-                PageData.Instance.MakeCanvasDirty();
-            }
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
 
