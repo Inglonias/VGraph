@@ -11,10 +11,10 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
-        public const string GRID_LAYER    = "Grid Layer";
-        public const string LINE_LAYER    = "Line Layer";
+        public const string GRID_LAYER = "Grid Layer";
+        public const string LINE_LAYER = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
-        public const string CURSOR_LAYER  = "Cursor Layer";
+        public const string CURSOR_LAYER = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; }
         public int SquaresTall { get; set; }
@@ -145,7 +145,7 @@ namespace VGraph.src.config
             {
                 return false;
             }
-            IsCanvasDirty = false;
+            MakeCanvasClean();
             LastSavePath = fileName;
             return true;
         }
@@ -214,7 +214,7 @@ namespace VGraph.src.config
                 return false;
             }
             LastSavePath = fileName;
-            IsCanvasDirty = false;
+            MakeCanvasClean();
             return true;
         }
 
@@ -231,7 +231,7 @@ namespace VGraph.src.config
         public bool FileExport(string fileName)
         {
             SquareSize = TrueSquareSize;
-            foreach (KeyValuePair<string,IDataLayer> l in DataLayers)
+            foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 l.Value.ForceRedraw();
             }
@@ -242,7 +242,7 @@ namespace VGraph.src.config
             {
                 canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
             }
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
             bool gridLineState = gridBackgroundLayer.DrawGridLines;
             bool backgroundImageState = gridBackgroundLayer.DrawBackgroundImage;
@@ -296,14 +296,26 @@ namespace VGraph.src.config
             }
         }
 
-        public void MakeCanvasDirty() {
+        public void MakeCanvasDirty()
+        {
             IsCanvasDirty = true;
         }
 
-        public string GetWindowTitle() {
-            string rVal = "VGraph";
-            if (!String.IsNullOrEmpty(LastSavePath)) {
+        public void MakeCanvasClean()
+        {
+            IsCanvasDirty = false;
+        }
+
+        public string GetWindowTitle()
+        {
+            string rVal;
+            if (!String.IsNullOrEmpty(LastSavePath))
+            {
                 rVal = "VGraph - " + (IsCanvasDirty ? "*" : "") + System.IO.Path.GetFileName(LastSavePath);
+            }
+            else
+            {
+                rVal = "VGraph" + (IsCanvasDirty ? "*" : "");
             }
             return rVal;
         }

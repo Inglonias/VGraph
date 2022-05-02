@@ -59,6 +59,7 @@ namespace VGraph.src.ui
                 gridBackgroundLayer.ForceRedraw();
                 if (DeleteLines)
                 {
+                    PageData.Instance.MakeCanvasClean();
                     lineLayer.ClearAllLines();
                 }
                 MainWindowParent.MainCanvas.InvalidateVisual();
