@@ -129,7 +129,7 @@ namespace VGraph.src.dataLayers
             int minY = PageData.Instance.GetTotalHeight();
             int maxX = 0;
             int maxY = 0;
-            if (PreviewLines == null)
+            if (PreviewLines == null || PreviewLines.Length == 0)
             {
                 return new SKRectI(0, 0, 1, 1);
             }
