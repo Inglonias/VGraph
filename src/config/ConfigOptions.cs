@@ -22,6 +22,8 @@ namespace VGraph.src.config
         public SKColor GridLinesColor { get; set; } = new SKColor(64, 64, 64, 64);
         [JsonIgnore]
         public SKColor SelectionBoxColor { get; set; } = new SKColor(0, 0, 0, 255);
+        [JsonIgnore]
+        public SKColor LineHighlightColor { get; set; } = new SKColor(0, 0, 0, 255);
 
         public string BackgroundPaperColorString { get; set; } = "#ffffffff";
         public string BorderLinesColorString { get; set; } = "#20404040";
@@ -30,6 +32,7 @@ namespace VGraph.src.config
         public string DefaultLineColorString { get; set; } = "#ff0080ff";
         public string GridLinesColorString { get; set; } = "#40404040";
         public string SelectionBoxColorString { get; set; } = "#ff000000";
+        public string LineHighlightColorString { get; set; } = "#ff000000";
         public int SquaresWide { get; set; } = 32;
         public int SquaresTall { get; set; } = 42;
         public int SquareSize { get; set; } = 24;
@@ -70,6 +73,7 @@ namespace VGraph.src.config
             target.CursorColor = SKColor.Parse(target.CursorColorString);
             target.DefaultLineColor = SKColor.Parse(target.DefaultLineColorString);
             target.GridLinesColor = SKColor.Parse(target.GridLinesColorString);
+            target.LineHighlightColor = SKColor.Parse(target.LineHighlightColorString);
             target.SelectionBoxColor = SKColor.Parse(target.SelectionBoxColorString);
             Instance = target;
         }
@@ -87,6 +91,7 @@ namespace VGraph.src.config
             rValWriter.WriteLine("    \"DefaultLineColorString\":\"" + DefaultLineColorString + "\",");
             rValWriter.WriteLine("    \"GridLinesColorString\":\"" + GridLinesColorString + "\",");
             rValWriter.WriteLine("    \"SelectionBoxColorString\":\"" + SelectionBoxColorString + "\",");
+            rValWriter.WriteLine("    \"LineHighlightColorString\":\"" + LineHighlightColorString + "\",");
             rValWriter.WriteLine("    \"SquaresWide\": " + SquaresWide + ",");
             rValWriter.WriteLine("    \"SquaresTall\": " + SquaresTall + ",");
             rValWriter.WriteLine("    \"SquareSize\": " + SquareSize + ",");

@@ -301,7 +301,7 @@ namespace VGraph.src.dataLayers
                     l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
                 }
             }
-            if (GetSelectedLines().Length > 0 && moveValid)
+            if (GetSelectedLines().Length > 0)
             {
                 PageData.Instance.MakeCanvasDirty();
             }
@@ -466,7 +466,7 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
                 SKCanvas drawingSurface = new SKCanvas(image);
-                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = SKColors.Black, IsAntialias = true };
+                SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.StrokeAndFill, StrokeWidth = (float)(drawRadius + LineSegment.SELECT_RADIUS), Color = ConfigOptions.Instance.LineHighlightColor, IsAntialias = true };
                 SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = SKColors.Blue, IsAntialias = true };
 
                 SKPointI topLeft = GetRenderPoint();
@@ -495,7 +495,7 @@ namespace VGraph.src.dataLayers
                 drawingSurface.Dispose();
                 selectedBrush.Dispose();
                 standardBrush.Dispose();
-                RedrawRequired = false;                
+                RedrawRequired = false;
             }
 
             return LastImage;

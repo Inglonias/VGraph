@@ -28,19 +28,20 @@ namespace VGraph.src.ui
         public ConfigOptionsWindow()
         {
             InitializeComponent();
-            ConfigOptionsList.Add(new ConfigRow("Background paper color:", ConfigRow.TYPE_COLOR, "BackgroundPaperColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Border lines color:"    , ConfigRow.TYPE_COLOR, "BorderLinesColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Center lines color:"    , ConfigRow.TYPE_COLOR, "CenterLinesColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Cursor color:"          , ConfigRow.TYPE_COLOR, "CursorColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Default line color:"    , ConfigRow.TYPE_COLOR, "DefaultLineColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Grid lines color:"      , ConfigRow.TYPE_COLOR, "GridLinesColorString"));
-            ConfigOptionsList.Add(new ConfigRow("Selection box color:"   , ConfigRow.TYPE_COLOR, "SelectionBoxColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Background paper color:"    , ConfigRow.TYPE_COLOR, "BackgroundPaperColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Border lines color:"        , ConfigRow.TYPE_COLOR, "BorderLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Center lines color:"        , ConfigRow.TYPE_COLOR, "CenterLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Cursor color:"              , ConfigRow.TYPE_COLOR, "CursorColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Default line color:"        , ConfigRow.TYPE_COLOR, "DefaultLineColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Grid lines color:"          , ConfigRow.TYPE_COLOR, "GridLinesColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Selection Highlight color:" , ConfigRow.TYPE_COLOR, "LineHighlightColorString"));
+            ConfigOptionsList.Add(new ConfigRow("Selection box color:"       , ConfigRow.TYPE_COLOR, "SelectionBoxColorString"));
 
-            ConfigOptionsList.Add(new ConfigRow("Default grid width:"   , ConfigRow.TYPE_NUMBER, "SquaresWide"));
-            ConfigOptionsList.Add(new ConfigRow("Default grid height:"   , ConfigRow.TYPE_NUMBER, "SquaresTall"));
-            ConfigOptionsList.Add(new ConfigRow("Default square size:"   , ConfigRow.TYPE_NUMBER, "SquareSize"));
-            ConfigOptionsList.Add(new ConfigRow("Default X margin:"   , ConfigRow.TYPE_NUMBER, "MarginX"));
-            ConfigOptionsList.Add(new ConfigRow("Default Y margin:"   , ConfigRow.TYPE_NUMBER, "MarginY"));
+            ConfigOptionsList.Add(new ConfigRow("Default grid width:"  , ConfigRow.TYPE_NUMBER, "SquaresWide"));
+            ConfigOptionsList.Add(new ConfigRow("Default grid height:" , ConfigRow.TYPE_NUMBER, "SquaresTall"));
+            ConfigOptionsList.Add(new ConfigRow("Default square size:" , ConfigRow.TYPE_NUMBER, "SquareSize"));
+            ConfigOptionsList.Add(new ConfigRow("Default X margin:"    , ConfigRow.TYPE_NUMBER, "MarginX"));
+            ConfigOptionsList.Add(new ConfigRow("Default Y margin:"    , ConfigRow.TYPE_NUMBER, "MarginY"));
 
             for (int i = 0; i < ConfigOptionsList.Count; i++)
             {
