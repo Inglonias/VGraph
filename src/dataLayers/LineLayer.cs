@@ -132,6 +132,7 @@ namespace VGraph.src.dataLayers
                     finalList.Add(LineList[i]);
                 }
             }
+            PageData.Instance.MakeCanvasDirty();
         }
 
         public int MirrorLines(int direction, int crease, bool destroyOtherSide)
@@ -230,7 +231,7 @@ namespace VGraph.src.dataLayers
                     AddNewLine(l.MirrorLineSegment(null, crease));
                 }
             }
-
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
             return SUCCESS;
         }
@@ -300,6 +301,7 @@ namespace VGraph.src.dataLayers
                     l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
                 }
             }
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
 
@@ -320,6 +322,7 @@ namespace VGraph.src.dataLayers
             CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> l = new List<LineSegment>(undoState);
             LineList = l;
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
 
@@ -356,6 +359,7 @@ namespace VGraph.src.dataLayers
             CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
             List<LineSegment> l = new List<LineSegment>(redoState);
             LineList = l;
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
 

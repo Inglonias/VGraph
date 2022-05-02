@@ -11,10 +11,10 @@ namespace VGraph.src.config
     //Singleton containing commonly used and modified properties and methods that require wide application access.
     public class PageData
     {
-        public const string GRID_LAYER    = "Grid Layer";
-        public const string LINE_LAYER    = "Line Layer";
+        public const string GRID_LAYER = "Grid Layer";
+        public const string LINE_LAYER = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
-        public const string CURSOR_LAYER  = "Cursor Layer";
+        public const string CURSOR_LAYER = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; }
         public int SquaresTall { get; set; }
@@ -24,6 +24,7 @@ namespace VGraph.src.config
         public int TrueSquareSize { get; set; } //This size is used when saving or exporting.
         public byte BackgroundImageAlpha { get; set; }
         public string BackgroundImagePath { get; private set; } = "";
+        public string LastSavePath { get; private set; } = "";
         public SKColor CurrentLineColor { get; set; }
 
 
@@ -31,6 +32,7 @@ namespace VGraph.src.config
         public bool ExportGridLines { get; set; } = true;
         public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
+        public bool IsCanvasDirty { get; private set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
@@ -143,7 +145,8 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            MakeCanvasClean();
+            LastSavePath = fileName;
             return true;
         }
 
@@ -179,7 +182,7 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            MakeCanvasDirty();
             return true;
         }
 
@@ -210,8 +213,14 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            LastSavePath = fileName;
+            MakeCanvasClean();
             return true;
+        }
+
+        public bool FileSave()
+        {
+            return FileSave(LastSavePath);
         }
 
         /// <summary>
@@ -222,7 +231,7 @@ namespace VGraph.src.config
         public bool FileExport(string fileName)
         {
             SquareSize = TrueSquareSize;
-            foreach (KeyValuePair<string,IDataLayer> l in DataLayers)
+            foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
             {
                 l.Value.ForceRedraw();
             }
@@ -233,7 +242,7 @@ namespace VGraph.src.config
             {
                 canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
             }
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer) DataLayers[GRID_LAYER];
+            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
             bool gridLineState = gridBackgroundLayer.DrawGridLines;
             bool backgroundImageState = gridBackgroundLayer.DrawBackgroundImage;
@@ -285,6 +294,30 @@ namespace VGraph.src.config
             {
                 l.Value.ForceRedraw();
             }
+        }
+
+        public void MakeCanvasDirty()
+        {
+            IsCanvasDirty = true;
+        }
+
+        public void MakeCanvasClean()
+        {
+            IsCanvasDirty = false;
+        }
+
+        public string GetWindowTitle()
+        {
+            string rVal;
+            if (!String.IsNullOrEmpty(LastSavePath))
+            {
+                rVal = "VGraph - " + (IsCanvasDirty ? "*" : "") + System.IO.Path.GetFileName(LastSavePath);
+            }
+            else
+            {
+                rVal = "VGraph" + (IsCanvasDirty ? "*" : "");
+            }
+            return rVal;
         }
     }
 }

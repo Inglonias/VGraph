@@ -57,10 +57,23 @@ namespace VGraph.src.ui
             if (result == true)
             {
                 PageData.Instance.FileOpen(d.FileName);
+                MainWindowParent.Title = "VGraph - " + System.IO.Path.GetFileName(PageData.Instance.LastSavePath);
             }
         }
 
         public void SaveGrid()
+        {
+            if (PageData.Instance.LastSavePath.Length == 0)
+            {
+                SaveGridAs();
+            }
+            else
+            {
+                PageData.Instance.FileSave();
+            }
+        }
+
+        public void SaveGridAs()
         {
             SaveFileDialog d = new SaveFileDialog
             {
@@ -72,6 +85,7 @@ namespace VGraph.src.ui
             if (result == true)
             {
                 PageData.Instance.FileSave(d.FileName);
+                MainWindowParent.Title = PageData.Instance.GetWindowTitle();
             }
         }
 
@@ -125,6 +139,13 @@ namespace VGraph.src.ui
 
         public void ExitApp()
         {
+            if (PageData.Instance.IsCanvasDirty)
+            {
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Warning - Unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.No) 
+                {
+                    return;
+                }
+            }
             Environment.Exit(0);
         }
 

@@ -14,9 +14,10 @@
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch" Grid.Row="0" Background="#FFF0F0F0">
             <MenuItem Header="_File">
-                <MenuItem Header="New" Command="ui:MenuCommands.NewGridCmd" InputGestureText="Ctrl+N"/>
-                <MenuItem Header="Open" Command="ui:MenuCommands.OpenGridCmd" InputGestureText="Ctrl+O"/>
-                <MenuItem Header="Save" Command="ui:MenuCommands.SaveGridCmd" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="New"     Command="ui:MenuCommands.NewGridCmd" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="Open"    Command="ui:MenuCommands.OpenGridCmd" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="Save"    Command="ui:MenuCommands.SaveGridCmd" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save As" Command="ui:MenuCommands.SaveGridAsCmd" InputGestureText="Ctrl+Alt+S"/>
                 <Separator />
                 <MenuItem Header="Import" Command="ui:MenuCommands.ImportGridCmd" InputGestureText="Ctrl+Shift+O"/>
                 <MenuItem Header="Export" Command="ui:MenuCommands.ExportGridCmd" InputGestureText="Ctrl+Shift+S"/>
