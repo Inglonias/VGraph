@@ -276,30 +276,24 @@ namespace VGraph.src.dataLayers
             bool moveValid = true;
             foreach (LineSegment l in GetSelectedLines())
             {
-                if (l.IsSelected)
-                {
-                    int targetStartX = l.StartPointGrid.X + x;
-                    int targetStartY = l.StartPointGrid.Y + y;
-                    int targetEndX = l.EndPointGrid.X + x;
-                    int targetEndY = l.EndPointGrid.Y + y;
+                int targetStartX = l.StartPointGrid.X + x;
+                int targetStartY = l.StartPointGrid.Y + y;
+                int targetEndX = l.EndPointGrid.X + x;
+                int targetEndY = l.EndPointGrid.Y + y;
 
-                    moveValid = (Math.Min(targetStartX, targetEndX) >= 0) &&
-                                (Math.Min(targetStartY, targetEndY) >= 0) &&
-                                (Math.Max(targetStartX, targetEndX) <= PageData.Instance.SquaresWide) &&
-                                (Math.Max(targetStartY, targetEndY) <= PageData.Instance.SquaresTall);
-                    if (!moveValid)
-                    {
-                        return;
-                    }
+                moveValid = (Math.Min(targetStartX, targetEndX) >= 0) &&
+                            (Math.Min(targetStartY, targetEndY) >= 0) &&
+                            (Math.Max(targetStartX, targetEndX) <= PageData.Instance.SquaresWide) &&
+                            (Math.Max(targetStartY, targetEndY) <= PageData.Instance.SquaresTall);
+                if (!moveValid)
+                {
+                    return;
                 }
             }
-            foreach (LineSegment l in LineList)
+            foreach (LineSegment l in GetSelectedLines())
             {
-                if (l.IsSelected)
-                {
-                    l.StartPointGrid = new SKPointI(l.StartPointGrid.X + x, l.StartPointGrid.Y + y);
-                    l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
-                }
+                l.StartPointGrid = new SKPointI(l.StartPointGrid.X + x, l.StartPointGrid.Y + y);
+                l.EndPointGrid = new SKPointI(l.EndPointGrid.X + x, l.EndPointGrid.Y + y);
             }
             if (GetSelectedLines().Length > 0)
             {
