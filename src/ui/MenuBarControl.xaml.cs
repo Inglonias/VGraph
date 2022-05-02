@@ -139,6 +139,13 @@ namespace VGraph.src.ui
 
         public void ExitApp()
         {
+            if (PageData.Instance.IsCanvasDirty)
+            {
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Warning - Unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.No) 
+                {
+                    return;
+                }
+            }
             Environment.Exit(0);
         }
 
