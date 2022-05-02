@@ -32,7 +32,7 @@ namespace VGraph.src.config
         public bool ExportGridLines { get; set; } = true;
         public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
-        public bool IsCanvasDirty { get; set; } = false;
+        public bool IsCanvasDirty { get; private set; } = false;
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
@@ -145,7 +145,7 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            IsCanvasDirty = false;
             LastSavePath = fileName;
             return true;
         }
@@ -182,7 +182,7 @@ namespace VGraph.src.config
             {
                 return false;
             }
-
+            MakeCanvasDirty();
             return true;
         }
 
@@ -294,6 +294,18 @@ namespace VGraph.src.config
             {
                 l.Value.ForceRedraw();
             }
+        }
+
+        public void MakeCanvasDirty() {
+            IsCanvasDirty = true;
+        }
+
+        public string GetWindowTitle() {
+            string rVal = "VGraph";
+            if (!String.IsNullOrEmpty(LastSavePath)) {
+                rVal = "VGraph - " + (IsCanvasDirty ? "*" : "") + System.IO.Path.GetFileName(LastSavePath);
+            }
+            return rVal;
         }
     }
 }

@@ -154,6 +154,7 @@ namespace VGraph.src.ui
             e.Surface.Canvas.DrawBitmap(drawingImage, viewport, viewport);
             drawingImage.Dispose();
             drawingSurface.Dispose();
+            this.Title = PageData.Instance.GetWindowTitle();
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
             DrawTimeTextBlock.Text = "Draw Time: " + GetDrawTime() + " ms";

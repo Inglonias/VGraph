@@ -85,7 +85,7 @@ namespace VGraph.src.ui
             if (result == true)
             {
                 PageData.Instance.FileSave(d.FileName);
-                MainWindowParent.Title = "VGraph - " + System.IO.Path.GetFileName(PageData.Instance.LastSavePath);
+                MainWindowParent.Title = PageData.Instance.GetWindowTitle();
             }
         }
 
