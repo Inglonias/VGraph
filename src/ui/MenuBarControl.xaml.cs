@@ -268,6 +268,7 @@ namespace VGraph.src.ui
                         l.LineColor = colorNew.ToString();
                     }
                     lineLayer.ForceRedraw();
+                    PageData.Instance.MakeCanvasDirty();
                     MainWindowParent.MainCanvas.InvalidateVisual();
                 }
 
