@@ -95,6 +95,7 @@
                       MouseLeave="MainCanvas_OnMouseMove"
                       MouseEnter="MainCanvas_OnMouseMove"
                       MouseUp="MainCanvas_OnMouseUp"
+                      ScrollChanged="MainCanvas_OnScroll"
                       Name="PrimaryBufferPanel"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"

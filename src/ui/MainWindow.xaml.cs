@@ -205,6 +205,11 @@ namespace VGraph.src.ui
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
         }
+        
+        private void MainCanvas_OnScroll(object sender, ScrollChangedEventArgs e)
+        {
+            MainCanvas.InvalidateVisual();
+        }
 
         private void VGraphMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
