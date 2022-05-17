@@ -69,7 +69,10 @@ namespace VGraph.src.ui
             }
             else
             {
-                PageData.Instance.FileSave();
+                if (PageData.Instance.FileSave())
+                {
+                    MainWindowParent.Title = PageData.Instance.GetWindowTitle();
+                }
             }
         }
 
