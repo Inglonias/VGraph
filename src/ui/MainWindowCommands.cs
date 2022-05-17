@@ -37,7 +37,6 @@ namespace VGraph.src.ui
             MainMenuBar.ImportGrid();
         }
 
-
         private void ExitCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MainMenuBar.ExitApp();
@@ -195,14 +194,14 @@ namespace VGraph.src.ui
         //Tools Menu
         public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
         public static RoutedCommand MirrorLinesCmd     = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
-        public static RoutedCommand ConfigWindowCmd = new RoutedCommand("ConfigWindowCmd", typeof(MenuCommands));
+        public static RoutedCommand ConfigWindowCmd    = new RoutedCommand("ConfigWindowCmd", typeof(MenuCommands));
     }
 
     public class UniversalCommands
     {
-        public static RoutedCommand MoveLinesUp = new RoutedCommand("MoveLinesUp", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesDown = new RoutedCommand("MoveLinesDown", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesLeft = new RoutedCommand("MoveLinesLeft", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesUp    = new RoutedCommand("MoveLinesUp", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesDown  = new RoutedCommand("MoveLinesDown", typeof(UniversalCommands));
+        public static RoutedCommand MoveLinesLeft  = new RoutedCommand("MoveLinesLeft", typeof(UniversalCommands));
         public static RoutedCommand MoveLinesRight = new RoutedCommand("MoveLinesRight", typeof(UniversalCommands));
 
         public static RoutedCommand DeleteSelectedLines = new RoutedCommand("DeleteSelectedLines", typeof(UniversalCommands));
