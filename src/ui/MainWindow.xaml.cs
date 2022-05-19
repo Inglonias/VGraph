@@ -18,9 +18,10 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int VIEWPORT_BORDER = 200;
+        private const int VIEWPORT_BORDER = 50;
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
+        private readonly PolygonLayer LPoly;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
         private readonly History<long> FrameRateHistory = new History<long>(10);
@@ -29,6 +30,7 @@ namespace VGraph.src.ui
         {
             LGrid = new GridBackgroundLayer();
             LLines = new LineLayer();
+            LPoly = new PolygonLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
 
@@ -45,6 +47,7 @@ namespace VGraph.src.ui
         {
             PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
+            PageData.Instance.GetDataLayers()[PageData.POLY_LAYER] = LPoly;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
             PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
@@ -206,7 +209,7 @@ namespace VGraph.src.ui
             HandleCursor(e);
             MainCanvas.InvalidateVisual();
         }
-        
+
         private void MainCanvas_OnScroll(object sender, ScrollChangedEventArgs e)
         {
             MainCanvas.InvalidateVisual();

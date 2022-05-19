@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using VGraph.src.dataLayers;
-using VGraph.src.objects;
 
 namespace VGraph.src.config
 {
@@ -13,6 +12,7 @@ namespace VGraph.src.config
     {
         public const string GRID_LAYER = "Grid Layer";
         public const string LINE_LAYER = "Line Layer";
+        public const string POLY_LAYER = "Polygon Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
         public const string CURSOR_LAYER = "Cursor Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
