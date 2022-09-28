@@ -22,7 +22,7 @@ There are many times when I have found myself wanting to use grid paper to make 
 * Many controls have tooltips that can be viewed by hovering over them with your mouse.
 
 ## Requirements
-This program runs on the .NET Core v6.0. All required files should be included with the download. If you encounter problems, please submit a GitHub issue.
+This program runs on the [.NET Core v6.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.9-windows-x64-installer). All required files should be included with the download. If you encounter problems, please submit a GitHub issue.
 
 ## Credits
 VGraph uses [SkiaSharp](https://github.com/mono/SkiaSharp) for drawing graphics and the Windows Presentation Framework for GUI and controls. 
