@@ -15,10 +15,9 @@ There are many times when I have found myself wanting to use grid paper to make 
 * Save files in JSON format for later use.
 
 ## Controls
-* Drawing shapes is done by selecting a tool from the menu bar along the top and then right-clicking on two intersecting points on the grid. A green preview will appear after your first right-click to show you what will be drawn when you right-click a second time.
+* Drawing shapes is done by selecting a tool from the menu bar along the top and then right-clicking on two intersecting points on the grid. A preview will appear after your first right-click to show you what will be drawn when you right-click a second time.
 * You can select a line by left clicking on it, or clicking and dragging a bounding box around several lines. You can chain these selections together by holding Control.
 * You can move selected lines up, down, left, and right with the W, S, A, and D keys respectively.
-* Lines in the drawing are blue. Selected lines in the drawing are red, and preview lines that are not yet in the drawing are green and more transparent.
 * Look in the menus for more controls. Key shortcuts are listed next to their relevant controls.
 * Many controls have tooltips that can be viewed by hovering over them with your mouse.
 
