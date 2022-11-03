@@ -40,8 +40,8 @@ namespace VGraph.src.ui
 
         private void ExitCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            bool continueClose = MainMenuBar.ExitApp();
-            if (continueClose)
+            bool cancelClose = MainMenuBar.ExitApp();
+            if (!cancelClose)
             {
                 Environment.Exit(0);
             }
