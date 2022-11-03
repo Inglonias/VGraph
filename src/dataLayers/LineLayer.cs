@@ -46,11 +46,7 @@ namespace VGraph.src.dataLayers
             Tools[BOX_TOOL] = new BoxTool();
             Tools[TRI_TOOL] = new TriangleTool();
             Tools[CIRCLE_TOOL] = new CircleTool();
-            CircleTool boxyTool = new CircleTool
-            {
-                FuzzRating = 1.0
-            };
-            Tools[BOXY_CIRCLE_TOOL] = boxyTool;
+            Tools[BOXY_CIRCLE_TOOL] = new BoxyCircleTool(0.5);
             Tools[ELLIPSE_TOOL] = new EllipseTool();
         }
 

@@ -62,6 +62,7 @@ namespace VGraph.src.ui
                     PageData.Instance.MakeCanvasClean();
                     lineLayer.ClearAllLines();
                 }
+                lineLayer.ForceRedraw();
                 MainWindowParent.MainCanvas.InvalidateVisual();
                 Close();
             }
