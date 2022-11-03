@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
@@ -39,7 +40,11 @@ namespace VGraph.src.ui
 
         private void ExitCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MainMenuBar.ExitApp();
+            bool continueClose = MainMenuBar.ExitApp();
+            if (continueClose)
+            {
+                Environment.Exit(0);
+            }
         }
 
         private void UndoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

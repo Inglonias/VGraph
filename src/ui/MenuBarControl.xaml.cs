@@ -140,16 +140,16 @@ namespace VGraph.src.ui
             PageData.Instance.ExportBackgroundImage = ExportBackgroundImage.IsChecked;
         }
 
-        public void ExitApp()
+        public bool ExitApp()
         {
             if (PageData.Instance.IsCanvasDirty)
             {
                 if (MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Warning - Unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.No) 
                 {
-                    return;
+                    return true;
                 }
             }
-            Environment.Exit(0);
+            return false;
         }
 
         private void ToolMenu_OnChecked(object sender, RoutedEventArgs e)

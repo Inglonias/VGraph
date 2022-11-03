@@ -214,7 +214,7 @@ namespace VGraph.src.ui
 
         private void VGraphMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MainMenuBar.ExitApp();
+            e.Cancel = MainMenuBar.ExitApp();
         }
     }
 }
