@@ -56,6 +56,7 @@ namespace VGraphTestSuite
         public void TestConfigWindow()
         {
             ConfigOptionsWindow cow = new ConfigOptionsWindow();
+            //Moooooooooo
             cow.Show();
         }
     }
