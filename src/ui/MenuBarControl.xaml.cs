@@ -23,7 +23,7 @@ namespace VGraph.src.ui
             InitializeComponent();
             CheckEditButtonValidity();
 
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundLayer gridBackgroundLayer = (BackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
             CenterLinesButton.IsChecked = gridBackgroundLayer.DrawCenterLines;
             GridLinesButton.IsChecked = gridBackgroundLayer.DrawGridLines;
             BackgroundImageButton.IsChecked = gridBackgroundLayer.DrawBackgroundImage;
@@ -232,7 +232,7 @@ namespace VGraph.src.ui
 
         public void ToggleBackgroundImage()
         {
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundLayer gridBackgroundLayer = (BackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
             BackgroundImageButton.IsChecked = gridBackgroundLayer.ToggleBackgroundImage();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
