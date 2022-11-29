@@ -76,7 +76,7 @@ namespace VGraph.src.config
 
         public bool SetBackgroundImage(string path)
         {
-            GridBackgroundLayer gridLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
+            BackgroundLayer gridLayer = (BackgroundLayer)DataLayers[GRID_LAYER];
             if (gridLayer.SetBackgroundImage(path))
             {
                 BackgroundImagePath = path;
@@ -242,7 +242,7 @@ namespace VGraph.src.config
             {
                 canvas.DrawRect(0, 0, composite.Width, composite.Height, whiteBrush);
             }
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)DataLayers[GRID_LAYER];
+            BackgroundLayer gridBackgroundLayer = (BackgroundLayer)DataLayers[GRID_LAYER];
             bool centerLineState = gridBackgroundLayer.DrawCenterLines;
             bool gridLineState = gridBackgroundLayer.DrawGridLines;
             bool backgroundImageState = gridBackgroundLayer.DrawBackgroundImage;

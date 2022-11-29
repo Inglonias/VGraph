@@ -1,10 +1,11 @@
 using SkiaSharp;
+using System;
 using System.Collections.Generic;
 using VGraph.src.config;
 
 namespace VGraph.src.dataLayers
 {
-    public class HexBackgroundLayer : IDataLayer
+    public class HexBackgroundLayer : BackgroundLayer
     {
         bool IDataLayer.DrawInExport => true;
 
@@ -16,7 +17,7 @@ namespace VGraph.src.dataLayers
         public bool DrawBackgroundImage { get; set; } = true;
 
         private SKBitmap OriginalBackgroundImage = null;
-
+        private List<SKPoint[]> linesDrawn = new List<SKPoint[]>();
         public SKImageInfo BackgroundImageOriginalInfo { get; private set; }
         private SKBitmap LastImage = null;
 
@@ -88,7 +89,8 @@ namespace VGraph.src.dataLayers
             SKCanvas drawingSurface = new SKCanvas(image);
 
             drawingSurface.Clear(ConfigOptions.Instance.BackgroundPaperColor);
-            SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = ConfigOptions.Instance.GridLinesColor };
+            //With this blend mode, we don't have to worry about redrawing over lines we've already hit, since it just results in the same color again.
+            SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = ConfigOptions.Instance.GridLinesColor, BlendMode = SKBlendMode.Src };
             gridBrush.IsAntialias = false;
 
             //Draw the background image within the border.
@@ -103,54 +105,37 @@ namespace VGraph.src.dataLayers
                 backgroundImage.Dispose();
             }
 
-            int triSideLen = PageData.Instance.SquareSize;
-            float triHeight = (float)(triSideLen * System.Math.Sqrt(3) / 2);
-            float xFactor = (float)(triHeight * System.Math.Cos(System.Math.PI / 3));
-            if (DrawGridLines)
-            {
-                float xStart = PageData.Instance.MarginX / 2;
-                float yStartHigh = PageData.Instance.MarginY / 2;
-                float yStartLow = (PageData.Instance.MarginY / 2) + triHeight;
-                float gridMaxX = PageData.Instance.GetTotalWidth() - xStart;
-                float gridMaxY = PageData.Instance.GetTotalHeight() - yStartHigh;
-                float xInc = xFactor + triSideLen;
-                float yInc = triHeight * 2;
-                //Draw in the shape below for a hex grid without overlap.
-
-                /*        __/
-                 *          \
-                 */
-                bool downColumn = false;
-                HashSet<SKPath> drawnLines = new HashSet<SKPath>();
-                for (float x = xStart; x < gridMaxX; x += xInc)
-                {
-                    float y = downColumn ? yStartLow : yStartHigh;
-                    for (; y < gridMaxY; y += yInc)
-                    {
-                        SKPoint centerPoint       = new SKPoint(x, y);
-                        SKPoint leftPoint         = new SKPoint(x - triSideLen, y);
-                        SKPoint topRightCorner    = new SKPoint(x + xFactor, y - triHeight);
-                        SKPoint bottomRightCorner = new SKPoint(x + xFactor, y + triHeight);
-
-                        List<SKPath> currentLines = new List<SKPath>(3);
-                        currentLines.Add(CreateLinePath(leftPoint, centerPoint));
-                        currentLines.Add(CreateLinePath(centerPoint, topRightCorner));
-                        currentLines.Add(CreateLinePath(centerPoint, bottomRightCorner));
-
-                        foreach (SKPath p in currentLines) {
-                            if (!drawnLines.Contains(p))
-                            {
-                                drawingSurface.DrawPath(p, gridBrush);
-                                drawnLines.Add(p);
-                            }
-                        }
-                    }
-                    downColumn = !downColumn;
-                }
-            }
-
+            int hexRad = PageData.Instance.SquareSize / 2;
             int quarterMarginX = PageData.Instance.MarginX / 4;
             int quarterMarginY = PageData.Instance.MarginY / 4;
+            int xStart = PageData.Instance.MarginX + hexRad;
+            int yStart = PageData.Instance.MarginY + hexRad;
+
+            float xInc = (float)(hexRad * 1.5);
+            float yInc = (float)(hexRad * Math.Sqrt(3));
+            if (DrawGridLines)
+            {
+                for (float y = yStart; IsOnPage(new SKPoint(xStart, y)); y += yInc)
+                {
+                    SKPoint centerPoint = new SKPoint(xStart, y);
+                    while (IsOnPage(centerPoint))
+                    {
+                        DrawHex(centerPoint, drawingSurface, gridBrush);
+                        centerPoint.X += xInc;
+                        centerPoint.Y += yInc / 2;
+                    }
+                }
+                for (float x = yStart; IsOnPage(new SKPoint(x, yStart)); x += xInc * 2)
+                {
+                    SKPoint centerPoint = new SKPoint(x, yStart);
+                    while (IsOnPage(centerPoint))
+                    {
+                        DrawHex(centerPoint, drawingSurface, gridBrush);
+                        centerPoint.X += xInc;
+                        centerPoint.Y += yInc / 2;
+                    }
+                }
+            }
             SKPaint borderBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 2, Color = ConfigOptions.Instance.BorderLinesColor };
             SKRectI borderSquare = new SKRectI(quarterMarginX, quarterMarginY, PageData.Instance.GetTotalWidth() - quarterMarginX, PageData.Instance.GetTotalHeight() - quarterMarginY);
             drawingSurface.DrawRect(borderSquare, borderBrush);
@@ -193,6 +178,38 @@ namespace VGraph.src.dataLayers
         public SKPointI GetRenderPoint()
         {
             return new SKPointI(0, 0);
+        }
+
+        private void DrawHex(SKPoint centerPoint, SKCanvas drawingSurface, SKPaint brush)
+        {
+            SKPoint[] vertices = new SKPoint[6];
+            int hexRad = PageData.Instance.SquareSize / 2;
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                int angleDeg = 60 * i;
+                double angleRad = Math.PI / 180 * angleDeg;
+                float xVert = (float)(centerPoint.X + (hexRad * Math.Cos(angleRad)));
+                float yVert = (float)(centerPoint.Y + (hexRad * Math.Sin(angleRad)));
+                vertices[i] = new SKPoint(xVert, yVert);
+            }
+            for (int i = 0; i < vertices.Length - 1; i++)
+            {
+                drawingSurface.DrawLine(vertices[i], vertices[i + 1], brush);
+            }
+            drawingSurface.DrawLine(vertices[5], vertices[0], brush);
+        }
+
+        private bool IsOnPage (SKPoint point)
+        {
+            if (point.X < PageData.Instance.MarginX || point.Y < PageData.Instance.MarginY)
+            {
+                return false;
+            }
+            if (point.X > (PageData.Instance.GetTotalWidth() - PageData.Instance.MarginX) || point.Y > (PageData.Instance.GetTotalHeight() - PageData.Instance.MarginY))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

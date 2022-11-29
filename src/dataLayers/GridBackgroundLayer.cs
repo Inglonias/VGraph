@@ -4,7 +4,7 @@ using VGraph.src.config;
 
 namespace VGraph.src.dataLayers
 {
-    public class GridBackgroundLayer : IDataLayer
+    public class GridBackgroundLayer : BackgroundLayer 
     {
         bool IDataLayer.DrawInExport => true;
 

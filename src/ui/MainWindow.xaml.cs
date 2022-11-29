@@ -19,7 +19,7 @@ namespace VGraph.src.ui
     public partial class MainWindow : Window
     {
         private const int VIEWPORT_BORDER = 200;
-        private readonly GridBackgroundLayer LGrid;
+        private readonly BackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
@@ -27,7 +27,7 @@ namespace VGraph.src.ui
 
         public MainWindow()
         {
-            LGrid = new GridBackgroundLayer();
+            LGrid = new HexBackgroundLayer();
             LLines = new LineLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
