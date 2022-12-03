@@ -218,14 +218,14 @@ namespace VGraph.src.ui
 
         public void ToggleCenterLines()
         {
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundLayer gridBackgroundLayer = (BackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
             CenterLinesButton.IsChecked = gridBackgroundLayer.ToggleCenterLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }
 
         public void ToggleGridLines()
         {
-            GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
+            BackgroundLayer gridBackgroundLayer = (BackgroundLayer)PageData.Instance.GetDataLayer(PageData.GRID_LAYER);
             GridLinesButton.IsChecked = gridBackgroundLayer.ToggleGridLines();
             MainWindowParent.MainCanvas.InvalidateVisual();
         }

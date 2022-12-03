@@ -1,4 +1,4 @@
-using SkiaSharp;
+﻿using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using VGraph.src.config;
@@ -67,14 +67,6 @@ namespace VGraph.src.dataLayers
             return DrawBackgroundImage;
         }
 
-        private SKPath CreateLinePath(SKPoint a, SKPoint b)
-        {
-            SKPath rVal = new SKPath();
-            rVal.MoveTo(a);
-            rVal.LineTo(b);
-            return rVal;
-        }
-
         public SKBitmap GenerateLayerBitmap()
         {
             if (!RedrawRequired)
@@ -89,7 +81,6 @@ namespace VGraph.src.dataLayers
             SKCanvas drawingSurface = new SKCanvas(image);
 
             drawingSurface.Clear(ConfigOptions.Instance.BackgroundPaperColor);
-            //With this blend mode, we don't have to worry about redrawing over lines we've already hit, since it just results in the same color again.
             SKPaint gridBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = 1, Color = ConfigOptions.Instance.GridLinesColor, BlendMode = SKBlendMode.Src };
             gridBrush.IsAntialias = false;
 
@@ -108,16 +99,16 @@ namespace VGraph.src.dataLayers
             int hexRad = PageData.Instance.SquareSize / 2;
             int quarterMarginX = PageData.Instance.MarginX / 4;
             int quarterMarginY = PageData.Instance.MarginY / 4;
-            int xStart = PageData.Instance.MarginX + hexRad;
-            int yStart = PageData.Instance.MarginY + hexRad;
+            int maxMargin = Math.Max(PageData.Instance.MarginX, PageData.Instance.MarginY);
+            int start = maxMargin / 2 + hexRad;
 
             float xInc = (float)(hexRad * 1.5);
             float yInc = (float)(hexRad * Math.Sqrt(3));
             if (DrawGridLines)
             {
-                for (float y = yStart; IsOnPage(new SKPoint(xStart, y)); y += yInc)
+                for (float y = start; IsOnPage(new SKPoint(start, y)); y += yInc)
                 {
-                    SKPoint centerPoint = new SKPoint(xStart, y);
+                    SKPoint centerPoint = new SKPoint(start, y);
                     while (IsOnPage(centerPoint))
                     {
                         DrawHex(centerPoint, drawingSurface, gridBrush);
@@ -125,9 +116,9 @@ namespace VGraph.src.dataLayers
                         centerPoint.Y += yInc / 2;
                     }
                 }
-                for (float x = yStart; IsOnPage(new SKPoint(x, yStart)); x += xInc * 2)
+                for (float x = start; IsOnPage(new SKPoint(x, start)); x += xInc * 2)
                 {
-                    SKPoint centerPoint = new SKPoint(x, yStart);
+                    SKPoint centerPoint = new SKPoint(x, start);
                     while (IsOnPage(centerPoint))
                     {
                         DrawHex(centerPoint, drawingSurface, gridBrush);
@@ -201,11 +192,13 @@ namespace VGraph.src.dataLayers
 
         private bool IsOnPage (SKPoint point)
         {
-            if (point.X < PageData.Instance.MarginX || point.Y < PageData.Instance.MarginY)
+            int halfMarginX = PageData.Instance.MarginX / 2;
+            int halfMarginY = PageData.Instance.MarginY / 2;
+            if (point.X < halfMarginX || point.Y < halfMarginY)
             {
                 return false;
             }
-            if (point.X > (PageData.Instance.GetTotalWidth() - PageData.Instance.MarginX) || point.Y > (PageData.Instance.GetTotalHeight() - PageData.Instance.MarginY))
+            if (point.X > (PageData.Instance.GetTotalWidth() - halfMarginX) || point.Y > (PageData.Instance.GetTotalHeight() - halfMarginY))
             {
                 return false;
             }

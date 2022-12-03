@@ -27,10 +27,7 @@ namespace VGraph.src.dataLayers
         /// <returns>An SKPointI relative to the grid with a maximum of "PageData.Instance.SquaresWide" for X and "PageData.Instance.SquaresTall" for Y</returns>
         public SKPointI GetCursorGridPoints()
         {
-            //Subtract out the margin.
-            int cursorX = CursorPoint.X - PageData.Instance.MarginX;
-            int cursorY = CursorPoint.Y - PageData.Instance.MarginY;
-            return new SKPointI(cursorX / PageData.Instance.SquareSize, cursorY / PageData.Instance.SquareSize);
+            return PixelToHex(CursorPoint.X, CursorPoint.Y);
         }
 
         /// <summary>
@@ -38,36 +35,90 @@ namespace VGraph.src.dataLayers
         /// </summary>
         /// <param name="p">Point to round off</param>
         /// <returns></returns>
-        public SKPointI RoundToNearestIntersection(Point p)
+        public SKPointI RoundToNearestHex(Point p)
         {
-            return RoundToNearestIntersection(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+            return RoundToNearestHex(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
         }
 
-        private SKPointI RoundToNearestIntersection(int x, int y)
+        private SKPointI RoundToNearestHex(int x, int y)
         {
             //Ignore it if we're out of bounds.
             if ((x - PageData.Instance.MarginX < 0) || (y - PageData.Instance.MarginY < 0) || (x + PageData.Instance.MarginX > PageData.Instance.GetTotalWidth()) || (y + PageData.Instance.MarginY > PageData.Instance.GetTotalHeight()))
             {
                 return CursorPoint;
             }
+            SKPointI gridPoint = PixelToHex(x, y);
+            SKPoint pixelPoint = HexToPixel(gridPoint);
+            return new SKPointI(Convert.ToInt32(pixelPoint.X), Convert.ToInt32(pixelPoint.Y));
+        }
 
-            //Subtract the margin out.
-            int mouseX = x - PageData.Instance.MarginX;
-            int mouseY = y - PageData.Instance.MarginY;
+        public SKPointI RoundToNearestVertex(Point p)
+        {
+            return RoundToNearestVertex(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+        }
 
-            //Round to the nearest intersection.
-            int targetX = ((mouseX % PageData.Instance.SquareSize) < (PageData.Instance.SquareSize / 2)) ?
-                    (mouseX - (mouseX % PageData.Instance.SquareSize)) :
-                    (mouseX + (PageData.Instance.SquareSize - (mouseX % PageData.Instance.SquareSize)));
-            int targetY = ((mouseY % PageData.Instance.SquareSize) < (PageData.Instance.SquareSize / 2)) ?
-                    (mouseY - (mouseY % PageData.Instance.SquareSize)) :
-                    (mouseY + (PageData.Instance.SquareSize - (mouseY % PageData.Instance.SquareSize)));
+        public SKPointI RoundToNearestVertex(int x, int y)
+        {
+            SKPointI cursorPoint = new SKPointI(x, y);
+            SKPointI gridPoint = PixelToHex(x, y);
+            SKPoint hexCenter = HexToPixel(gridPoint);
+            SKPoint[] vertices = new SKPoint[6];
+            int hexRad = PageData.Instance.SquareSize / 2;
+            float minDistance = hexRad * 2;
+            SKPointI rVal = new SKPointI(0, 0);
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                int angleDeg = 60 * i;
+                double angleRad = Math.PI / 180 * angleDeg;
+                float xVert = (float)(hexCenter.X + (hexRad * Math.Cos(angleRad)));
+                float yVert = (float)(hexCenter.Y + (hexRad * Math.Sin(angleRad)));
+                vertices[i] = new SKPoint(xVert, yVert);
+                float distance = SKPoint.Distance(cursorPoint, vertices[i]);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    rVal = new SKPointI(Convert.ToInt32(vertices[i].X), Convert.ToInt32(vertices[i].Y));
+                }
+            }
+            return rVal;
+        }
 
-            //Add the margin back in.
-            targetX += PageData.Instance.MarginX;
-            targetY += PageData.Instance.MarginY;
+        public SKPointI PixelToHex(SKPoint p)
+        {
+            return PixelToHex(Convert.ToInt32(p.X), Convert.ToInt32(p.Y));
+        }
 
-            return new SKPointI(targetX, targetY);
+        public SKPointI PixelToHex(int x, int y)
+        {
+            int gridX = x - PageData.Instance.MarginX;
+            int gridY = y - PageData.Instance.MarginY;
+            int q = Convert.ToInt32(Math.Round((2.0 / 3 * gridX) / (PageData.Instance.SquareSize / 2)));
+            int r = Convert.ToInt32(Math.Round((-1.0 / 3 * gridX + Math.Sqrt(3) / 3 * gridY) / (PageData.Instance.SquareSize / 2)));
+
+            return new SKPointI(q, r);
+        }
+
+        public SKPoint HexToPixel(SKPointI p)
+        {
+            return HexToPixel(p.X, p.Y);
+        }
+
+        public SKPoint HexToPixel(int q, int r)
+        {
+            int hexRad = PageData.Instance.SquareSize / 2;
+            int maxMargin = Math.Max(PageData.Instance.MarginX, PageData.Instance.MarginY);
+            int start = maxMargin / 2 + hexRad;
+
+            float xInc = (float)(hexRad * 1.5);
+            float yInc = (float)(hexRad * Math.Sqrt(3));
+
+            //Q value
+            float x = start + (xInc * q);
+
+            //R value
+            //x += (xInc * r) ;
+            float y = start + (yInc * r) + (yInc * q / 2);
+            return new SKPoint(x, y);
         }
 
         public void StartClickDrag()
@@ -118,7 +169,7 @@ namespace VGraph.src.dataLayers
             int canvasHeight = radius * 2;
 
             if (ClickDragActive)
-            {                
+            {
                 canvasWidth = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.X - CanvasPoint.X)));
                 canvasHeight = Math.Max(1, Convert.ToInt32(Math.Abs(ClickDragPoint.Y - CanvasPoint.Y)));
             }

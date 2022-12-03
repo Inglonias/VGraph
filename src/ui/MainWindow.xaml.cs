@@ -68,7 +68,7 @@ namespace VGraph.src.ui
                 {
                     LLines.HandleBoxSelect(selectionBox, maintainSelection);
                 }
-                LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
+                LCursor.CursorPoint = LCursor.RoundToNearestHex(LCursor.CanvasPoint);
             }
             else
             {
@@ -177,7 +177,7 @@ namespace VGraph.src.ui
         {
             if (e.ChangedButton == MouseButton.Right)
             {
-                SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
+                SKPointI target = LCursor.RoundToNearestHex(e.GetPosition(MainCanvas));
                 SKPointI targetGrid = LCursor.GetCursorGridPoints();
                 LPreview.HandleCreationClick(target, targetGrid);
                 MainMenuBar.CheckEditButtonValidity();

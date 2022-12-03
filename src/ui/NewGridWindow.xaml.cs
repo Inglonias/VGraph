@@ -53,7 +53,7 @@ namespace VGraph.src.ui
                 PageData.Instance.MarginY = Math.Max(0, Convert.ToInt32(PageMarginY.Text));
                 PageData.Instance.SetBackgroundImage(ImagePathBox.Text);
                 PageData.Instance.BackgroundImageAlpha = Convert.ToByte(BackgroundOpacityTextBox.Text);
-                GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
+                BackgroundLayer gridBackgroundLayer = (BackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
                 LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
 
                 gridBackgroundLayer.ForceRedraw();
