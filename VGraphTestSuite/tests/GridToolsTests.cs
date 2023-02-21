@@ -39,7 +39,7 @@ namespace VGraphTestSuite
             string testPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\vgps\\GridMirrorTest.vgp");
             Assert.IsTrue(PageData.Instance.FileOpen(testPath));
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lLines.MirrorLines(0, 5, false);
+            lLines.MirrorLines(0, 5, false, false);
             lLines.SelectAllLines();
             Assert.AreEqual(lLines.GetSelectedLines().Length, 4);
             SKPointI intersection = new(5, 5);
