@@ -32,7 +32,7 @@ namespace VGraph.src.ui
                 const int SUCCESS = 0;
                 const int LINES_ACROSS_CREASE = 1;
                 
-                int result = lineLayer.MirrorLines(MirrorDirection.SelectedIndex, Convert.ToInt32(MirrorLinePosition.Text), DestructiveMirror.IsChecked.Value);
+                int result = lineLayer.MirrorLines(MirrorDirection.SelectedIndex, Convert.ToInt32(MirrorLinePosition.Text), DestructiveMirror.IsChecked.Value, OddModeMirror.IsChecked.Value);
                 
                 if (result == LINES_ACROSS_CREASE)
                 {

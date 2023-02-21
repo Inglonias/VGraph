@@ -131,7 +131,7 @@ namespace VGraph.src.dataLayers
             PageData.Instance.MakeCanvasDirty();
         }
 
-        public int MirrorLines(int direction, int crease, bool destroyOtherSide)
+        public int MirrorLines(int direction, int crease, bool destroyOtherSide, bool oddMode)
         {
             const int LEFT_TO_RIGHT = 0;
             const int RIGHT_TO_LEFT = 1;
@@ -220,11 +220,11 @@ namespace VGraph.src.dataLayers
             {
                 if (direction == LEFT_TO_RIGHT || direction == RIGHT_TO_LEFT)
                 {
-                    AddNewLine(l.MirrorLineSegment(crease, null));
+                    AddNewLine(l.MirrorLineSegment(crease, null, oddMode));
                 }
                 else
                 {
-                    AddNewLine(l.MirrorLineSegment(null, crease));
+                    AddNewLine(l.MirrorLineSegment(null, crease, oddMode));
                 }
             }
             PageData.Instance.MakeCanvasDirty();
