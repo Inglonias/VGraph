@@ -196,7 +196,7 @@ namespace VGraph.src.objects
             return null;
         }
 
-        public LineSegment MirrorLineSegment(int? xCrease, int? yCrease)
+        public LineSegment MirrorLineSegment(int? xCrease, int? yCrease, bool oddModeMirror)
         {
             if (xCrease == null && yCrease == null)
             {
@@ -209,6 +209,11 @@ namespace VGraph.src.objects
             {
                 int startDistance = xCrease.Value - mirrorEnd.X;
                 int endDistance = xCrease.Value - mirrorStart.X;
+                if (oddModeMirror)
+                {
+                    startDistance++;
+                    endDistance++;
+                }
                 mirrorStart.X = endDistance + xCrease.Value;
                 mirrorEnd.X = startDistance + xCrease.Value;
             }
@@ -217,6 +222,11 @@ namespace VGraph.src.objects
             {
                 int startDistance = yCrease.Value - mirrorEnd.Y;
                 int endDistance = yCrease.Value - mirrorStart.Y;
+                if (oddModeMirror)
+                {
+                    startDistance++;
+                    endDistance++;
+                }
                 mirrorStart.Y = endDistance + yCrease.Value;
                 mirrorEnd.Y = startDistance + yCrease.Value;
             }
