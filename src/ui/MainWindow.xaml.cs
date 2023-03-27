@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,6 +22,8 @@ namespace VGraph.src.ui
     public partial class MainWindow : Window
     {
         private const int VIEWPORT_BORDER = 200;
+        private static bool FrameDrawAllowed = true;
+        private readonly System.Timers.Timer FrameCapTimer = new System.Timers.Timer(1 / 60.0);
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
@@ -31,7 +36,9 @@ namespace VGraph.src.ui
             LLines = new LineLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
-
+            FrameCapTimer.Elapsed += AllowFrameDraw;
+            FrameCapTimer.AutoReset = true;
+            FrameCapTimer.Enabled = true;
             AssignPageData();
 
             InitializeComponent();
@@ -39,6 +46,11 @@ namespace VGraph.src.ui
             LGrid.GenerateLayerBitmap();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();
+        }
+
+        private static void AllowFrameDraw(Object source, ElapsedEventArgs e)
+        {
+            FrameDrawAllowed = true;
         }
 
         private void AssignPageData()
@@ -78,6 +90,10 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            while (!FrameDrawAllowed)
+            {
+                Thread.Sleep(1);
+            }
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
             bool anyLayerRedraw = false;
@@ -160,6 +176,7 @@ namespace VGraph.src.ui
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
             DrawTimeTextBlock.Text = "Draw Time: " + GetDrawTime() + " ms";
             StatusBar.InvalidateVisual();
+            FrameDrawAllowed = false;
         }
 
         private string GetDrawTime()
