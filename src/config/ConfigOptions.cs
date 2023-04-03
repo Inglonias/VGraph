@@ -39,6 +39,7 @@ namespace VGraph.src.config
         public int MarginX { get; set; } = 24;
         public int MarginY { get; set; } = 24;
         public int BackgroundImageAlpha { get; set; } = 191;
+        public int MaxFrameRate { get; set; } = 60;
 
         public static ConfigOptions Instance { get; private set; } = new ConfigOptions();
 
@@ -97,7 +98,8 @@ namespace VGraph.src.config
             rValWriter.WriteLine("    \"SquareSize\": " + SquareSize + ",");
             rValWriter.WriteLine("    \"MarginX\": " + MarginX + ",");
             rValWriter.WriteLine("    \"MarginY\": " + MarginY + ",");
-            rValWriter.WriteLine("    \"BackgroundImageAlpha\": " + BackgroundImageAlpha);
+            rValWriter.WriteLine("    \"BackgroundImageAlpha\": " + BackgroundImageAlpha + ",");
+            rValWriter.WriteLine("    \"MaxFrameRate\": " + MaxFrameRate);
             rValWriter.WriteLine("}");
 
             return rValWriter.ToString();

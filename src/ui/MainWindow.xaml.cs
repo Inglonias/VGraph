@@ -23,7 +23,7 @@ namespace VGraph.src.ui
     {
         private const int VIEWPORT_BORDER = 200;
         private static bool FrameDrawAllowed = true;
-        private readonly System.Timers.Timer FrameCapTimer = new System.Timers.Timer(1 / 60.0);
+        private readonly System.Timers.Timer FrameCapTimer;
         private readonly GridBackgroundLayer LGrid;
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
@@ -36,10 +36,11 @@ namespace VGraph.src.ui
             LLines = new LineLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
+            AssignPageData();
+            FrameCapTimer = new System.Timers.Timer(1000.0 / ConfigOptions.Instance.MaxFrameRate);
             FrameCapTimer.Elapsed += AllowFrameDraw;
             FrameCapTimer.AutoReset = true;
             FrameCapTimer.Enabled = true;
-            AssignPageData();
 
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;

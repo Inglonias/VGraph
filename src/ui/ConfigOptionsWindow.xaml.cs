@@ -28,11 +28,12 @@ namespace VGraph.src.ui
             ConfigOptionsList.Add(new ConfigRow("Selection Highlight color:" , ConfigRow.TYPE_COLOR, "LineHighlightColorString"));
             ConfigOptionsList.Add(new ConfigRow("Selection box color:"       , ConfigRow.TYPE_COLOR, "SelectionBoxColorString"));
 
-            ConfigOptionsList.Add(new ConfigRow("Default grid width:"  , ConfigRow.TYPE_NUMBER, "SquaresWide"));
-            ConfigOptionsList.Add(new ConfigRow("Default grid height:" , ConfigRow.TYPE_NUMBER, "SquaresTall"));
-            ConfigOptionsList.Add(new ConfigRow("Default square size:" , ConfigRow.TYPE_NUMBER, "SquareSize"));
-            ConfigOptionsList.Add(new ConfigRow("Default X margin:"    , ConfigRow.TYPE_NUMBER, "MarginX"));
-            ConfigOptionsList.Add(new ConfigRow("Default Y margin:"    , ConfigRow.TYPE_NUMBER, "MarginY"));
+            ConfigOptionsList.Add(new ConfigRow("Default grid width:"           , ConfigRow.TYPE_NUMBER, "SquaresWide"));
+            ConfigOptionsList.Add(new ConfigRow("Default grid height:"          , ConfigRow.TYPE_NUMBER, "SquaresTall"));
+            ConfigOptionsList.Add(new ConfigRow("Default square size:"          , ConfigRow.TYPE_NUMBER, "SquareSize"));
+            ConfigOptionsList.Add(new ConfigRow("Default X margin:"             , ConfigRow.TYPE_NUMBER, "MarginX"));
+            ConfigOptionsList.Add(new ConfigRow("Default Y margin:"             , ConfigRow.TYPE_NUMBER, "MarginY"));
+            ConfigOptionsList.Add(new ConfigRow("FPS limit (restart required):" , ConfigRow.TYPE_NUMBER, "MaxFrameRate"));
 
             for (int i = 0; i < ConfigOptionsList.Count; i++)
             {

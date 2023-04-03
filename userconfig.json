@@ -11,5 +11,6 @@
     "SquareSize": 24,
     "MarginX": 24,
     "MarginY": 24,
-    "BackgroundImageAlpha": 191
+    "BackgroundImageAlpha": 191,
+    "MaxFrameRate":  60
 }
