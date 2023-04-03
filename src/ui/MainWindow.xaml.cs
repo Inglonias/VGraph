@@ -91,9 +91,9 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
-            while (!FrameDrawAllowed)
+            if (!FrameDrawAllowed)
             {
-                Thread.Sleep(1);
+                return;
             }
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
