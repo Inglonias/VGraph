@@ -31,6 +31,10 @@ namespace VGraph.src.ui
 
         public void CreateNewGrid(bool deleteLines)
         {
+            if (CheckUnsavedChanges() && deleteLines)
+            {
+                return;
+            }
             NewGridWindow ngw = new NewGridWindow(deleteLines);
             ngw.MainWindowParent = MainWindowParent;
             ngw.Show();
@@ -142,9 +146,14 @@ namespace VGraph.src.ui
 
         public bool ExitApp()
         {
+            return CheckUnsavedChanges();
+        }
+
+        private bool CheckUnsavedChanges()
+        {
             if (PageData.Instance.IsCanvasDirty)
             {
-                if (MessageBox.Show("You have unsaved changes. Are you sure you want to quit?", "Warning - Unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.No) 
+                if (MessageBox.Show("You have unsaved changes. Are you sure you want to continue?", "Warning - Unsaved changes", MessageBoxButton.YesNo) == MessageBoxResult.No)
                 {
                     return true;
                 }

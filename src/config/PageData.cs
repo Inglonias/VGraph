@@ -24,7 +24,7 @@ namespace VGraph.src.config
         public int TrueSquareSize { get; set; } //This size is used when saving or exporting.
         public byte BackgroundImageAlpha { get; set; }
         public string BackgroundImagePath { get; private set; } = "";
-        public string LastSavePath { get; private set; } = "";
+        public string LastSavePath { get; set; } = "";
         public SKColor CurrentLineColor { get; set; }
 
 
