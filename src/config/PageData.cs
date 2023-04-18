@@ -15,6 +15,7 @@ namespace VGraph.src.config
         public const string LINE_LAYER = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
         public const string CURSOR_LAYER = "Cursor Layer";
+        public const string TEXT_LAYER = "Text Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; }
         public int SquaresTall { get; set; }

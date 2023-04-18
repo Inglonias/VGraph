@@ -28,6 +28,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
+        private readonly TextLayer LText;
         private readonly History<long> FrameRateHistory = new History<long>(10);
 
         public MainWindow()
@@ -36,6 +37,7 @@ namespace VGraph.src.ui
             LLines = new LineLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
+            LText = new TextLayer();
             AssignPageData();
             FrameCapTimer = new System.Timers.Timer(1000.0 / ConfigOptions.Instance.MaxFrameRate);
             FrameCapTimer.Elapsed += AllowFrameDraw;
@@ -60,6 +62,7 @@ namespace VGraph.src.ui
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
             PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
+            PageData.Instance.GetDataLayers()[PageData.TEXT_LAYER] = LText;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
