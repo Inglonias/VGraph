@@ -29,8 +29,6 @@ namespace VGraph.src.dataLayers
         public bool PreviewPointActive = false;
 
         private const int historyCapacity = 20;
-        private readonly History<LineSegment[]> UndoHistory = new History<LineSegment[]>(historyCapacity);
-        private readonly History<LineSegment[]> RedoHistory = new History<LineSegment[]>(historyCapacity);
 
         public IDrawTool SelectedTool { get; set; }
 
@@ -97,8 +95,8 @@ namespace VGraph.src.dataLayers
         public void ClearAllLines()
         {
             LineList.Clear();
-            UndoHistory.Clear();
-            RedoHistory.Clear();
+            PageHistory.Instance.ClearUndo();
+            PageHistory.Instance.ClearRedo();
             ForceRedraw();
         }
 
@@ -107,7 +105,7 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void MergeAllLines()
         {
-            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+            PageHistory.Instance.CreateUndoPoint(LineList, null);
             List<LineSegment> finalList = new List<LineSegment>();
             bool recheck = true;
             while (recheck)
@@ -208,7 +206,7 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
+            PageHistory.Instance.CreateUndoPoint(LineList, null);
 
             if (destroyOtherSide)
             {
@@ -256,7 +254,7 @@ namespace VGraph.src.dataLayers
 
         public void DeleteSelectedLines()
         {
-            CreateUndoPoint();
+            PageHistory.Instance.CreateUndoPoint(LineList, null);
             for (int i = LineList.Count - 1; i >= 0; i--)
             {
                 if (LineList[i].IsSelected)
@@ -298,92 +296,6 @@ namespace VGraph.src.dataLayers
             }
             PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
-        }
-
-        /// <summary>
-        /// Undoes the last user action by restoring the last state contained in "UndoHistory" to the canvas.
-        /// </summary>
-        public void UndoLastAction()
-        {
-            LineSegment[] undoState;
-            try
-            {
-                undoState = UndoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
-            List<LineSegment> l = new List<LineSegment>(undoState);
-            LineList = l;
-            PageData.Instance.MakeCanvasDirty();
-            ForceRedraw();
-        }
-
-        public bool CanUndo()
-        {
-            return UndoHistory.Count > 0;
-        }
-
-        public void CreateUndoPoint()
-        {
-            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
-            RedoHistory.Clear();
-        }
-
-        private void CreateUndoPoint(LineSegment[] target)
-        {
-            UndoHistory.Push(target);
-        }
-
-        /// <summary>
-        /// Redoes the last user action by restoring the last state contained in "RedoHistory" to the canvas.
-        /// </summary>
-        public void RedoLastAction()
-        {
-            LineSegment[] redoState;
-            try
-            {
-                redoState = RedoHistory.Pop();
-            }
-            catch (InvalidOperationException)
-            {
-                return;
-            }
-            CreateUndoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
-            List<LineSegment> l = new List<LineSegment>(redoState);
-            LineList = l;
-            PageData.Instance.MakeCanvasDirty();
-            ForceRedraw();
-        }
-
-        public bool CanRedo()
-        {
-            return RedoHistory.Count > 0;
-        }
-
-
-        public void CreateRedoPoint()
-        {
-            CreateRedoPoint(DeepCopyLineSegmentArray(LineList.ToArray()));
-        }
-
-        private void CreateRedoPoint(LineSegment[] target)
-        {
-            RedoHistory.Push(target);
-        }
-
-        private LineSegment[] DeepCopyLineSegmentArray(LineSegment[] source)
-        {
-            LineSegment[] rVal = new LineSegment[source.Length];
-
-            for (int i = 0; i < rVal.Length; i++)
-            {
-                rVal[i] = new LineSegment(source[i].StartPointGrid, source[i].EndPointGrid, source[i].LineColor);
-            }
-
-            return rVal;
         }
 
         public bool HandleSelectionClick(Point point, bool maintainSelection)
