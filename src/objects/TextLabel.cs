@@ -7,6 +7,5 @@ namespace VGraph.src.objects
         SKPointI RenderPoint { get; set; }
         string LabelText { get; set; } = "";
         SKColor LabelColor { get; set; }
-        SKFont FontData { get; set; } = new SKFont();
     }
 }
