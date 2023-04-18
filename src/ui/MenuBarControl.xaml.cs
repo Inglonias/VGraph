@@ -31,9 +31,12 @@ namespace VGraph.src.ui
 
         public void CreateNewGrid(bool deleteLines)
         {
-            if (CheckUnsavedChanges() && deleteLines)
+            if (deleteLines)
             {
-                return;
+                if (CheckUnsavedChanges())
+                {
+                    return;
+                }
             }
             NewGridWindow ngw = new NewGridWindow(deleteLines);
             ngw.MainWindowParent = MainWindowParent;
