@@ -23,7 +23,7 @@ namespace VGraph.src.dataLayers
         public const string BOXY_CIRCLE_TOOL = "Boxy_Circle_Tool";
         public const string ELLIPSE_TOOL = "Ellipse_Tool";
 
-        public List<LineSegment> LineList { get; private set; } = new List<LineSegment>();
+        public List<LineSegment> LineList { get; set; } = new List<LineSegment>();
         private SKBitmap LastImage;
         private bool RedrawRequired;
         public bool PreviewPointActive = false;
