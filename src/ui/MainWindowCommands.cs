@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -54,8 +55,7 @@ namespace VGraph.src.ui
 
         private void UndoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = lineLayer.CanUndo();
+            e.CanExecute = PageHistory.Instance.CanUndo();
         }
 
         private void RedoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -65,8 +65,7 @@ namespace VGraph.src.ui
 
         private void RedoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = lineLayer.CanRedo();
+            e.CanExecute = PageHistory.Instance.CanRedo();
         }
 
         private void ResizeCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

@@ -9,7 +9,7 @@ namespace VGraph.src.dataLayers
     {
         private bool RedrawOverride = false;
         bool IDataLayer.DrawInExport => true;
-        public List<TextLabel> TextLabels { get; private set; } = new List<TextLabel>();
+        public List<TextLabel> LabelList { get; private set; } = new List<TextLabel>();
 
         public void ForceRedraw()
         {

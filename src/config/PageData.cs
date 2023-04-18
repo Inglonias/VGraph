@@ -168,10 +168,9 @@ namespace VGraph.src.config
                 SquaresTall = Math.Max(this.SquaresTall, saveFile.SquaresTall);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+                TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
 
-                //lineLayer.ClearAllLines();
-
-                lineLayer.CreateUndoPoint();
+                PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
