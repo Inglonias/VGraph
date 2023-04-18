@@ -9,6 +9,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
 using VGraph.src.objects;
+using static VGraph.src.objects.PageHistory;
 
 namespace VGraph.src.ui
 {
@@ -194,7 +195,18 @@ namespace VGraph.src.ui
         public void Undo()
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lineLayer.UndoLastAction();
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
+            PageHistory.Instance.CreateRedoPoint(lineLayer.LineList, textLayer.LabelList);
+            PageState ps = PageHistory.Instance.PopUndoAction();
+
+            if (ps.Lines != null)
+            {
+                lineLayer.LineList = ps.Lines;
+            }
+            if (ps.Labels != null)
+            {
+                textLayer.LabelList = ps.Labels;
+            }
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
             InvalidateVisual();
@@ -203,7 +215,18 @@ namespace VGraph.src.ui
         public void Redo()
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lineLayer.RedoLastAction();
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
+            PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
+            PageState ps = PageHistory.Instance.PopRedoAction();
+
+            if (ps.Lines != null)
+            {
+                lineLayer.LineList = ps.Lines;
+            }
+            if (ps.Labels != null)
+            {
+                textLayer.LabelList = ps.Labels;
+            }
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
             InvalidateVisual();
@@ -212,8 +235,8 @@ namespace VGraph.src.ui
         public void CheckEditButtonValidity()
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            UndoButton.IsEnabled = lineLayer.CanUndo();
-            RedoButton.IsEnabled = lineLayer.CanRedo();
+            UndoButton.IsEnabled = PageHistory.Instance.CanUndo();
+            RedoButton.IsEnabled = PageHistory.Instance.CanRedo();
         }
 
         public void MergeLines()
@@ -277,7 +300,7 @@ namespace VGraph.src.ui
 
                 if (selectedLines.Length > 0)
                 {
-                    lineLayer.CreateUndoPoint();
+                    PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, null);
                     foreach (LineSegment l in selectedLines)
                     {
                         l.LineColor = colorNew.ToString();

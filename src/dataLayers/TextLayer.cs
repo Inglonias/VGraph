@@ -18,17 +18,17 @@ namespace VGraph.src.dataLayers
 
         public SKBitmap GenerateLayerBitmap()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public SKPointI GetRenderPoint()
         {
-            throw new NotImplementedException();
+            return new SKPointI(0, 0);
         }
 
         public bool IsRedrawRequired()
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }

@@ -47,6 +47,11 @@ namespace VGraph.src.objects
             }
             UndoHistory.Push(undoPoint);
         }
+
+        public void CreateUndoPoint (PageState ps)
+        {
+            UndoHistory.Push(ps);
+        }
         
         public void CreateRedoPoint(List<LineSegment>? lineList, List<TextLabel>? labelList)
         {
@@ -60,6 +65,11 @@ namespace VGraph.src.objects
                 redoPoint.Labels = DeepCopyList(labelList);
             }
             RedoHistory.Push(redoPoint);
+        }
+
+        public void CreateRedoPoint(PageState ps)
+        {
+            RedoHistory.Push(ps);
         }
 
         public PageState PopUndoAction()
