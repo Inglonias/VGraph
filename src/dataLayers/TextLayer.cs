@@ -30,5 +30,16 @@ namespace VGraph.src.dataLayers
         {
             return false;
         }
+
+        public void AddTextLabel(SKPointI renderPoint, string labelText, SKColor labelColor)
+        {
+            TextLabel tl = new TextLabel
+            {
+                RenderPoint = renderPoint,
+                LabelText = labelText,
+                LabelColor = labelColor
+            };
+            LabelList.Add(tl);
+        }
     }
 }

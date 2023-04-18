@@ -1,11 +1,22 @@
 using SkiaSharp;
+using VGraph.src.config;
 
 namespace VGraph.src.objects
 {
     public class TextLabel
     {
-        SKPointI RenderPoint { get; set; }
-        string LabelText { get; set; } = "";
-        SKColor LabelColor { get; set; }
+        public SKPointI RenderPoint { get; set; }
+        public string LabelText { get; set; } = "";
+        public SKColor LabelColor { get; set; }
+
+        public SKPointI GetCanvasPoint()
+        {
+            int startX = (RenderPoint.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
+            int startY = (RenderPoint.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
+
+            SKPointI rVal = new SKPointI(startX, startY);
+
+            return rVal;
+        }
     }
 }
