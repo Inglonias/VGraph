@@ -6,9 +6,11 @@ namespace VGraph.src.objects
 {
     public class TextLabel
     {
+        public static readonly SKColor DEFAULT_COLOR = ConfigOptions.Instance.DefaultLineColor;
+
         public SKPointI RenderPoint { get; set; }
         public string LabelText { get; set; } = "";
-        public SKColor LabelColor { get; set; }
+        public string LabelColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
 
         public SKPointI GetCanvasPoint()
         {
@@ -23,7 +25,6 @@ namespace VGraph.src.objects
         public SKRectI GetLabelSize()
         {
             SKPaint textBrush = new SKPaint();
-            textBrush.Color = LabelColor;
             SKRect textBounds = new SKRect();
             textBrush.MeasureText(LabelText, ref textBounds);
 

@@ -8,22 +8,57 @@ namespace VGraph.src.dataLayers
 {
     public class TextLayer : IDataLayer
     {
-        private bool RedrawOverride = false;
+        private bool RedrawRequired = false;
         bool IDataLayer.DrawInExport => true;
         public List<TextLabel> LabelList { get; set; } = new List<TextLabel>();
+        private SKBitmap LastImage;
 
         public void ForceRedraw()
         {
-            RedrawOverride = true;
+            RedrawRequired = true;
         }
 
         public SKBitmap GenerateLayerBitmap()
         {
-            RedrawOverride = false;
-            foreach (TextLabel t in LabelList)
+            if (LastImage == null || IsRedrawRequired())
             {
+                RedrawRequired = false;
+                SKRectI layerSize = GetLayerSize();
+                int canvasWidth = layerSize.Width;
+                int canvasHeight = layerSize.Height;
+                if (canvasWidth < 1 || canvasHeight < 1)
+                {
+                    return null;
+                }
 
+                //Disposables
+                SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
+                SKCanvas drawingSurface = new SKCanvas(image);
+                SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Blue, IsAntialias = true };
+
+                SKPointI topLeft = GetRenderPoint();
+                foreach (TextLabel label in LabelList)
+                {
+                    SKColor labelColor = TextLabel.DEFAULT_COLOR;
+                    SKColor.TryParse(label.LabelColor, out labelColor);
+                    standardBrush.Color = labelColor;
+                    SKPointI canvasPoint = label.GetCanvasPoint();
+                    canvasPoint.X -= topLeft.X;
+                    canvasPoint.Y -= topLeft.Y;
+                    drawingSurface.DrawText(label.LabelText, canvasPoint.X, canvasPoint.Y, standardBrush);
+                }
+                if (LastImage != null)
+                {
+                    LastImage.Dispose();
+                }
+                LastImage = image;
+                //Dispose of them.
+                drawingSurface.Dispose();
+                standardBrush.Dispose();
+                RedrawRequired = false;
             }
+
+            return LastImage;
         }
 
         public SKPointI GetRenderPoint()
@@ -73,10 +108,10 @@ namespace VGraph.src.dataLayers
 
         public bool IsRedrawRequired()
         {
-            return RedrawOverride;
+            return RedrawRequired;
         }
 
-        public void AddTextLabel(SKPointI renderPoint, string labelText, SKColor labelColor)
+        public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor)
         {
             TextLabel tl = new TextLabel
             {
