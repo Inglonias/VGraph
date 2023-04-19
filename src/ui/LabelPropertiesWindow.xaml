@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VGraph.src.ui"
+        xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         mc:Ignorable="d"
         Title="LabelPropertiesWindow" Height="240" Width="300">
     <Grid>
@@ -61,12 +62,16 @@
         </Grid>
         <Grid Grid.Row="3">
             <Label Grid.Row="0" Grid.Column="0" Content="Color:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
-        <Grid Grid.Row="3">
+            <Button Grid.Column="1" Height="24" Width="80" HorizontalAlignment="Left" Margin="10,10,0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" PaintSurface="ColorSwatch_OnPaintSurface" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Text Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Button>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="3*"/>
