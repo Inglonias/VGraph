@@ -1,4 +1,5 @@
 using SkiaSharp;
+using System;
 using VGraph.src.config;
 
 namespace VGraph.src.objects
@@ -17,6 +18,18 @@ namespace VGraph.src.objects
             SKPointI rVal = new SKPointI(startX, startY);
 
             return rVal;
+        }
+
+        public SKRectI GetLabelSize()
+        {
+            SKPaint textBrush = new SKPaint();
+            textBrush.Color = LabelColor;
+            SKRect textBounds = new SKRect();
+            textBrush.MeasureText(LabelText, ref textBounds);
+
+            textBrush.Dispose();
+
+            return SKRectI.Ceiling(textBounds);
         }
     }
 }
