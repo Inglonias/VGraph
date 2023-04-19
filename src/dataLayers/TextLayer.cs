@@ -81,8 +81,8 @@ namespace VGraph.src.dataLayers
                 
             }
 
-            //return new SKPointI(minX, minY);
-            return new SKPointI(0, 0);
+            return new SKPointI(minX, minY);
+            //return new SKPointI(0, 0);
         }
 
         private SKRectI GetLayerSize()
@@ -99,8 +99,8 @@ namespace VGraph.src.dataLayers
                 maxY = Math.Max(maxY, lYMax);
 
             }
-            //return new SKRectI(0, 0, maxX, maxY);
-            return new SKRectI(0, 0, PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
+            return new SKRectI(0, 0, maxX, maxY);
+            //return new SKRectI(0, 0, PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
         }
 
 
@@ -109,15 +109,9 @@ namespace VGraph.src.dataLayers
             return true;
         }
 
-        public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor)
+        public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, int alignment)
         {
-            TextLabel tl = new TextLabel
-            {
-                RenderPoint = renderPoint,
-                LabelText = labelText,
-                LabelColor = labelColor
-            };
-            LabelList.Add(tl);
+            LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, alignment));
         }
     }
 }

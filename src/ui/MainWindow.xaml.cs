@@ -38,6 +38,7 @@ namespace VGraph.src.ui
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
             LText = new TextLayer();
+            //LText.AddTextLabel(new SKPointI(10, 10),"Hello world", "#ff000000", TextLabel.ALIGN_CENTER_CENTER);
             AssignPageData();
             FrameCapTimer = new System.Timers.Timer(1000.0 / ConfigOptions.Instance.MaxFrameRate);
             FrameCapTimer.Elapsed += AllowFrameDraw;
@@ -61,8 +62,8 @@ namespace VGraph.src.ui
             PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
-            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
             PageData.Instance.GetDataLayers()[PageData.TEXT_LAYER] = LText;
+            PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
 
         private void MainCanvas_OnMouseMove(object sender, MouseEventArgs e)
