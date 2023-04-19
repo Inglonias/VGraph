@@ -445,22 +445,10 @@ namespace VGraph.src.dataLayers
             {
                 foreach (SKPointI p in l.GetCanvasPoints())
                 {
-                    if (p.X < minX)
-                    {
-                        minX = p.X;
-                    }
-                    if (p.Y < minY)
-                    {
-                        minY = p.Y;
-                    }
-                    if (p.X > maxX)
-                    {
-                        maxX = p.X;
-                    }
-                    if (p.Y > maxY)
-                    {
-                        maxY = p.Y;
-                    }
+                    minX = Math.Min(p.X, minX);
+                    minY = Math.Min(p.Y, minY);
+                    maxX = Math.Max(p.X, maxX);
+                    maxY = Math.Max(p.Y, maxY);
                 }
             }
             return new SKRectI(minX - drawRadius, minY - drawRadius, maxX + drawRadius, maxY + drawRadius);
