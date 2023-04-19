@@ -75,7 +75,7 @@ namespace VGraph.src.dataLayers
                 }
                 if (p.Y < minY)
                 {
-                    minY = p.Y;
+                    minY = p.Y - l.GetLabelSize().Height;
                 }
                 
             }

@@ -11,11 +11,13 @@ namespace VGraph.src.objects
         public SKPointI RenderPoint { get; set; }
         public string LabelText { get; set; } = "";
         public string LabelColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
+        public const int X_OFFSET = 5;
+        public const int Y_OFFSET = -5;
 
         public SKPointI GetCanvasPoint()
         {
-            int startX = (RenderPoint.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
-            int startY = (RenderPoint.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
+            int startX = (RenderPoint.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX + X_OFFSET;
+            int startY = (RenderPoint.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY + Y_OFFSET;
 
             SKPointI rVal = new SKPointI(startX, startY);
 
