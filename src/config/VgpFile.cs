@@ -15,6 +15,7 @@ namespace VGraph.src.config
         public string BackgroundImagePath { get; set; }
 
         public List<LineSegment> Lines { get; set; }
+        public List<TextLabel> Labels { get; set; }
 
         public VgpFile()
         {

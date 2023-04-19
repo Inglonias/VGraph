@@ -194,6 +194,7 @@ namespace VGraph.src.config
         public bool FileSave(string fileName)
         {
             LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+            TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
             VgpFile saveFile = new VgpFile
             {
                 SquaresWide = SquaresWide,
@@ -202,7 +203,8 @@ namespace VGraph.src.config
                 MarginX = MarginX,
                 MarginY = MarginY,
                 BackgroundImagePath = BackgroundImagePath,
-                Lines = lineLayer.LineList
+                Lines = lineLayer.LineList,
+                Labels = textLayer.LabelList
             };
             string jsonString = JsonSerializer.Serialize(saveFile);
             try
