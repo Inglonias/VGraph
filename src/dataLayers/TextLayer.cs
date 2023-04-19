@@ -34,7 +34,7 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
                 SKCanvas drawingSurface = new SKCanvas(image);
-                SKPaint standardBrush = new SKPaint { Style = SKPaintStyle.Stroke, Color = SKColors.Blue, IsAntialias = true };
+                SKPaint standardBrush = new SKPaint { Color = SKColors.Blue, IsAntialias = true };
 
                 SKPointI topLeft = GetRenderPoint();
                 foreach (TextLabel label in LabelList)
@@ -44,7 +44,7 @@ namespace VGraph.src.dataLayers
                     standardBrush.Color = labelColor;
                     SKPointI canvasPoint = label.GetCanvasPoint();
                     canvasPoint.X -= topLeft.X;
-                    canvasPoint.Y -= topLeft.Y;
+                    canvasPoint.Y -= topLeft.Y - label.GetLabelSize().Height;
                     drawingSurface.DrawText(label.LabelText, canvasPoint.X, canvasPoint.Y, standardBrush);
                 }
                 if (LastImage != null)
@@ -85,24 +85,19 @@ namespace VGraph.src.dataLayers
 
         private SKRectI GetLayerSize()
         {
-            int minX = PageData.Instance.GetTotalWidth();
-            int minY = PageData.Instance.GetTotalHeight();
             int maxX = 0;
             int maxY = 0;
             foreach (TextLabel l in LabelList)
             {
                 SKRectI lSize = l.GetLabelSize();
-                int lXMin = lSize.Left;
-                int lYMin = lSize.Top;
-                int lXMax = lSize.Right;
-                int lYMax = lSize.Bottom;
+                int lXMax = lSize.Width;
+                int lYMax = lSize.Height;
 
-                minX = Math.Min(minX, lXMin);
-                minY = Math.Min(minY, lYMin);
                 maxX = Math.Max(maxX, lXMax);
                 maxY = Math.Max(maxY, lYMax);
+
             }
-            return new SKRectI(minX, minY, maxX, maxY);
+            return new SKRectI(0, 0, maxX, maxY);
         }
 
 
