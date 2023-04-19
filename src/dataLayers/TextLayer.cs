@@ -34,6 +34,7 @@ namespace VGraph.src.dataLayers
                 //Disposables
                 SKBitmap image = new SKBitmap(new SKImageInfo(canvasWidth, canvasHeight));
                 SKCanvas drawingSurface = new SKCanvas(image);
+                //drawingSurface.Clear(SKColors.Yellow);
                 SKPaint standardBrush = new SKPaint { Color = SKColors.Blue, IsAntialias = true };
 
                 SKPointI topLeft = GetRenderPoint();
@@ -44,8 +45,8 @@ namespace VGraph.src.dataLayers
                     standardBrush.Color = labelColor;
                     SKPointI canvasPoint = label.GetCanvasPoint();
                     canvasPoint.X -= topLeft.X;
-                    canvasPoint.Y -= topLeft.Y - label.GetLabelSize().Height;
-                    drawingSurface.DrawText(label.LabelText, canvasPoint.X, canvasPoint.Y, standardBrush);
+                    canvasPoint.Y -= topLeft.Y;
+                    drawingSurface.DrawBitmap(label.RenderTextLabel(), canvasPoint);
                 }
                 if (LastImage != null)
                 {
@@ -75,12 +76,13 @@ namespace VGraph.src.dataLayers
                 }
                 if (p.Y < minY)
                 {
-                    minY = p.Y - l.GetLabelSize().Height;
+                    minY = p.Y;
                 }
                 
             }
 
-            return new SKPointI(minX, minY);
+            //return new SKPointI(minX, minY);
+            return new SKPointI(0, 0);
         }
 
         private SKRectI GetLayerSize()
@@ -89,7 +91,7 @@ namespace VGraph.src.dataLayers
             int maxY = 0;
             foreach (TextLabel l in LabelList)
             {
-                SKRectI lSize = l.GetLabelSize();
+                SKRectI lSize = l.GetLabelRect();
                 int lXMax = lSize.Width;
                 int lYMax = lSize.Height;
 
@@ -97,13 +99,14 @@ namespace VGraph.src.dataLayers
                 maxY = Math.Max(maxY, lYMax);
 
             }
-            return new SKRectI(0, 0, maxX, maxY);
+            //return new SKRectI(0, 0, maxX, maxY);
+            return new SKRectI(0, 0, PageData.Instance.GetTotalWidth(), PageData.Instance.GetTotalHeight());
         }
 
 
         public bool IsRedrawRequired()
         {
-            return RedrawRequired;
+            return true;
         }
 
         public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor)
