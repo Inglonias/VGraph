@@ -11,7 +11,7 @@ namespace VGraph.src.objects
         public SKPointI RenderPoint { get; set; }
         public string LabelText { get; set; } = "";
         public string LabelColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
-        public int Alignment { get; set; } = 1;
+        public int Alignment { get; set; } = 0;
 
         public static readonly int ALIGN_TOP_LEFT      = 0;
         public static readonly int ALIGN_TOP_CENTER    = 1;
