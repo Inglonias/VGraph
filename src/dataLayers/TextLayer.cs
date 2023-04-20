@@ -144,6 +144,21 @@ namespace VGraph.src.dataLayers
         {
             //This function does NOT handle box selections. Because of that, we're looking for one line that was clicked on.
             //As soon as we find that line, we return true. If we go through the whole list and find nothing, return false.
+            foreach (TextLabel l in LabelList)
+            {
+                if (l.WasLabelSelected(point))
+                {
+                    if (l.IsSelected)
+                    {
+                        //If we're clicking an already selected label, we want to edit it.
+                        LabelPropertiesWindow lpw = new LabelPropertiesWindow();
+                        lpw.AssociateWithLabel(l);
+                        lpw.Show();
+                        return true;
+                    }
+                }
+                
+            }
             if (!maintainSelection)
             {
                 DeselectLabels();
@@ -152,6 +167,7 @@ namespace VGraph.src.dataLayers
             {
                 if (l.WasLabelSelected(point))
                 {
+                    
                     l.IsSelected = true;
                     ForceRedraw();
                     return true;

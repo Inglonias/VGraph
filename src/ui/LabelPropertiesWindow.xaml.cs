@@ -30,7 +30,19 @@ namespace VGraph.src.ui
         private void Okay_OnClick(object sender, RoutedEventArgs e)
         {
             TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            lText.AddTextLabel(TargetGridPoint, TextBoxLabelText.Text, PageData.Instance.CurrentLabelColor.ToString(), ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source, Convert.ToInt32(TextBoxFontSize.Text), ComboBoxAlignment.SelectedIndex);
+            if (AssociatedLabel == null)
+            {
+                lText.AddTextLabel(TargetGridPoint, TextBoxLabelText.Text, PageData.Instance.CurrentLabelColor.ToString(), ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source, Convert.ToInt32(TextBoxFontSize.Text), ComboBoxAlignment.SelectedIndex);
+            }
+            else
+            {
+                AssociatedLabel.LabelColor = PageData.Instance.CurrentLabelColor.ToString();
+                AssociatedLabel.LabelText = TextBoxLabelText.Text;
+                AssociatedLabel.FontFamily = ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source;
+                AssociatedLabel.FontSize = Convert.ToInt32(TextBoxFontSize.Text);
+                AssociatedLabel.Alignment = ComboBoxAlignment.SelectedIndex;
+                lText.ForceRedraw();
+            }
             Close();
         }
 
