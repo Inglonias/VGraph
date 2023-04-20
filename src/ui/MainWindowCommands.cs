@@ -115,27 +115,27 @@ namespace VGraph.src.ui
             MainMenuBar.ShowConfigWindow();
         }
 
-        private void MoveLinesUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("UP");
+            MoveItemsCommandLogic("UP");
         }
 
-        private void MoveLinesDownCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveDownCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("DOWN");
+            MoveItemsCommandLogic("DOWN");
         }
 
-        private void MoveLinesLeftCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveLeftCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("LEFT");
+            MoveItemsCommandLogic("LEFT");
         }
 
-        private void MoveLinesRightCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveRightCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("RIGHT");
+            MoveItemsCommandLogic("RIGHT");
         }
 
-        private void DeleteSelectedLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void DeleteSelectedCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             lineLayer.DeleteSelectedLines();
@@ -149,7 +149,7 @@ namespace VGraph.src.ui
             MainCanvas.InvalidateVisual();
         }
 
-        private void MoveLinesCommandLogic(string direction)
+        private void MoveItemsCommandLogic(string direction)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             if (direction == "UP")
@@ -196,17 +196,17 @@ namespace VGraph.src.ui
         public static RoutedCommand BackgroundImageCmd = new RoutedCommand("BackgroundImageCmd", typeof(MenuCommands));
 
         //Tools Menu
-        public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergeLinesCmd", typeof(MenuCommands));
         public static RoutedCommand MirrorLinesCmd     = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
         public static RoutedCommand ConfigWindowCmd    = new RoutedCommand("ConfigWindowCmd", typeof(MenuCommands));
     }
 
     public class UniversalCommands
     {
-        public static RoutedCommand MoveLinesUp    = new RoutedCommand("MoveLinesUp", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesDown  = new RoutedCommand("MoveLinesDown", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesLeft  = new RoutedCommand("MoveLinesLeft", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesRight = new RoutedCommand("MoveLinesRight", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsUp    = new RoutedCommand("MoveItemsUp", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsDown  = new RoutedCommand("MoveItemsDown", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsLeft  = new RoutedCommand("MoveItemsLeft", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsRight = new RoutedCommand("MoveItemsRight", typeof(UniversalCommands));
 
         public static RoutedCommand DeleteSelectedLines = new RoutedCommand("DeleteSelectedLines", typeof(UniversalCommands));
     }

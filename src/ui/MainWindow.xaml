@@ -35,11 +35,11 @@
         <CommandBinding Command="ui:MenuCommands.MirrorLinesCmd" Executed="MirrorLinesCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ConfigWindowCmd" Executed="ConfigWindowCommandBinding_Executed"/>
 
-        <CommandBinding Command="ui:UniversalCommands.MoveLinesUp" Executed="MoveLinesUpCommandBinding_Executed"/>
-        <CommandBinding Command="ui:UniversalCommands.MoveLinesDown" Executed="MoveLinesDownCommandBinding_Executed"/>
-        <CommandBinding Command="ui:UniversalCommands.MoveLinesLeft" Executed="MoveLinesLeftCommandBinding_Executed"/>
-        <CommandBinding Command="ui:UniversalCommands.MoveLinesRight" Executed="MoveLinesRightCommandBinding_Executed"/>
-        <CommandBinding Command="ui:UniversalCommands.DeleteSelectedLines" Executed="DeleteSelectedLinesCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveItemsUp" Executed="MoveUpCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveItemsDown" Executed="MoveDownCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveItemsLeft" Executed="MoveLeftCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.MoveItemsRight" Executed="MoveRightCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.DeleteSelectedLines" Executed="DeleteSelectedCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <!-- File Menu -->
@@ -66,10 +66,10 @@
         <KeyBinding Gesture="Ctrl+R" Command="ui:MenuCommands.MirrorLinesCmd" />
 
         <!--Universal bindings-->
-        <KeyBinding Key="W" Command="ui:UniversalCommands.MoveLinesUp" />
-        <KeyBinding Key="A" Command="ui:UniversalCommands.MoveLinesLeft" />
-        <KeyBinding Key="S" Command="ui:UniversalCommands.MoveLinesDown" />
-        <KeyBinding Key="D" Command="ui:UniversalCommands.MoveLinesRight" />
+        <KeyBinding Key="W" Command="ui:UniversalCommands.MoveItemsUp" />
+        <KeyBinding Key="A" Command="ui:UniversalCommands.MoveItemsLeft" />
+        <KeyBinding Key="S" Command="ui:UniversalCommands.MoveItemsDown" />
+        <KeyBinding Key="D" Command="ui:UniversalCommands.MoveItemsRight" />
         <KeyBinding Key="Delete" Command="ui:UniversalCommands.DeleteSelectedLines" />
 
     </Window.InputBindings>
