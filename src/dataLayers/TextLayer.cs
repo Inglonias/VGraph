@@ -157,6 +157,7 @@ namespace VGraph.src.dataLayers
                     return true;
                 }
             }
+            ForceRedraw();
             return false;
         }
 
