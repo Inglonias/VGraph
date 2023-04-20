@@ -27,7 +27,7 @@ namespace VGraph.src.config
         public string BackgroundImagePath { get; private set; } = "";
         public string LastSavePath { get; set; } = "";
         public SKColor CurrentLineColor { get; set; }
-
+        public SKColor CurrentLabelColor { get; set; } = SKColors.Black;
 
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;

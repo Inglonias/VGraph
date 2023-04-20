@@ -11,6 +11,8 @@ namespace VGraph.src.objects
         public SKPointI RenderPoint { get; set; }
         public string LabelText { get; set; } = "";
         public string LabelColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
+        public string FontFamily { get; set; }
+        public int FontSize { get; set; }
         public int Alignment { get; set; } = 0;
 
         public static readonly int ALIGN_TOP_LEFT      = 0;
@@ -23,11 +25,13 @@ namespace VGraph.src.objects
         public static readonly int ALIGN_BOTTOM_CENTER = 7;
         public static readonly int ALIGN_BOTTOM_RIGHT  = 8;
 
-        public TextLabel(SKPointI renderPoint, string labelText, string labelColor, int alignment)
+        public TextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontFamily, int fontSize, int alignment)
         {
             RenderPoint = renderPoint;
             LabelText = labelText;
             LabelColor = labelColor;
+            FontFamily = fontFamily;
+            FontSize = fontSize;
             Alignment = alignment;
         }
 
@@ -55,14 +59,15 @@ namespace VGraph.src.objects
         //If we want to align things, we'll need to do it ourselves.
         public SKBitmap RenderTextLabel()
         {
-            SKBitmap image = new SKBitmap(new SKImageInfo(GetLabelRect().Width, GetLabelRect().Height));
+            //Double the height to account for letters like p and q.
+            SKBitmap image = new SKBitmap(new SKImageInfo(GetLabelRect().Width, GetLabelRect().Height * 2));
             SKCanvas drawingSurface = new SKCanvas(image);
             //drawingSurface.Clear(SKColors.Yellow);
             SKColor labelColor = TextLabel.DEFAULT_COLOR;
             SKColor.TryParse(LabelColor, out labelColor);
-            SKPaint standardBrush = new SKPaint { Color = labelColor, IsAntialias = true };
-            drawingSurface.DrawText(LabelText, 0, GetLabelRect().Height, standardBrush);
-            standardBrush.Dispose();
+            SKPaint textBrush = new SKPaint { Typeface = SKTypeface.FromFamilyName(FontFamily), TextSize = FontSize, Color = labelColor };
+            drawingSurface.DrawText(LabelText, 0, GetLabelRect().Height, textBrush);
+            textBrush.Dispose();
             return image;
         }
 
@@ -71,13 +76,23 @@ namespace VGraph.src.objects
         //If you want the raw size of the label, use this rectangle's width and height.
         public SKRectI GetLabelRect()
         {
-            SKPaint textBrush = new SKPaint { TextAlign = SKTextAlign.Right };
+            SKColor labelColor = TextLabel.DEFAULT_COLOR;
+            SKColor.TryParse(LabelColor, out labelColor);
+            SKPaint textBrush = new SKPaint { Typeface = SKTypeface.FromFamilyName(FontFamily), TextSize = FontSize, Color = labelColor };
             SKRect textBounds = new SKRect();
             textBrush.MeasureText(LabelText, ref textBounds);
 
             textBrush.Dispose();
 
             return SKRectI.Round(textBounds);
+        }
+
+        public SKRectI GetCanvasRect()
+        {
+            SKPointI origin = GetCanvasPoint();
+            SKRectI size = GetLabelRect();
+            SKRectI rVal = new SKRectI(origin.X, origin.Y, origin.X + size.Width, origin.Y + size.Height);
+            return rVal;
         }
 
         public SKPointI GetAlignmentOffset()

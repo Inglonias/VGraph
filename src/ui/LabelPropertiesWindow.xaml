@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:VGraph.src.ui"
         xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
         mc:Ignorable="d"
-        Title="LabelPropertiesWindow" Height="240" Width="300">
+        Title="LabelPropertiesWindow" Height="280" Width="320">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Text:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Margin="10" VerticalContentAlignment="Center" Text="Label Text"/>
+            <TextBox Name="TextBoxLabelText" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" Text="Label Text"/>
 
         </Grid>
         <Grid Grid.Row="1">
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Font:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" Name="cboxFonts" ItemsSource="{x:Static Fonts.SystemFontFamilies}" FontSize="12">
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" Name="ComboBoxFonts" ItemsSource="{x:Static Fonts.SystemFontFamilies}" FontSize="12">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
@@ -40,7 +40,7 @@
         </Grid>
         <Grid Grid.Row="2">
             <Label Grid.Column="0" Content="Alignment:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Center" Width="105">
+            <ComboBox Name="ComboBoxAlignment" Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Center" Width="105" SelectedIndex="0">
                 <ComboBoxItem Content="Top Left"/>
                 <ComboBoxItem Content="Top Center"/>
                 <ComboBoxItem Content="Top Right"/>
@@ -52,7 +52,7 @@
                 <ComboBoxItem Content="Bottom Right"/>
             </ComboBox>
             <Label Grid.Column="2" Content="Size:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="3" HorizontalAlignment="Left" Text="12" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextWrapping="NoWrap"  VerticalAlignment="Center" Width="32"/>
+            <TextBox Name="TextBoxFontSize" Grid.Column="3" HorizontalAlignment="Left" Text="12" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextWrapping="NoWrap"  VerticalAlignment="Center" Width="32"/>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="4*"/>
@@ -62,13 +62,13 @@
         </Grid>
         <Grid Grid.Row="3">
             <Label Grid.Row="0" Grid.Column="0" Content="Color:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button Grid.Column="1" Height="24" Width="80" HorizontalAlignment="Left" Margin="10,10,0,10">
+            <Button Grid.Column="1" Height="24" Width="84" HorizontalAlignment="Left" Margin="10,10,0,10" Click="ColorSelect_OnClick">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" PaintSurface="ColorSwatch_OnPaintSurface" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" HorizontalAlignment="Center" VerticalAlignment="Center" PaintSurface="ColorSwatch_OnPaintSurface"/>
                     <TextBlock Grid.Column="1" Text="Text Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </Grid>
             </Button>
@@ -82,8 +82,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="8" VerticalAlignment="Bottom" IsDefault="True">OK</Button>
-            <Button Grid.Column="1" Margin="8" VerticalAlignment="Bottom" IsCancel="True">Cancel</Button>
+            <Button Grid.Column="0" Margin="8" VerticalAlignment="Bottom" IsDefault="True" Click="Okay_OnClick">OK</Button>
+            <Button Grid.Column="1" Margin="8" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_OnClick">Cancel</Button>
         </Grid>
     </Grid>
 </Window>
