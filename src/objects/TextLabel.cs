@@ -1,5 +1,6 @@
 using SkiaSharp;
 using System;
+using System.Text.Json.Serialization;
 using VGraph.src.config;
 
 namespace VGraph.src.objects
@@ -7,23 +8,24 @@ namespace VGraph.src.objects
     public class TextLabel
     {
         public static readonly SKColor DEFAULT_COLOR = ConfigOptions.Instance.DefaultLineColor;
+        public static readonly int ALIGN_TOP_LEFT = 0;
+        public static readonly int ALIGN_TOP_CENTER = 1;
+        public static readonly int ALIGN_TOP_RIGHT = 2;
+        public static readonly int ALIGN_CENTER_LEFT = 3;
+        public static readonly int ALIGN_CENTER_CENTER = 4;
+        public static readonly int ALIGN_CENTER_RIGHT = 5;
+        public static readonly int ALIGN_BOTTOM_LEFT = 6;
+        public static readonly int ALIGN_BOTTOM_CENTER = 7;
+        public static readonly int ALIGN_BOTTOM_RIGHT = 8;
 
         public SKPointI RenderPoint { get; set; }
         public string LabelText { get; set; } = "";
         public string LabelColor { get; set; } //Stored as #AARRGGBB due to serialization issues with SKColor
         public string FontFamily { get; set; }
         public int FontSize { get; set; }
-        public int Alignment { get; set; } = 0;
-
-        public static readonly int ALIGN_TOP_LEFT      = 0;
-        public static readonly int ALIGN_TOP_CENTER    = 1;
-        public static readonly int ALIGN_TOP_RIGHT     = 2;
-        public static readonly int ALIGN_CENTER_LEFT   = 3;
-        public static readonly int ALIGN_CENTER_CENTER = 4;
-        public static readonly int ALIGN_CENTER_RIGHT  = 5;
-        public static readonly int ALIGN_BOTTOM_LEFT   = 6;
-        public static readonly int ALIGN_BOTTOM_CENTER = 7;
-        public static readonly int ALIGN_BOTTOM_RIGHT  = 8;
+        public int Alignment { get; set; }
+        [JsonIgnore]
+        public bool IsSelected { get; set; }
 
         public TextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontFamily, int fontSize, int alignment)
         {
@@ -33,6 +35,7 @@ namespace VGraph.src.objects
             FontFamily = fontFamily;
             FontSize = fontSize;
             Alignment = alignment;
+            IsSelected = false;
         }
 
         //If, for whatever reason, we choose not to deal with alignment, this will get the canvas point corresponding to the relevant grid square.
@@ -97,37 +100,32 @@ namespace VGraph.src.objects
 
         public SKPointI GetAlignmentOffset()
         {
-            return GetAlignmentOffset(Alignment);
-        }
-
-        private SKPointI GetAlignmentOffset(int alignType)
-        {
             SKPointI rVal = new SKPointI(0, 0);
             SKRectI bounds = GetLabelRect();
-            if (alignType / 3 == 0) //0, 1, 2
-            {
-
-            }
-            else if (alignType / 3 == 1) //3, 4, 5
-            {
-                rVal.Y -= bounds.Height / 2;
-            }
-            else if (alignType / 3 == 2) //6, 7, 8
+            if (Alignment / 3 == 0) //0, 1, 2
             {
                 rVal.Y -= bounds.Height;
             }
+            else if (Alignment / 3 == 1) //3, 4, 5
+            {
+                rVal.Y -= bounds.Height / 2;
+            }
+            else if (Alignment / 3 == 2) //6, 7, 8
+            {
+                //Do nothing
+            }
 
-            if (alignType % 3 == 0) //0, 3, 6
+            if (Alignment % 3 == 0) //0, 3, 6
             {
                 rVal.X -= bounds.Width;
             }
-            else if (alignType % 3 == 1) //1, 4, 7
+            else if (Alignment % 3 == 1) //1, 4, 7
             {
                 rVal.X -= bounds.Width / 2;
             }
-            else if (alignType % 3 == 2) // 2, 5, 8
+            else if (Alignment % 3 == 2) // 2, 5, 8
             {
-
+                //Do nothing
             }
 
             return rVal;
