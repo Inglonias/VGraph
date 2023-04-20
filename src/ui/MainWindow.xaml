@@ -23,7 +23,7 @@
         <CommandBinding Command="ui:MenuCommands.UndoCmd" Executed="UndoCommandBinding_Executed" CanExecute="UndoCommandBinding_CanExecute"/>
         <CommandBinding Command="ui:MenuCommands.RedoCmd" Executed="RedoCommandBinding_Executed" CanExecute="RedoCommandBinding_CanExecute"/>
         <CommandBinding Command="ui:MenuCommands.ResizeGridCmd" Executed="ResizeCommandBinding_Executed"/>
-        <CommandBinding Command="ui:MenuCommands.SelectAllCmd" Executed="SelectAllCommandBinding_Executed"/>
+        <CommandBinding Command="ui:MenuCommands.SelectAllCmd" Executed="SelectAllItemsCommandBinding_Executed"/>
 
         <CommandBinding Command="ui:MenuCommands.ZoomInCmd" Executed="ZoomInCommandBinding_Executed"/>
         <CommandBinding Command="ui:MenuCommands.ZoomOutCmd" Executed="ZoomOutCommandBinding_Executed"/>
@@ -39,7 +39,7 @@
         <CommandBinding Command="ui:UniversalCommands.MoveItemsDown" Executed="MoveDownCommandBinding_Executed"/>
         <CommandBinding Command="ui:UniversalCommands.MoveItemsLeft" Executed="MoveLeftCommandBinding_Executed"/>
         <CommandBinding Command="ui:UniversalCommands.MoveItemsRight" Executed="MoveRightCommandBinding_Executed"/>
-        <CommandBinding Command="ui:UniversalCommands.DeleteSelectedItems" Executed="DeleteSelectedCommandBinding_Executed"/>
+        <CommandBinding Command="ui:UniversalCommands.DeleteSelectedItems" Executed="DeleteSelectedItemsCommandBinding_Executed"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <!-- File Menu -->

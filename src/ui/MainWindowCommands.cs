@@ -135,38 +135,47 @@ namespace VGraph.src.ui
             MoveItemsCommandLogic("RIGHT");
         }
 
-        private void DeleteSelectedCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void DeleteSelectedItemsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             lineLayer.DeleteSelectedLines();
+            textLayer.DeleteSelectedLabels();
             MainCanvas.InvalidateVisual();
         }
 
-        private void SelectAllCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SelectAllItemsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             lineLayer.SelectAllLines();
+            textLayer.SelectAllLabels();
             MainCanvas.InvalidateVisual();
         }
 
         private void MoveItemsCommandLogic(string direction)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             if (direction == "UP")
             {
                 lineLayer.MoveSelectedLines(0, -1);
+                textLayer.MoveSelectedLabels(0, -1);
             }
             else if (direction == "DOWN")
             {
                 lineLayer.MoveSelectedLines(0, 1);
+                textLayer.MoveSelectedLabels(0, 1);
             }
             else if (direction == "LEFT")
             {
                 lineLayer.MoveSelectedLines(-1, 0);
+                textLayer.MoveSelectedLabels(-1, 0);
             }
             else if (direction == "RIGHT")
             {
                 lineLayer.MoveSelectedLines(1, 0);
+                textLayer.MoveSelectedLabels(1, 0);
             }
             MainCanvas.InvalidateVisual();
         }

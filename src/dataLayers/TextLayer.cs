@@ -148,16 +148,25 @@ namespace VGraph.src.dataLayers
             {
                 DeselectLabels();
             }
-            ForceRedraw();
             foreach (TextLabel l in LabelList)
             {
                 if (l.WasLabelSelected(point))
                 {
                     l.IsSelected = true;
+                    ForceRedraw();
                     return true;
                 }
             }
             return false;
+        }
+
+        internal void SelectAllLabels()
+        {
+            foreach (TextLabel l in LabelList)
+            {
+                l.IsSelected = true;
+            }
+            ForceRedraw();
         }
 
         public void HandleBoxSelect(SKRect boundingBox, bool maintainSelection)
@@ -166,7 +175,6 @@ namespace VGraph.src.dataLayers
             {
                 DeselectLabels();
             }
-            ForceRedraw();
             foreach (TextLabel l in LabelList)
             {
                 bool staySelected = l.IsSelected && maintainSelection;
@@ -175,6 +183,7 @@ namespace VGraph.src.dataLayers
                     l.IsSelected = true;
                 }
             }
+            ForceRedraw();
         }
 
         public void DeleteSelectedLabels()
