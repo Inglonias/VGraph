@@ -1,6 +1,7 @@
 using SkiaSharp;
 using System;
 using System.Text.Json.Serialization;
+using System.Windows;
 using VGraph.src.config;
 
 namespace VGraph.src.objects
@@ -63,15 +64,49 @@ namespace VGraph.src.objects
         public SKBitmap RenderTextLabel()
         {
             //Double the height to account for letters like p and q.
-            SKBitmap image = new SKBitmap(new SKImageInfo(GetLabelRect().Width, GetLabelRect().Height * 2));
+            SKBitmap image = new SKBitmap(new SKImageInfo(GetLabelRect().Width, GetLabelRect().Height * 3 / 2));
             SKCanvas drawingSurface = new SKCanvas(image);
             //drawingSurface.Clear(SKColors.Yellow);
             SKColor labelColor = TextLabel.DEFAULT_COLOR;
             SKColor.TryParse(LabelColor, out labelColor);
             SKPaint textBrush = new SKPaint { Typeface = SKTypeface.FromFamilyName(FontFamily), TextSize = FontSize, Color = labelColor };
+            float[] intervals = { 5.0f, 5.0f };
+            SKPathEffect dashPathEffect = SKPathEffect.CreateDash(intervals, 5.0f);
+            SKPaint selectedBrush = new SKPaint { Style = SKPaintStyle.Stroke,PathEffect = dashPathEffect, StrokeWidth = 5.0f, Color = ConfigOptions.Instance.LineHighlightColor, IsAntialias = true };
             drawingSurface.DrawText(LabelText, 0, GetLabelRect().Height, textBrush);
+            if (IsSelected)
+            {
+                SKRectI selectedRect = new SKRectI(0, 0, image.Width, image.Height);
+                drawingSurface.DrawRect(selectedRect, selectedBrush);
+            }
             textBrush.Dispose();
+            selectedBrush.Dispose();
             return image;
+        }
+
+        /// <summary>
+        /// Determines whether "clickPoint" was intended to select a line.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public bool WasLabelSelected(Point clickPoint)
+        {
+            SKRectI rect = GetCanvasRect();
+            int x = Convert.ToInt32(Math.Round(clickPoint.X));
+            int y = Convert.ToInt32(Math.Round(clickPoint.Y));
+            SKPointI skClickPoint = new SKPointI(x, y);
+            return rect.Contains(skClickPoint);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public bool WasLabelSelected(SKRect boundingBox)
+        {
+            SKRectI rect = GetCanvasRect();
+            return boundingBox.Contains(rect);
         }
 
         //Note that this does NOT retrieve the size of the label. It retrieves the BOUNDS of the label.

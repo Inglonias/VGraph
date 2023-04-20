@@ -140,9 +140,116 @@ namespace VGraph.src.dataLayers
             lpw.Show();
         }
 
-        public bool HandleSelectionClick(Point point)
+        public bool HandleSelectionClick(Point point, bool maintainSelection)
         {
+            //This function does NOT handle box selections. Because of that, we're looking for one line that was clicked on.
+            //As soon as we find that line, we return true. If we go through the whole list and find nothing, return false.
+            if (!maintainSelection)
+            {
+                DeselectLabels();
+            }
+            ForceRedraw();
+            foreach (TextLabel l in LabelList)
+            {
+                if (l.WasLabelSelected(point))
+                {
+                    l.IsSelected = true;
+                    return true;
+                }
+            }
             return false;
+        }
+
+        public void HandleBoxSelect(SKRect boundingBox, bool maintainSelection)
+        {
+            if (!maintainSelection)
+            {
+                DeselectLabels();
+            }
+            ForceRedraw();
+            foreach (TextLabel l in LabelList)
+            {
+                bool staySelected = l.IsSelected && maintainSelection;
+                if (l.WasLabelSelected(boundingBox) || staySelected)
+                {
+                    l.IsSelected = true;
+                }
+            }
+        }
+
+        public void DeleteSelectedLabels()
+        {
+            PageHistory.Instance.CreateUndoPoint(null, LabelList);
+            for (int i = LabelList.Count - 1; i >= 0; i--)
+            {
+                if (LabelList[i].IsSelected)
+                {
+                    LabelList.RemoveAt(i);
+                    ForceRedraw();
+                }
+            }
+        }
+
+        public void MoveSelectedLabels(int x, int y)
+        {
+            TextLabel[] targetLabels = GetSelectedLabels();
+            if (targetLabels.Length == 0)
+            {
+                return;
+            }
+            bool moveValid = true;
+            foreach (TextLabel l in GetSelectedLabels())
+            {
+                int targetX = l.RenderPoint.X + x;
+                int targetY = l.RenderPoint.Y + y;
+                moveValid = targetX >= 0 && targetX <= PageData.Instance.SquaresWide && targetY >= 0 && targetY <= PageData.Instance.SquaresTall;
+                if (!moveValid)
+                {
+                    return;
+                }
+            }
+            foreach (TextLabel l in GetSelectedLabels())
+            {
+                l.RenderPoint = new SKPointI(l.RenderPoint.X + x, l.RenderPoint.Y + y);
+            }
+            PageData.Instance.MakeCanvasDirty();
+            ForceRedraw();
+        }
+
+        public TextLabel[] GetSelectedLabels()
+        {
+            List<TextLabel> selectedLines = new List<TextLabel>();
+            foreach (TextLabel l in LabelList)
+            {
+                if (l.IsSelected)
+                {
+                    selectedLines.Add(l);
+                }
+            }
+            return selectedLines.ToArray();
+        }
+
+        private void DeselectLabels()
+        {
+            foreach (TextLabel l in LabelList)
+            {
+                l.IsSelected = false;
+            }
+        }
+
+        internal void ClearAllLabels()
+        {
+            LabelList.Clear();
+            ForceRedraw();
+        }
+
+        internal void AddNewLabels(TextLabel[] textLabels)
+        {
+            foreach (TextLabel l in textLabels)
+            {
+                LabelList.Add(l);
+            }
+            ForceRedraw();
         }
     }
 }

@@ -84,6 +84,7 @@ namespace VGraph.src.ui
                 if (!selectionBox.Equals(SKRect.Empty))
                 {
                     LLines.HandleBoxSelect(selectionBox, maintainSelection);
+                    LText.HandleBoxSelect(selectionBox, maintainSelection);
                 }
                 LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
             }
@@ -208,7 +209,7 @@ namespace VGraph.src.ui
             else if (e.ChangedButton == MouseButton.Left)
             {
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas));
+                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
                 if (selectionMade && PageData.Instance.IsEyedropperActive)
                 {
                     PageData.Instance.IsEyedropperActive = false;
