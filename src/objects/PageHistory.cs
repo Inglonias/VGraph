@@ -46,11 +46,13 @@ namespace VGraph.src.objects
                 undoPoint.Labels = DeepCopyList(labelList);
             }
             UndoHistory.Push(undoPoint);
+            RedoHistory.Clear();
         }
 
         public void CreateUndoPoint (PageState ps)
         {
             UndoHistory.Push(ps);
+            RedoHistory.Clear();
         }
         
         public void CreateRedoPoint(List<LineSegment>? lineList, List<TextLabel>? labelList)
