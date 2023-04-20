@@ -201,13 +201,15 @@ namespace VGraph.src.ui
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
                 SKPointI targetGrid = LCursor.GetCursorGridPoints();
+                LText.HandleCreationClick(target, targetGrid);
                 LPreview.HandleCreationClick(target, targetGrid);
                 MainMenuBar.CheckEditButtonValidity();
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                if (LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) && PageData.Instance.IsEyedropperActive)
+                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas));
+                if (selectionMade && PageData.Instance.IsEyedropperActive)
                 {
                     PageData.Instance.IsEyedropperActive = false;
                     MainMenuBar.Eyedropper_Tool.IsChecked = false;

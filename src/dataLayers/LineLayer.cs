@@ -30,7 +30,7 @@ namespace VGraph.src.dataLayers
 
         private const int historyCapacity = 20;
 
-        public IDrawTool SelectedTool { get; set; }
+        public IDrawTool? SelectedTool { get; set; }
 
         public LineLayer()
         {
@@ -50,6 +50,11 @@ namespace VGraph.src.dataLayers
 
         public void SelectTool(string tool)
         {
+            if (tool.Equals("Text_Tool"))
+            {
+                SelectedTool = null;
+                return;
+            }
             SelectedTool = Tools[tool];
         }
 

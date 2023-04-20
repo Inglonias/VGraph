@@ -1,6 +1,7 @@
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using VGraph.src.config;
 using VGraph.src.objects;
 
@@ -12,6 +13,7 @@ namespace VGraph.src.dataLayers
         bool IDataLayer.DrawInExport => true;
         public List<TextLabel> LabelList { get; set; } = new List<TextLabel>();
         private SKBitmap LastImage;
+        public bool ToolActive { get; private set; } = false;
 
         public void ForceRedraw()
         {
@@ -78,7 +80,7 @@ namespace VGraph.src.dataLayers
                 {
                     minY = p.Y;
                 }
-                
+
             }
 
             return new SKPointI(minX, minY);
@@ -106,12 +108,27 @@ namespace VGraph.src.dataLayers
 
         public bool IsRedrawRequired()
         {
-            return true;
+            return RedrawRequired;
         }
 
         public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, int alignment)
         {
             LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, alignment));
+        }
+
+        public void SelectTool(string tool)
+        {
+            ToolActive = tool.Equals("Text_Tool");
+        }
+
+        public void HandleCreationClick(SKPointI target, SKPointI targetGrid)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HandleSelectionClick(Point point)
+        {
+            return false;
         }
     }
 }

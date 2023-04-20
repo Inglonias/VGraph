@@ -183,13 +183,16 @@ namespace VGraph.src.ui
             toolMenuItems.Add(Circle_Tool);
             toolMenuItems.Add(Boxy_Circle_Tool);
             toolMenuItems.Add(Ellipse_Tool);
+            toolMenuItems.Add(Text_Tool);
 
             foreach (ToggleButton m in toolMenuItems)
             {
                 m.IsChecked = m.Name.Equals(tool);
             }
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             lineLayer.SelectTool(tool);
+            textLayer.SelectTool(tool);
         }
 
         public void Undo()
