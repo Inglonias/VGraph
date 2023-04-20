@@ -13,13 +13,14 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class LabelPropertiesWindow : Window
     {
+        public SKPointI TargetGridPoint { get; set; }
+        public TextLabel? AssociatedLabel { get; private set; } = null;
         public LabelPropertiesWindow()
         {
             InitializeComponent();
             ColorSwatch.InvalidateVisual();
         }
 
-        public SKPointI TargetGridPoint { get; set; }
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
@@ -56,6 +57,20 @@ namespace VGraph.src.ui
         private void ColorSwatch_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
             e.Surface.Canvas.Clear(PageData.Instance.CurrentLabelColor);
+        }
+
+        public void AssociateWithLabel(TextLabel tl)
+        {
+            AssociatedLabel = tl;
+            TargetGridPoint = tl.RenderPoint;
+            TextBoxLabelText.Text = tl.LabelText;
+            SKColor labelColor = PageData.Instance.CurrentLabelColor;
+            SKColor.TryParse(tl.LabelColor, out labelColor);
+            PageData.Instance.CurrentLabelColor = labelColor;
+            ColorSwatch.InvalidateVisual();
+            ComboBoxFonts.SelectedItem = new System.Windows.Media.FontFamily(tl.FontFamily);
+            ComboBoxAlignment.SelectedIndex = tl.Alignment;
+            TextBoxFontSize.Text = tl.FontSize.ToString();
         }
     }
 }
