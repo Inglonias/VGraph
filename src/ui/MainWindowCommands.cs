@@ -208,6 +208,6 @@ namespace VGraph.src.ui
         public static RoutedCommand MoveItemsLeft  = new RoutedCommand("MoveItemsLeft", typeof(UniversalCommands));
         public static RoutedCommand MoveItemsRight = new RoutedCommand("MoveItemsRight", typeof(UniversalCommands));
 
-        public static RoutedCommand DeleteSelectedLines = new RoutedCommand("DeleteSelectedLines", typeof(UniversalCommands));
+        public static RoutedCommand DeleteSelectedItems = new RoutedCommand("DeleteSelectedItems", typeof(UniversalCommands));
     }
 }
