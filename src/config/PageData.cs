@@ -177,7 +177,7 @@ namespace VGraph.src.config
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
                 TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
 
-                PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
+                PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList, true);
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
 
                 //Text label was added later, so this may be null.

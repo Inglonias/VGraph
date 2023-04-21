@@ -186,7 +186,7 @@ namespace VGraph.src.dataLayers
                 }
                 if (lines != null)
                 {
-                    PageHistory.Instance.CreateUndoPoint(lLines.LineList, null);
+                    PageHistory.Instance.CreateUndoPoint(lLines.LineList, null, true);
                     lLines.AddNewLines(lines);
                     PageData.Instance.MakeCanvasDirty();
                     ForceRedraw();

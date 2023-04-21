@@ -36,7 +36,7 @@ namespace VGraph.src.ui
             }
             else
             {
-                PageHistory.Instance.CreateUndoPoint(null, lText.LabelList);
+                PageHistory.Instance.CreateUndoPoint(null, lText.LabelList, true);
                 AssociatedLabel.LabelColor = PageData.Instance.CurrentLabelColor.ToString();
                 AssociatedLabel.LabelText = TextBoxLabelText.Text;
                 AssociatedLabel.FontFamily = ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source;
