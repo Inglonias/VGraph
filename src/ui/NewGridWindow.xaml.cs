@@ -55,6 +55,7 @@ namespace VGraph.src.ui
                 PageData.Instance.BackgroundImageAlpha = Convert.ToByte(BackgroundOpacityTextBox.Text);
                 GridBackgroundLayer gridBackgroundLayer = (GridBackgroundLayer)PageData.Instance.GetDataLayers()[PageData.GRID_LAYER];
                 LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayers()[PageData.LINE_LAYER];
+                TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayers()[PageData.TEXT_LAYER];
 
                 gridBackgroundLayer.ForceRedraw();
                 if (DeleteLines)
@@ -62,6 +63,7 @@ namespace VGraph.src.ui
                     PageData.Instance.LastSavePath = String.Empty;
                     PageData.Instance.MakeCanvasClean();
                     lineLayer.ClearAllLines();
+                    textLayer.ClearAllLabels();
                 }
                 lineLayer.ForceRedraw();
                 MainWindowParent.MainCanvas.InvalidateVisual();

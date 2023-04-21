@@ -51,7 +51,7 @@ namespace VGraph.src.dataLayers
                 SKCanvas drawingSurface = new SKCanvas(image);
                 SKPaint previewBrush = new SKPaint { Style = SKPaintStyle.Stroke, StrokeWidth = drawRadius, Color = PageData.Instance.CurrentLineColor.WithAlpha(86), IsAntialias = true };
 
-                if (PreviewPointActive)
+                if (PreviewPointActive && lLines.SelectedTool != null)
                 {
                     SKPointI cursorGridPoint = ((CursorLayer)PageData.Instance.GetDataLayer(PageData.CURSOR_LAYER)).GetCursorGridPoints();
                     if (!OddMode) {
@@ -167,6 +167,11 @@ namespace VGraph.src.dataLayers
         {
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
 
+            if (lLines.SelectedTool == null)
+            {
+                return;
+            }
+
             if (PreviewPointActive)
             {
                 PreviewPointActive = false;
@@ -181,7 +186,7 @@ namespace VGraph.src.dataLayers
                 }
                 if (lines != null)
                 {
-                    lLines.CreateUndoPoint();
+                    PageHistory.Instance.CreateUndoPoint(lLines.LineList, null);
                     lLines.AddNewLines(lines);
                     PageData.Instance.MakeCanvasDirty();
                     ForceRedraw();

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
+using VGraph.src.objects;
 
 namespace VGraph.src.ui
 {
@@ -54,8 +55,7 @@ namespace VGraph.src.ui
 
         private void UndoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = lineLayer.CanUndo();
+            e.CanExecute = PageHistory.Instance.CanUndo();
         }
 
         private void RedoCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -65,8 +65,7 @@ namespace VGraph.src.ui
 
         private void RedoCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            e.CanExecute = lineLayer.CanRedo();
+            e.CanExecute = PageHistory.Instance.CanRedo();
         }
 
         private void ResizeCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -116,58 +115,67 @@ namespace VGraph.src.ui
             MainMenuBar.ShowConfigWindow();
         }
 
-        private void MoveLinesUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveUpCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("UP");
+            MoveItemsCommandLogic("UP");
         }
 
-        private void MoveLinesDownCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveDownCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("DOWN");
+            MoveItemsCommandLogic("DOWN");
         }
 
-        private void MoveLinesLeftCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveLeftCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("LEFT");
+            MoveItemsCommandLogic("LEFT");
         }
 
-        private void MoveLinesRightCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void MoveRightCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MoveLinesCommandLogic("RIGHT");
+            MoveItemsCommandLogic("RIGHT");
         }
 
-        private void DeleteSelectedLinesCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void DeleteSelectedItemsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             lineLayer.DeleteSelectedLines();
+            textLayer.DeleteSelectedLabels();
             MainCanvas.InvalidateVisual();
         }
 
-        private void SelectAllCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void SelectAllItemsCommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             lineLayer.SelectAllLines();
+            textLayer.SelectAllLabels();
             MainCanvas.InvalidateVisual();
         }
 
-        private void MoveLinesCommandLogic(string direction)
+        private void MoveItemsCommandLogic(string direction)
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             if (direction == "UP")
             {
                 lineLayer.MoveSelectedLines(0, -1);
+                textLayer.MoveSelectedLabels(0, -1);
             }
             else if (direction == "DOWN")
             {
                 lineLayer.MoveSelectedLines(0, 1);
+                textLayer.MoveSelectedLabels(0, 1);
             }
             else if (direction == "LEFT")
             {
                 lineLayer.MoveSelectedLines(-1, 0);
+                textLayer.MoveSelectedLabels(-1, 0);
             }
             else if (direction == "RIGHT")
             {
                 lineLayer.MoveSelectedLines(1, 0);
+                textLayer.MoveSelectedLabels(1, 0);
             }
             MainCanvas.InvalidateVisual();
         }
@@ -197,18 +205,18 @@ namespace VGraph.src.ui
         public static RoutedCommand BackgroundImageCmd = new RoutedCommand("BackgroundImageCmd", typeof(MenuCommands));
 
         //Tools Menu
-        public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergerLinesCmd", typeof(MenuCommands));
+        public static RoutedCommand MergeLinesCmd      = new RoutedCommand("MergeLinesCmd", typeof(MenuCommands));
         public static RoutedCommand MirrorLinesCmd     = new RoutedCommand("MirrorLinesCmd", typeof(MenuCommands));
         public static RoutedCommand ConfigWindowCmd    = new RoutedCommand("ConfigWindowCmd", typeof(MenuCommands));
     }
 
     public class UniversalCommands
     {
-        public static RoutedCommand MoveLinesUp    = new RoutedCommand("MoveLinesUp", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesDown  = new RoutedCommand("MoveLinesDown", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesLeft  = new RoutedCommand("MoveLinesLeft", typeof(UniversalCommands));
-        public static RoutedCommand MoveLinesRight = new RoutedCommand("MoveLinesRight", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsUp    = new RoutedCommand("MoveItemsUp", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsDown  = new RoutedCommand("MoveItemsDown", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsLeft  = new RoutedCommand("MoveItemsLeft", typeof(UniversalCommands));
+        public static RoutedCommand MoveItemsRight = new RoutedCommand("MoveItemsRight", typeof(UniversalCommands));
 
-        public static RoutedCommand DeleteSelectedLines = new RoutedCommand("DeleteSelectedLines", typeof(UniversalCommands));
+        public static RoutedCommand DeleteSelectedItems = new RoutedCommand("DeleteSelectedItems", typeof(UniversalCommands));
     }
 }

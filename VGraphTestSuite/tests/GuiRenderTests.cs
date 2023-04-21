@@ -59,5 +59,12 @@ namespace VGraphTestSuite
             //Moooooooooo
             cow.Show();
         }
+
+        [WpfTestMethod]
+        public void TestLabelWindow()
+        {
+            LabelPropertiesWindow lpw = new LabelPropertiesWindow();
+            lpw.Show();
+        }
     }
 }

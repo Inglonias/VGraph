@@ -15,6 +15,7 @@ namespace VGraph.src.config
         public const string LINE_LAYER = "Line Layer";
         public const string PREVIEW_LAYER = "Preview Layer";
         public const string CURSOR_LAYER = "Cursor Layer";
+        public const string TEXT_LAYER = "Text Layer";
         //Default values produce an 8.5" x 11" piece of paper at 96 dpi.
         public int SquaresWide { get; set; }
         public int SquaresTall { get; set; }
@@ -26,7 +27,7 @@ namespace VGraph.src.config
         public string BackgroundImagePath { get; private set; } = "";
         public string LastSavePath { get; set; } = "";
         public SKColor CurrentLineColor { get; set; }
-
+        public SKColor CurrentLabelColor { get; set; } = SKColors.Black;
 
         public bool ExportCenterLines { get; set; } = false;
         public bool ExportGridLines { get; set; } = true;
@@ -132,9 +133,16 @@ namespace VGraph.src.config
                 SetBackgroundImage(saveFile.BackgroundImagePath);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+                TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
 
                 lineLayer.ClearAllLines();
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
+                textLayer.ClearAllLabels();
+                //Text label was added later, so this may be null.
+                if (saveFile.Labels != null)
+                {
+                    textLayer.AddNewLabels(saveFile.Labels.ToArray());
+                }
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {
@@ -167,10 +175,9 @@ namespace VGraph.src.config
                 SquaresTall = Math.Max(this.SquaresTall, saveFile.SquaresTall);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+                TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
 
-                //lineLayer.ClearAllLines();
-
-                lineLayer.CreateUndoPoint();
+                PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
@@ -194,6 +201,7 @@ namespace VGraph.src.config
         public bool FileSave(string fileName)
         {
             LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+            TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
             VgpFile saveFile = new VgpFile
             {
                 SquaresWide = SquaresWide,
@@ -202,7 +210,8 @@ namespace VGraph.src.config
                 MarginX = MarginX,
                 MarginY = MarginY,
                 BackgroundImagePath = BackgroundImagePath,
-                Lines = lineLayer.LineList
+                Lines = lineLayer.LineList,
+                Labels = textLayer.LabelList
             };
             string jsonString = JsonSerializer.Serialize(saveFile);
             try

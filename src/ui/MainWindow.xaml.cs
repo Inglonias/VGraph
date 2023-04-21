@@ -28,6 +28,7 @@ namespace VGraph.src.ui
         private readonly LineLayer LLines;
         private readonly PreviewLayer LPreview;
         private readonly CursorLayer LCursor;
+        private readonly TextLayer LText;
         private readonly History<long> FrameRateHistory = new History<long>(10);
 
         public MainWindow()
@@ -36,6 +37,8 @@ namespace VGraph.src.ui
             LLines = new LineLayer();
             LPreview = new PreviewLayer();
             LCursor = new CursorLayer();
+            LText = new TextLayer();
+            //LText.AddTextLabel(new SKPointI(10, 10),"Hello world", "#ff000000", TextLabel.ALIGN_CENTER_CENTER);
             AssignPageData();
             FrameCapTimer = new System.Timers.Timer(1000.0 / ConfigOptions.Instance.MaxFrameRate);
             FrameCapTimer.Elapsed += AllowFrameDraw;
@@ -59,6 +62,7 @@ namespace VGraph.src.ui
             PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = LGrid;
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = LLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = LPreview;
+            PageData.Instance.GetDataLayers()[PageData.TEXT_LAYER] = LText;
             PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = LCursor;
         }
 
@@ -80,6 +84,7 @@ namespace VGraph.src.ui
                 if (!selectionBox.Equals(SKRect.Empty))
                 {
                     LLines.HandleBoxSelect(selectionBox, maintainSelection);
+                    LText.HandleBoxSelect(selectionBox, maintainSelection);
                 }
                 LCursor.CursorPoint = LCursor.RoundToNearestIntersection(LCursor.CanvasPoint);
             }
@@ -197,13 +202,15 @@ namespace VGraph.src.ui
             {
                 SKPointI target = LCursor.RoundToNearestIntersection(e.GetPosition(MainCanvas));
                 SKPointI targetGrid = LCursor.GetCursorGridPoints();
+                LText.HandleCreationClick(target, targetGrid);
                 LPreview.HandleCreationClick(target, targetGrid);
                 MainMenuBar.CheckEditButtonValidity();
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                if (LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) && PageData.Instance.IsEyedropperActive)
+                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
+                if (selectionMade && PageData.Instance.IsEyedropperActive)
                 {
                     PageData.Instance.IsEyedropperActive = false;
                     MainMenuBar.Eyedropper_Tool.IsChecked = false;

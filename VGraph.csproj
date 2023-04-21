@@ -25,6 +25,7 @@
     <None Remove="images\Eyedropper.png" />
     <None Remove="images\Line.png" />
     <None Remove="images\Triangle.png" />
+    <None Remove="images\Texttool.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,7 @@
     <Resource Include="images\Eyedropper.png" />
     <Resource Include="images\Line.png" />
     <Resource Include="images\Triangle.png" />
+    <Resource Include="images\Texttool.png" />
   </ItemGroup>
 
   <ItemGroup>
