@@ -180,6 +180,11 @@ namespace VGraph.src.config
                 PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
 
+                //Text label was added later, so this may be null.
+                if (saveFile.Labels != null)
+                {
+                    textLayer.AddNewLabels(saveFile.Labels.ToArray());
+                }
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {
                     l.Value.ForceRedraw();
