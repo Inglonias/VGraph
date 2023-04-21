@@ -117,7 +117,9 @@ namespace VGraph.src.dataLayers
 
         public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontName, int fontSize, int alignment)
         {
+            PageHistory.Instance.CreateUndoPoint(null, LabelList);
             LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, fontName, fontSize, alignment));
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
 
@@ -214,6 +216,7 @@ namespace VGraph.src.dataLayers
                     ForceRedraw();
                 }
             }
+            PageData.Instance.MakeCanvasDirty();
         }
 
         public void MoveSelectedLabels(int x, int y)
@@ -275,6 +278,7 @@ namespace VGraph.src.dataLayers
             {
                 LabelList.Add(l);
             }
+            PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
     }

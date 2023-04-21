@@ -36,6 +36,7 @@ namespace VGraph.src.ui
             }
             else
             {
+                PageHistory.Instance.CreateUndoPoint(null, lText.LabelList);
                 AssociatedLabel.LabelColor = PageData.Instance.CurrentLabelColor.ToString();
                 AssociatedLabel.LabelText = TextBoxLabelText.Text;
                 AssociatedLabel.FontFamily = ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source;
@@ -43,6 +44,7 @@ namespace VGraph.src.ui
                 AssociatedLabel.Alignment = ComboBoxAlignment.SelectedIndex;
                 lText.ForceRedraw();
             }
+            PageData.Instance.MakeCanvasDirty();
             Close();
         }
 
