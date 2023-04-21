@@ -205,10 +205,12 @@ namespace VGraph.src.ui
             if (ps.Lines != null)
             {
                 lineLayer.LineList = ps.Lines;
+                lineLayer.ForceRedraw();
             }
             if (ps.Labels != null)
             {
                 textLayer.LabelList = ps.Labels;
+                textLayer.ForceRedraw();
             }
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
