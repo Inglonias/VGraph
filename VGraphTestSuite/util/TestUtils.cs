@@ -15,11 +15,13 @@ namespace VGraphTestSuite.util
             GridBackgroundLayer lGrid = new();
             LineLayer lLines = new();
             CursorLayer lCursor = new();
+            TextLayer lText = new();
             PreviewLayer lPreview = new();
 
             PageData.Instance.GetDataLayers()[PageData.GRID_LAYER] = lGrid;
             PageData.Instance.GetDataLayers()[PageData.LINE_LAYER] = lLines;
             PageData.Instance.GetDataLayers()[PageData.PREVIEW_LAYER] = lPreview;
+            PageData.Instance.GetDataLayers()[PageData.TEXT_LAYER] = lText;
             PageData.Instance.GetDataLayers()[PageData.CURSOR_LAYER] = lCursor;
         }
     }
