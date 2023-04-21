@@ -53,7 +53,6 @@ namespace VGraphTestSuite
         public void MoveLinesTest()
         {
             LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
-            lLines.SelectAllLines();
             SKPointI start = new(0, 0);
             SKPointI end = new(10, 10);
             LineSegment[] lineArray = new LineTool().DrawWithTool(start, end);
@@ -83,6 +82,36 @@ namespace VGraphTestSuite
             Assert.AreEqual(lineArray[0].StartPointGrid.Y, 0);
             Assert.AreEqual(lineArray[0].EndPointGrid.X, 10);
             Assert.AreEqual(lineArray[0].EndPointGrid.Y, 10);
+        }
+
+        [TestMethod]
+        public void MoveLabelsTest()
+        {
+            TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
+            TextLabel l = new TextLabel(new SKPointI(1, 1), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_TOP_LEFT);
+            TextLabel[] al = { l };
+            lText.AddNewLabels(al);
+            lText.SelectAllLabels();
+
+            lText.MoveSelectedLabels(1, 0);
+            Assert.AreEqual(al[0].RenderPoint.X, 2);
+            Assert.AreEqual(al[0].RenderPoint.Y, 1);
+
+            lText.MoveSelectedLabels(0, 1);
+            Assert.AreEqual(al[0].RenderPoint.X, 2);
+            Assert.AreEqual(al[0].RenderPoint.Y, 2);
+
+            lText.MoveSelectedLabels(-1, 0);
+            Assert.AreEqual(al[0].RenderPoint.X, 1);
+            Assert.AreEqual(al[0].RenderPoint.Y, 2);
+
+            lText.MoveSelectedLabels(0, -1);
+            Assert.AreEqual(al[0].RenderPoint.X, 1);
+            Assert.AreEqual(al[0].RenderPoint.Y, 1);
+
+            lText.MoveSelectedLabels(0, -3);
+            Assert.AreEqual(al[0].RenderPoint.X, 1);
+            Assert.AreEqual(al[0].RenderPoint.Y, 1);
         }
     }
 }

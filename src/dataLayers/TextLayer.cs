@@ -177,7 +177,7 @@ namespace VGraph.src.dataLayers
             return false;
         }
 
-        internal void SelectAllLabels()
+        public void SelectAllLabels()
         {
             foreach (TextLabel l in LabelList)
             {
@@ -263,13 +263,13 @@ namespace VGraph.src.dataLayers
             }
         }
 
-        internal void ClearAllLabels()
+        public void ClearAllLabels()
         {
             LabelList.Clear();
             ForceRedraw();
         }
 
-        internal void AddNewLabels(TextLabel[] textLabels)
+        public void AddNewLabels(TextLabel[] textLabels)
         {
             foreach (TextLabel l in textLabels)
             {

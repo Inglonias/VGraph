@@ -133,9 +133,16 @@ namespace VGraph.src.config
                 SetBackgroundImage(saveFile.BackgroundImagePath);
 
                 LineLayer lineLayer = (LineLayer)DataLayers[LINE_LAYER];
+                TextLayer textLayer = (TextLayer)DataLayers[TEXT_LAYER];
 
                 lineLayer.ClearAllLines();
                 lineLayer.AddNewLines(saveFile.Lines.ToArray());
+                textLayer.ClearAllLabels();
+                //Text label was added later, so this may be null.
+                if (saveFile.Labels != null)
+                {
+                    textLayer.AddNewLabels(saveFile.Labels.ToArray());
+                }
 
                 foreach (KeyValuePair<string, IDataLayer> l in DataLayers)
                 {
