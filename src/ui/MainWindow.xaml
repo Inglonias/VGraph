@@ -47,6 +47,7 @@
         <KeyBinding Gesture="Ctrl+O" Command="ui:MenuCommands.OpenGridCmd"/>
         <KeyBinding Gesture="Ctrl+S" Command="ui:MenuCommands.SaveGridCmd"/>
         <KeyBinding Gesture="Ctrl+Shift+S" Command="ui:MenuCommands.ExportGridCmd"/>
+        <KeyBinding Gesture="Ctrl+Alt+S" Command="ui:MenuCommands.SaveGridAsCmd"/>
         <KeyBinding Gesture="Ctrl+Shift+O" Command="ui:MenuCommands.ImportGridCmd"/>
 
         <!-- Edit Menu -->
