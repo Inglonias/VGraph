@@ -219,7 +219,7 @@ namespace VGraph.src.ui
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList);
+            PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, textLayer.LabelList, false);
             PageState ps = PageHistory.Instance.PopRedoAction();
 
             if (ps.Lines != null)
@@ -303,7 +303,7 @@ namespace VGraph.src.ui
 
                 if (selectedLines.Length > 0)
                 {
-                    PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, null);
+                    PageHistory.Instance.CreateUndoPoint(lineLayer.LineList, null, true);
                     foreach (LineSegment l in selectedLines)
                     {
                         l.LineColor = colorNew.ToString();

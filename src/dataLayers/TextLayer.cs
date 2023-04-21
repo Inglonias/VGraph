@@ -117,7 +117,7 @@ namespace VGraph.src.dataLayers
 
         public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontName, int fontSize, int alignment)
         {
-            PageHistory.Instance.CreateUndoPoint(null, LabelList);
+            PageHistory.Instance.CreateUndoPoint(null, LabelList, true);
             LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, fontName, fontSize, alignment));
             PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
@@ -205,18 +205,24 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
-        public void DeleteSelectedLabels()
+        public bool DeleteSelectedLabels()
         {
-            PageHistory.Instance.CreateUndoPoint(null, LabelList);
+            bool labelsDeleted = false;
             for (int i = LabelList.Count - 1; i >= 0; i--)
             {
                 if (LabelList[i].IsSelected)
                 {
+                    if (!labelsDeleted)
+                    {
+                        labelsDeleted = true;
+                        PageHistory.Instance.CreateUndoPoint(null, LabelList, true);
+                        PageData.Instance.MakeCanvasDirty();
+                    }
                     LabelList.RemoveAt(i);
                     ForceRedraw();
                 }
             }
-            PageData.Instance.MakeCanvasDirty();
+            return labelsDeleted;
         }
 
         public void MoveSelectedLabels(int x, int y)

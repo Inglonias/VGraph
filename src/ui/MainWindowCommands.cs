@@ -139,8 +139,12 @@ namespace VGraph.src.ui
         {
             LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
             TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            lineLayer.DeleteSelectedLines();
-            textLayer.DeleteSelectedLabels();
+            bool linesDeleted = lineLayer.DeleteSelectedLines();
+            bool labelsDeleted = textLayer.DeleteSelectedLabels();
+            if (linesDeleted && labelsDeleted)
+            {
+                PageHistory.Instance.MergeLineLabelUndo();
+            }
             MainCanvas.InvalidateVisual();
         }
 

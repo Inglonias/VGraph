@@ -34,7 +34,7 @@ namespace VGraph.src.objects
             return RedoHistory.Count > 0;
         }
 
-        public void CreateUndoPoint(List<LineSegment>? lineList, List<TextLabel>? labelList)
+        public void CreateUndoPoint(List<LineSegment>? lineList, List<TextLabel>? labelList, bool clearRedo)
         {
             PageState undoPoint = new PageState();
             if (lineList != null)
@@ -46,7 +46,10 @@ namespace VGraph.src.objects
                 undoPoint.Labels = DeepCopyList(labelList);
             }
             UndoHistory.Push(undoPoint);
-            RedoHistory.Clear();
+            if (clearRedo)
+            {
+                RedoHistory.Clear();
+            }
         }
 
         public void CreateUndoPoint (PageState ps)
@@ -92,6 +95,29 @@ namespace VGraph.src.objects
         public void ClearRedo()
         {
             RedoHistory.Clear();
+        }
+
+        public void MergeLineLabelUndo()
+        {
+            PageState ps1 = UndoHistory.Pop();
+            PageState ps2 = UndoHistory.Pop();
+
+            if (ps1.Labels == null && ps2.Lines == null)
+            {
+                UndoHistory.Push(new PageState
+                {
+                    Lines = ps1.Lines,
+                    Labels = ps2.Labels
+                });
+            }
+            else if (ps1.Lines == null && ps2.Labels == null)
+            {
+                UndoHistory.Push(new PageState
+                {
+                    Lines = ps2.Lines,
+                    Labels = ps1.Labels
+                });
+            }
         }
 
         private List<T> DeepCopyList<T>(List<T> source)

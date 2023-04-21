@@ -110,7 +110,7 @@ namespace VGraph.src.dataLayers
         /// </summary>
         public void MergeAllLines()
         {
-            PageHistory.Instance.CreateUndoPoint(LineList, null);
+            PageHistory.Instance.CreateUndoPoint(LineList, null, true);
             List<LineSegment> finalList = new List<LineSegment>();
             bool recheck = true;
             while (recheck)
@@ -211,7 +211,7 @@ namespace VGraph.src.dataLayers
                 }
             }
 
-            PageHistory.Instance.CreateUndoPoint(LineList, null);
+            PageHistory.Instance.CreateUndoPoint(LineList, null, true);
 
             if (destroyOtherSide)
             {
@@ -257,17 +257,25 @@ namespace VGraph.src.dataLayers
             ForceRedraw();
         }
 
-        public void DeleteSelectedLines()
+        public bool DeleteSelectedLines()
         {
-            PageHistory.Instance.CreateUndoPoint(LineList, null);
+            bool linesDeleted = false;
+            
             for (int i = LineList.Count - 1; i >= 0; i--)
             {
                 if (LineList[i].IsSelected)
                 {
+                    if (!linesDeleted)
+                    {
+                        linesDeleted = true;
+                        PageHistory.Instance.CreateUndoPoint(LineList, null, true);
+                        PageData.Instance.MakeCanvasDirty();
+                    }
                     LineList.RemoveAt(i);
                     ForceRedraw();
                 }
             }
+            return linesDeleted;
         }
 
         public void MoveSelectedLines(int x, int y)
