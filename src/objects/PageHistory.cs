@@ -47,7 +47,7 @@ namespace VGraph.src.objects
             }
             UndoHistory.Push(undoPoint);
             //Normally, we want to clear the redo history after creating an undo point, as this is done whenever the user makes changes to the canvas.
-            //However, if that change is "press Undo", then we don't want to. It can lead to a situation where redo is allowed, but will crash the program.
+            //However, if that change is "press Redo", then we don't want to. Creating the undo point would clear the redo list before it was pulled from.
             if (clearRedo)
             {
                 RedoHistory.Clear();
