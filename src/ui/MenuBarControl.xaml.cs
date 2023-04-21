@@ -210,7 +210,7 @@ namespace VGraph.src.ui
             if (ps.Labels != null)
             {
                 textLayer.LabelList = ps.Labels;
-                textLayer.ForceRedraw()
+                textLayer.ForceRedraw();
             }
             CheckEditButtonValidity();
             MainWindowParent.MainCanvas.InvalidateVisual();
