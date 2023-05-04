@@ -68,7 +68,7 @@ namespace VGraphTestSuite
             string testPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\vgps\\labelGridTest.vgp");
             string referencePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\vgps\\labelGrid.vgp");
             TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            TextLabel l = new TextLabel(new SKPointI(0,0), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_CENTER_CENTER);
+            TextLabel l = new TextLabel(new SKPointI(0,0), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_CENTER_CENTER, false);
             TextLabel[] al = { l };
             lText.AddNewLabels(al);
             Assert.IsTrue(PageData.Instance.FileSave(testPath));
@@ -100,7 +100,7 @@ namespace VGraphTestSuite
             string testPath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\images\\labelGridTest.png");
             string referencePath = Path.GetFullPath(Directory.GetCurrentDirectory() + "\\..\\..\\..\\images\\labelGrid.png");
             TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            TextLabel l = new TextLabel(new SKPointI(0, 0), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_CENTER_CENTER);
+            TextLabel l = new TextLabel(new SKPointI(0, 0), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_CENTER_CENTER, false);
             TextLabel[] al = { l };
             lText.AddNewLabels(al);
             Assert.IsTrue(PageData.Instance.FileExport(testPath));
