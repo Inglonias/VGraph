@@ -88,7 +88,7 @@ namespace VGraphTestSuite
         public void MoveLabelsTest()
         {
             TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-            TextLabel l = new TextLabel(new SKPointI(1, 1), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_TOP_LEFT);
+            TextLabel l = new TextLabel(new SKPointI(1, 1), "Test", "#ff000000", "Times New Roman", 12, TextLabel.ALIGN_TOP_LEFT, false);
             TextLabel[] al = { l };
             lText.AddNewLabels(al);
             lText.SelectAllLabels();
