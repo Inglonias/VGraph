@@ -32,7 +32,8 @@ namespace VGraph.src.ui
             TextLayer lText = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
             if (AssociatedLabel == null)
             {
-                lText.AddTextLabel(TargetGridPoint, TextBoxLabelText.Text, PageData.Instance.CurrentLabelColor.ToString(), ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source, Convert.ToInt32(TextBoxFontSize.Text), ComboBoxAlignment.SelectedIndex);
+                bool oddMode = ((PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER)).OddMode;
+                lText.AddTextLabel(TargetGridPoint, TextBoxLabelText.Text, PageData.Instance.CurrentLabelColor.ToString(), ((System.Windows.Media.FontFamily)ComboBoxFonts.SelectedItem).Source, Convert.ToInt32(TextBoxFontSize.Text), ComboBoxAlignment.SelectedIndex, oddMode);
             }
             else
             {

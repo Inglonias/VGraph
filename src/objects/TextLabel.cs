@@ -25,10 +25,11 @@ namespace VGraph.src.objects
         public string FontFamily { get; set; }
         public int FontSize { get; set; }
         public int Alignment { get; set; }
+        public bool OddMode { get; set; } = false;
         [JsonIgnore]
         public bool IsSelected { get; set; }
 
-        public TextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontFamily, int fontSize, int alignment)
+        public TextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontFamily, int fontSize, int alignment, bool oddMode)
         {
             RenderPoint = renderPoint;
             LabelText = labelText;
@@ -37,6 +38,7 @@ namespace VGraph.src.objects
             FontSize = fontSize;
             Alignment = alignment;
             IsSelected = false;
+            OddMode = oddMode;
         }
 
         //If, for whatever reason, we choose not to deal with alignment, this will get the canvas point corresponding to the relevant grid square.
@@ -44,6 +46,11 @@ namespace VGraph.src.objects
         {
             int startX = (RenderPoint.X * PageData.Instance.SquareSize) + PageData.Instance.MarginX;
             int startY = (RenderPoint.Y * PageData.Instance.SquareSize) + PageData.Instance.MarginY;
+            if (OddMode)
+            {
+                startX += PageData.Instance.SquareSize / 2;
+                startY += PageData.Instance.SquareSize / 2;
+            }
 
             SKPointI rVal = new SKPointI(startX, startY);
 

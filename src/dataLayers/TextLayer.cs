@@ -115,10 +115,10 @@ namespace VGraph.src.dataLayers
             return RedrawRequired;
         }
 
-        public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontName, int fontSize, int alignment)
+        public void AddTextLabel(SKPointI renderPoint, string labelText, string labelColor, string fontName, int fontSize, int alignment, bool oddMode)
         {
             PageHistory.Instance.CreateUndoPoint(null, LabelList, true);
-            LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, fontName, fontSize, alignment));
+            LabelList.Add(new TextLabel(renderPoint, labelText, labelColor, fontName, fontSize, alignment, oddMode));
             PageData.Instance.MakeCanvasDirty();
             ForceRedraw();
         }
