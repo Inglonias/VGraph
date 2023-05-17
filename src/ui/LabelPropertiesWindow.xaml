@@ -40,7 +40,7 @@
         </Grid>
         <Grid Grid.Row="2">
             <Label Grid.Column="0" Content="Alignment:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <ComboBox Name="ComboBoxAlignment" Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Center" Width="105" SelectedIndex="0">
+            <ComboBox Name="ComboBoxAlignment" Grid.Column="1" HorizontalAlignment="Left" Margin="18,0,0,0" VerticalAlignment="Center" Width="105" SelectedIndex="4">
                 <ComboBoxItem Content="Top Left"/>
                 <ComboBoxItem Content="Top Center"/>
                 <ComboBoxItem Content="Top Right"/>
