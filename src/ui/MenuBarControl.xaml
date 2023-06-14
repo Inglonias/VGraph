@@ -76,7 +76,7 @@
             <ToggleButton x:Name="Ellipse_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Ellipse Tool&#x0a;Approximates an ellipse centered on the starting point.&#x0a;Uses the X and Y differences between that and the ending point as the semi-minor and semi-major axes.">
                 <Image Source="/VGraph;component/images/Ellipse.png"></Image>
             </ToggleButton>
-            <ToggleButton x:Name="Text_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Text Tool&#x0a;Right click with this tool selected to place labels associated with the selected grid point.&#x0a;Labels are exported in images and saved in vgp files,&#x0a;and can have different fonts, colors, and alignments.">
+            <ToggleButton x:Name="Text_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Text Tool&#x0a;Places labels associated with the selected grid point.&#x0a;Labels are exported in images and saved in vgp files,&#x0a;and can have different fonts, colors, and alignments.">
                 <Image Source="/VGraph;component/images/Texttool.png"></Image>
             </ToggleButton>
             <CheckBox Content="Odd Mode" x:Name="OddModeCheckbox" Height="32" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="32,0,0,0" ToolTip="Instructs draw tools to center around the center of a square instead of its intersection, if applicable.&#x0a;(Currently supports circle, ellipse, and label tools)." Click="OddMode_OnClick"/>

@@ -1,6 +1,8 @@
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VGraph.src.config;
 using VGraph.src.ui;
+using VGraphTestSuite.util;
 
 namespace VGraphTestSuite
 {
@@ -30,18 +32,16 @@ namespace VGraphTestSuite
             }
         }
 
-        [WpfTestMethod]
-        public void TestMainWindow()
+        [TestInitialize]
+        public void TestInit()
         {
-            MainWindow mw = new MainWindow();
-            mw.Show();
+            TestUtils.AssignPageData();
         }
 
         [WpfTestMethod]
         public void TestNewGridWindow()
         {
             NewGridWindow ngw = new NewGridWindow(false);
-            ngw.MainWindowParent = new MainWindow();
             ngw.Show();
         }
 
@@ -65,6 +65,14 @@ namespace VGraphTestSuite
         {
             LabelPropertiesWindow lpw = new LabelPropertiesWindow();
             lpw.Show();
+        }
+
+        [WpfTestMethod]
+        public void TestMainWindow()
+        {
+            MainWindow mw = new MainWindow();
+            mw.Show();
+            PageData.Instance.MainWindow = null; //To prevent other tests from breaking.
         }
     }
 }

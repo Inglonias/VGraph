@@ -13,6 +13,7 @@ namespace VGraph.src.ui
     {
         public MirrorToolWindow()
         {
+            PageData.Instance.LockMainWindow();
             InitializeComponent();
         }
 
@@ -43,11 +44,13 @@ namespace VGraph.src.ui
             {
 
             }
+            PageData.Instance.UnlockMainWindow();
             Close();
         }
 
         private void MirrorToolWindow_OnCancel(object sender, RoutedEventArgs e)
         {
+            PageData.Instance.UnlockMainWindow();
             Close();
         }
     }

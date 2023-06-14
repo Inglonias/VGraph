@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 using VGraph.src.dataLayers;
 using VGraph.src.objects;
+using VGraph.src.ui;
 
 namespace VGraph.src.config
 {
@@ -34,6 +35,8 @@ namespace VGraph.src.config
         public bool ExportBackgroundImage { get; set; } = false;
         public bool IsEyedropperActive { get; set; } = false;
         public bool IsCanvasDirty { get; private set; } = false;
+
+        public MainWindow? MainWindow { get; set; }
 
         private readonly Dictionary<string, IDataLayer> DataLayers = new Dictionary<string, IDataLayer>();
 
@@ -87,6 +90,30 @@ namespace VGraph.src.config
             {
                 BackgroundImagePath = "";
                 return false;
+            }
+        }
+
+        public void LockMainWindow()
+        {
+            if (MainWindow is not null)
+            {
+                MainWindow.Dispatcher.Invoke(() =>
+                {
+                    MainWindow.IsHitTestVisible = false;
+                    MainWindow.IsEnabled = false;
+                });
+            }
+        }
+
+        public void UnlockMainWindow()
+        {
+            if (MainWindow is not null)
+            {
+                MainWindow.Dispatcher.Invoke(() =>
+                {
+                    MainWindow.IsHitTestVisible = true;
+                    MainWindow.IsEnabled = true;
+                });
             }
         }
 

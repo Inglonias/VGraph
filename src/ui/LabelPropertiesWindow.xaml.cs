@@ -17,6 +17,7 @@ namespace VGraph.src.ui
         public TextLabel? AssociatedLabel { get; private set; } = null;
         public LabelPropertiesWindow()
         {
+            PageData.Instance.LockMainWindow();
             InitializeComponent();
             ColorSwatch.InvalidateVisual();
         }
@@ -24,6 +25,7 @@ namespace VGraph.src.ui
 
         private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
+            PageData.Instance.UnlockMainWindow();
             Close();
         }
 
@@ -46,6 +48,7 @@ namespace VGraph.src.ui
                 lText.ForceRedraw();
             }
             PageData.Instance.MakeCanvasDirty();
+            PageData.Instance.UnlockMainWindow();
             Close();
         }
 

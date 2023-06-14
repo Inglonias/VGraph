@@ -18,6 +18,7 @@ namespace VGraph.src.ui
         public bool DeleteLines;
         public NewGridWindow(bool deleteLines)
         {
+            PageData.Instance.LockMainWindow();
             InitializeComponent();
             if (deleteLines)
             {
@@ -67,6 +68,7 @@ namespace VGraph.src.ui
                 }
                 lineLayer.ForceRedraw();
                 MainWindowParent.MainCanvas.InvalidateVisual();
+                PageData.Instance.UnlockMainWindow();
                 Close();
             }
             catch (FormatException)
@@ -77,6 +79,7 @@ namespace VGraph.src.ui
 
         private void NewGridWindow_OnCancel(object sender, RoutedEventArgs e)
         {
+            PageData.Instance.UnlockMainWindow();
             Close();
         }
 

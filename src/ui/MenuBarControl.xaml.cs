@@ -46,10 +46,7 @@ namespace VGraph.src.ui
 
         public void ShowConfigWindow()
         {
-            ConfigOptionsWindow cow = new ConfigOptionsWindow
-            {
-                MainWindowParent = MainWindowParent
-            };
+            ConfigOptionsWindow cow = new ConfigOptionsWindow();
             cow.Show();
         }
 

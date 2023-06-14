@@ -6,7 +6,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using System.Windows.Media.Animation;
 using SkiaSharp;
 
 using VGraph.src.config;
@@ -47,6 +47,7 @@ namespace VGraph.src.ui
 
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
+            PageData.Instance.MainWindow = this;
             LGrid.GenerateLayerBitmap();
             MainCanvas.Width = PageData.Instance.GetTotalWidth();
             MainCanvas.Height = PageData.Instance.GetTotalHeight();

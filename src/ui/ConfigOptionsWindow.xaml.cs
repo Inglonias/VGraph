@@ -13,11 +13,11 @@ namespace VGraph.src.ui
     /// </summary>
     public partial class ConfigOptionsWindow : Window
     {
-        public MainWindow MainWindowParent { get; set; }
         private readonly List<ConfigRow> ConfigOptionsList = new List<ConfigRow>();
 
         public ConfigOptionsWindow()
         {
+            PageData.Instance.LockMainWindow();
             InitializeComponent();
             ConfigOptionsList.Add(new ConfigRow("Background paper color:"    , ConfigRow.TYPE_COLOR, "BackgroundPaperColorString"));
             ConfigOptionsList.Add(new ConfigRow("Border lines color:"        , ConfigRow.TYPE_COLOR, "BorderLinesColorString"));
@@ -167,12 +167,14 @@ namespace VGraph.src.ui
             {
                 l.Value.ForceRedraw(); //To apply property changes immediately.
             }
-            MainWindowParent.MainCanvas.InvalidateVisual();
+            PageData.Instance.MainWindow.MainCanvas.InvalidateVisual();
+            PageData.Instance.UnlockMainWindow();
             this.Close();
         }
 
         private void ConfigOptionsWindow_OnCancel(object sender, RoutedEventArgs e)
         {
+            PageData.Instance.UnlockMainWindow();
             this.Close();
         }
     }
