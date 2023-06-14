@@ -181,6 +181,7 @@ namespace VGraph.src.ui
             this.Title = PageData.Instance.GetWindowTitle();
             sw.Stop();
             FrameRateHistory.Push(sw.ElapsedMilliseconds);
+            ToolStatusTextBlock.Text = ((PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER)).GetStatusText();
             DrawTimeTextBlock.Text = "Draw Time: " + GetDrawTime() + " ms";
             StatusBar.InvalidateVisual();
             FrameDrawAllowed = false;

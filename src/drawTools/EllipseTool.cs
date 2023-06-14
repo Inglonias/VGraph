@@ -147,5 +147,13 @@ namespace VGraph.src.drawTools
             }
             return lines.ToArray();
         }
+
+        public virtual string GenerateStatusText(SKPointI start, SKPointI end)
+        {
+            int xSize = System.Math.Abs(start.X - end.X);
+            int ySize = System.Math.Abs(start.Y - end.Y);
+
+            return "Radii:  X: " + xSize + "  Y: " + ySize;
+        }
     }
 }

@@ -28,5 +28,13 @@ namespace VGraph.src.drawTools
             int radius = Math.Max(Math.Abs(start.X - end.X), Math.Abs(start.Y - end.Y));
             return DrawEllipseOdd(start, radius, radius);
         }
+
+        public override string GenerateStatusText(SKPointI start, SKPointI end)
+        {
+            int xSize = System.Math.Abs(start.X - end.X);
+            int ySize = System.Math.Abs(start.Y - end.Y);
+
+            return "Radius: " + Math.Max(xSize, ySize);
+        }
     }
 }

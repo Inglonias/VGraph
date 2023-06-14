@@ -1,4 +1,5 @@
 using SkiaSharp;
+using System;
 using VGraph.src.objects;
 
 namespace VGraph.src.drawTools
@@ -25,6 +26,14 @@ namespace VGraph.src.drawTools
         public LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end)
         {
             return DrawWithTool(start, end);
+        }
+
+        public string GenerateStatusText(SKPointI start, SKPointI end)
+        {
+            int xSize = System.Math.Abs(start.X - end.X);
+            int ySize = System.Math.Abs(start.Y - end.Y);
+
+            return "X Len: " + xSize + "  Y Len: " + ySize + "  H Len: " + Math.Round(Math.Sqrt(Math.Pow(xSize, 2) + Math.Pow(ySize, 2)), 2);
         }
     }
 }

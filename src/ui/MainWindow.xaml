@@ -119,7 +119,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -128,6 +128,9 @@
                 <TextBlock Name="CursorStatusTextBlock"/>
             </StatusBarItem>
             <StatusBarItem Grid.Column="1" HorizontalAlignment="Left">
+                <TextBlock Name="ToolStatusTextBlock"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2" HorizontalAlignment="Right">
                 <TextBlock Name="DrawTimeTextBlock"/>
             </StatusBarItem>
         </StatusBar>

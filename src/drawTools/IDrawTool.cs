@@ -24,5 +24,7 @@ namespace VGraph.src.drawTools
         /// <param name="end">The ending grid point of whatever you are drawing.</param>
         /// <returns>An array of line segments to be drawn to the canvas.</returns>
         LineSegment[] DrawWithToolOdd(SKPointI start, SKPointI end);
+
+        string GenerateStatusText(SKPointI start, SKPointI end);
     }
 }

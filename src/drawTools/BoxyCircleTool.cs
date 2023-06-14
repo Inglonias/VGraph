@@ -50,5 +50,13 @@ namespace VGraph.src.drawTools
             }
             return output;
         }
+
+        public override string GenerateStatusText(SKPointI start, SKPointI end)
+        {
+            int xSize = System.Math.Abs(start.X - end.X);
+            int ySize = System.Math.Abs(start.Y - end.Y);
+
+            return "Radius: " + Math.Max(xSize, ySize);
+        }
     }
 }

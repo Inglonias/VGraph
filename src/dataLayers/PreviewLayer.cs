@@ -199,5 +199,18 @@ namespace VGraph.src.dataLayers
                 PreviewGridPoint = gridPoint;
             }
         }
+
+        public string GetStatusText()
+        {
+            if (!PreviewPointActive)
+            {
+                return "";
+            }
+            LineLayer lLines = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+            SKPointI cursorGridPoint = ((CursorLayer)PageData.Instance.GetDataLayer(PageData.CURSOR_LAYER)).GetCursorGridPoints();
+            string rVal = lLines.SelectedTool.GenerateStatusText(PreviewGridPoint, cursorGridPoint);
+
+            return rVal;
+        }
     }
 }
