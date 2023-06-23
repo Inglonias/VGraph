@@ -1,9 +1,5 @@
 ![Logo](https://user-images.githubusercontent.com/2125926/132928948-69e2d47c-3ad5-429e-b5b5-3df1fe094d62.png)
 
-![processing facility](https://github.com/Inglonias/VGraph/assets/2125926/322ac602-d1c1-4db9-ac94-984e8c318691)
-![image](https://github.com/Inglonias/VGraph/assets/2125926/df9963e9-afab-46dc-a156-3b1df92a85cb)
-
-
 # VGraph
 A digital piece of grid paper
 
@@ -27,6 +23,11 @@ There are many times when I have found myself wanting to use grid paper to make 
 
 ## Requirements
 This program runs on the [.NET Core v6.0](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.9-windows-x64-installer). All required files should be included with the download. If you encounter problems, please submit a GitHub issue.
+
+## Screenshots
+![processing facility](https://github.com/Inglonias/VGraph/assets/2125926/322ac602-d1c1-4db9-ac94-984e8c318691)
+![image](https://github.com/Inglonias/VGraph/assets/2125926/2250adf8-9a1c-408a-a505-2fec86b4552f)
+
 
 ## Credits
 VGraph uses [SkiaSharp](https://github.com/mono/SkiaSharp) for drawing graphics and the Windows Presentation Framework for GUI and controls. 
