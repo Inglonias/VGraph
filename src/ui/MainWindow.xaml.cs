@@ -46,7 +46,10 @@ namespace VGraph.src.ui
             FrameCapTimer.Elapsed += AllowFrameDraw;
             FrameCapTimer.AutoReset = true;
             FrameCapTimer.Enabled = true;
-
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+            if (scale != 1.00f)
+            {
+            }
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
             PageData.Instance.MainWindow = this;
@@ -100,6 +103,7 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
             if (!FrameDrawAllowed)
             {
                 return;
@@ -134,6 +138,11 @@ namespace VGraph.src.ui
                 Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + VIEWPORT_BORDER),
                 Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + VIEWPORT_BORDER)
             };
+            if (scale != 1.00f)
+            {
+                viewport.Right = (int)Math.Round(viewport.Right * scale);
+                viewport.Bottom = (int)Math.Round(viewport.Bottom * scale);
+            }
             //Only happens during initial render.
             if (PrimaryBufferPanel.ViewportWidth == 0 || PrimaryBufferPanel.ViewportHeight == 0)
             {
@@ -179,7 +188,6 @@ namespace VGraph.src.ui
                 }
             }
             e.Surface.Canvas.DrawBitmap(drawingImage, viewport, viewport);
-            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
             if (scale != 1.00f)
             {
                 e.Surface.Canvas.Scale(scale);
@@ -218,8 +226,15 @@ namespace VGraph.src.ui
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
+                float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+                var targetPosition = e.GetPosition(MainCanvas);
+                if (scale != 1.00f)
+                {
+                    targetPosition.X = targetPosition.X * scale;
+                    targetPosition.Y = targetPosition.Y * scale;
+                }
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
+                bool selectionMade = LLines.HandleSelectionClick(targetPosition, maintainSelection) || LText.HandleSelectionClick(targetPosition, maintainSelection);
                 if (selectionMade && PageData.Instance.IsEyedropperActive)
                 {
                     PageData.Instance.IsEyedropperActive = false;

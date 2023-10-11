@@ -169,9 +169,7 @@ namespace VGraph.src.dataLayers
 
         private Point ScaleCursorPoint(Point p)
         {
-            var resWidth = Screen.PrimaryScreen.Bounds.Width;
-            var monitorWidth = SystemParameters.PrimaryScreenWidth;
-            float scale = (float)( resWidth / monitorWidth );
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth );
             if (scale != 1.00f)
             {
                 Point rVal = new Point(p.X * scale, p.Y * scale);
