@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Forms;
 using SkiaSharp;
 using VGraph.src.config;
 
@@ -10,7 +11,8 @@ namespace VGraph.src.dataLayers
         bool IDataLayer.DrawInExport => false;
 
         public bool ClickDragActive { get; private set; } = false;
-        public Point CanvasPoint { get; set; } = new Point(0, 0);
+        private Point _canvasPoint;
+        public Point CanvasPoint { get { return _canvasPoint; } set { _canvasPoint = ScaleCursorPoint(value); } }
         private Point ClickDragPoint = new Point(0, 0);
 
         public SKPointI CursorPoint { get; set; } = new SKPointI(0, 0);
@@ -19,6 +21,7 @@ namespace VGraph.src.dataLayers
 
         public CursorLayer()
         {
+            CanvasPoint = new Point(0, 0);
         }
 
         /// <summary>
@@ -162,6 +165,19 @@ namespace VGraph.src.dataLayers
 
         public void ForceRedraw()
         {
+        }
+
+        private Point ScaleCursorPoint(Point p)
+        {
+            var resWidth = Screen.PrimaryScreen.Bounds.Width;
+            var monitorWidth = SystemParameters.PrimaryScreenWidth;
+            float scale = (float)( resWidth / monitorWidth );
+            if (scale != 1.00f)
+            {
+                Point rVal = new Point(p.X * scale, p.Y * scale);
+                return rVal;
+            }
+            return p;
         }
     }
 }

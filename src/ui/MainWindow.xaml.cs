@@ -5,6 +5,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using SkiaSharp;
@@ -12,6 +13,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
 using VGraph.src.objects;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace VGraph.src.ui
 {
@@ -78,6 +80,7 @@ namespace VGraph.src.ui
         private void HandleCursor(MouseEventArgs e)
         {
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
+            Console.WriteLine(e.GetPosition(MainCanvas).ToString());
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
@@ -176,6 +179,11 @@ namespace VGraph.src.ui
                 }
             }
             e.Surface.Canvas.DrawBitmap(drawingImage, viewport, viewport);
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+            if (scale != 1.00f)
+            {
+                e.Surface.Canvas.Scale(scale);
+            }
             drawingImage.Dispose();
             drawingSurface.Dispose();
             this.Title = PageData.Instance.GetWindowTitle();
