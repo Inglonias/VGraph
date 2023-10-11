@@ -102,6 +102,7 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            //If windows scaling is active, we need to account for it when drawing the screen.
             float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
             if (!FrameDrawAllowed)
             {
@@ -130,6 +131,7 @@ namespace VGraph.src.ui
             }
             else
             {
+                //Divide by scale to avoid an overly-large scrollbar and canvas.
                 MainCanvas.Width = PageData.Instance.GetTotalWidth() / scale;
                 MainCanvas.Height = PageData.Instance.GetTotalHeight() / scale;
             }
@@ -146,6 +148,7 @@ namespace VGraph.src.ui
             };
             if (scale != 1.00f)
             {
+                //Increase the size of the viewport to match the scale.
                 viewport.Right = (int)Math.Round(viewport.Right * scale);
                 viewport.Bottom = (int)Math.Round(viewport.Bottom * scale);
             }

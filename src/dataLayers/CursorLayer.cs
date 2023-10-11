@@ -167,6 +167,7 @@ namespace VGraph.src.dataLayers
         {
         }
 
+        //If screen DPI scaling is active, we need to account for that in the cursor position.
         private Point ScaleCursorPoint(Point p)
         {
             float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth );
