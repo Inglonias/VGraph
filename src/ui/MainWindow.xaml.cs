@@ -124,9 +124,16 @@ namespace VGraph.src.ui
                 return;
             }
 
-            MainCanvas.Width = PageData.Instance.GetTotalWidth();
-            MainCanvas.Height = PageData.Instance.GetTotalHeight();
-
+            if (scale == 1.00f)
+            {
+                MainCanvas.Width = PageData.Instance.GetTotalWidth();
+                MainCanvas.Height = PageData.Instance.GetTotalHeight();
+            }
+            else
+            {
+                MainCanvas.Width = PageData.Instance.GetTotalWidth() / scale;
+                MainCanvas.Height = PageData.Instance.GetTotalHeight() / scale;
+            }
             e.Surface.Canvas.Clear(ConfigOptions.Instance.BackgroundPaperColor);
             int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - VIEWPORT_BORDER)));
             int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - VIEWPORT_BORDER)));
@@ -157,7 +164,11 @@ namespace VGraph.src.ui
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
                 SKBitmap fullLayer = l.Value.GenerateLayerBitmap();
-
+                if (scale != 1.00f && PrimaryBufferPanel.Width > 0)
+                {
+                    PrimaryBufferPanel.Width = (int)Math.Round(PrimaryBufferPanel.Width / scale);
+                    PrimaryBufferPanel.Height = (int)Math.Round(PrimaryBufferPanel.Height / scale);
+                }
                 if (fullLayer != null)
                 {
                     int layerLeft = Math.Max(0, viewport.Left - l.Value.GetRenderPoint().X);
@@ -188,10 +199,6 @@ namespace VGraph.src.ui
                 }
             }
             e.Surface.Canvas.DrawBitmap(drawingImage, viewport, viewport);
-            if (scale != 1.00f)
-            {
-                e.Surface.Canvas.Scale(scale);
-            }
             drawingImage.Dispose();
             drawingSurface.Dispose();
             this.Title = PageData.Instance.GetWindowTitle();
