@@ -83,7 +83,6 @@ namespace VGraph.src.ui
         private void HandleCursor(MouseEventArgs e)
         {
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
-            Console.WriteLine(e.GetPosition(MainCanvas).ToString());
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
