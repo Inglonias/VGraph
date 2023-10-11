@@ -5,6 +5,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using SkiaSharp;
@@ -12,6 +13,7 @@ using SkiaSharp;
 using VGraph.src.config;
 using VGraph.src.dataLayers;
 using VGraph.src.objects;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace VGraph.src.ui
 {
@@ -44,7 +46,10 @@ namespace VGraph.src.ui
             FrameCapTimer.Elapsed += AllowFrameDraw;
             FrameCapTimer.AutoReset = true;
             FrameCapTimer.Enabled = true;
-
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+            if (scale != 1.00f)
+            {
+            }
             InitializeComponent();
             MainMenuBar.MainWindowParent = this;
             PageData.Instance.MainWindow = this;
@@ -78,6 +83,7 @@ namespace VGraph.src.ui
         private void HandleCursor(MouseEventArgs e)
         {
             LCursor.CanvasPoint = e.GetPosition(MainCanvas);
+            Console.WriteLine(e.GetPosition(MainCanvas).ToString());
             if (!Mouse.LeftButton.Equals(MouseButtonState.Pressed))
             {
                 SKRect selectionBox = LCursor.StopClickDrag();
@@ -97,6 +103,7 @@ namespace VGraph.src.ui
 
         private void MainCanvas_OnPaintSurface(object sender, SkiaSharp.Views.Desktop.SKPaintSurfaceEventArgs e)
         {
+            float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
             if (!FrameDrawAllowed)
             {
                 return;
@@ -117,9 +124,16 @@ namespace VGraph.src.ui
                 return;
             }
 
-            MainCanvas.Width = PageData.Instance.GetTotalWidth();
-            MainCanvas.Height = PageData.Instance.GetTotalHeight();
-
+            if (scale == 1.00f)
+            {
+                MainCanvas.Width = PageData.Instance.GetTotalWidth();
+                MainCanvas.Height = PageData.Instance.GetTotalHeight();
+            }
+            else
+            {
+                MainCanvas.Width = PageData.Instance.GetTotalWidth() / scale;
+                MainCanvas.Height = PageData.Instance.GetTotalHeight() / scale;
+            }
             e.Surface.Canvas.Clear(ConfigOptions.Instance.BackgroundPaperColor);
             int viewTop = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.VerticalOffset - VIEWPORT_BORDER)));
             int viewLeft = Math.Max(0, Convert.ToInt32(Math.Floor(PrimaryBufferPanel.HorizontalOffset - VIEWPORT_BORDER)));
@@ -131,6 +145,11 @@ namespace VGraph.src.ui
                 Right = viewLeft + Convert.ToInt32(PrimaryBufferPanel.ViewportWidth + VIEWPORT_BORDER),
                 Bottom = viewTop + Convert.ToInt32(PrimaryBufferPanel.ViewportHeight + VIEWPORT_BORDER)
             };
+            if (scale != 1.00f)
+            {
+                viewport.Right = (int)Math.Round(viewport.Right * scale);
+                viewport.Bottom = (int)Math.Round(viewport.Bottom * scale);
+            }
             //Only happens during initial render.
             if (PrimaryBufferPanel.ViewportWidth == 0 || PrimaryBufferPanel.ViewportHeight == 0)
             {
@@ -145,7 +164,11 @@ namespace VGraph.src.ui
             foreach (KeyValuePair<string, IDataLayer> l in PageData.Instance.GetDataLayers())
             {
                 SKBitmap fullLayer = l.Value.GenerateLayerBitmap();
-
+                if (scale != 1.00f && PrimaryBufferPanel.Width > 0)
+                {
+                    PrimaryBufferPanel.Width = (int)Math.Round(PrimaryBufferPanel.Width / scale);
+                    PrimaryBufferPanel.Height = (int)Math.Round(PrimaryBufferPanel.Height / scale);
+                }
                 if (fullLayer != null)
                 {
                     int layerLeft = Math.Max(0, viewport.Left - l.Value.GetRenderPoint().X);
@@ -210,8 +233,15 @@ namespace VGraph.src.ui
             }
             else if (e.ChangedButton == MouseButton.Left)
             {
+                float scale = (float)(Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+                var targetPosition = e.GetPosition(MainCanvas);
+                if (scale != 1.00f)
+                {
+                    targetPosition.X = targetPosition.X * scale;
+                    targetPosition.Y = targetPosition.Y * scale;
+                }
                 bool maintainSelection = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-                bool selectionMade = LLines.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection) || LText.HandleSelectionClick(e.GetPosition(MainCanvas), maintainSelection);
+                bool selectionMade = LLines.HandleSelectionClick(targetPosition, maintainSelection) || LText.HandleSelectionClick(targetPosition, maintainSelection);
                 if (selectionMade && PageData.Instance.IsEyedropperActive)
                 {
                     PageData.Instance.IsEyedropperActive = false;
