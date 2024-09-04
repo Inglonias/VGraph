@@ -27,9 +27,9 @@ This program runs on the [.NET Core v6.0](https://dotnet.microsoft.com/en-us/dow
 ## Screenshots and media
 
 Here is a brief video demo of VGraph's various features:
-<video src="https://github.com/user-attachments/assets/1d891326-f66" width="300" />
 
-0-4c6b-8587-7ec0d31bf97c
+https://github.com/user-attachments/assets/bac68ca1-13fd-421b-a257-f2f9bfb31c1a
+
 
 ![processing facility](https://github.com/Inglonias/VGraph/assets/2125926/322ac602-d1c1-4db9-ac94-984e8c318691)
 ![image](https://github.com/Inglonias/VGraph/assets/2125926/2250adf8-9a1c-408a-a505-2fec86b4552f)
