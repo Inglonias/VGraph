@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="VGraph.src.ui.MenuBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="clr-namespace:VGraph.src.ui" xmlns:skia="clr-namespace:SkiaSharp.Views.WPF;assembly=SkiaSharp.Views.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="64" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px"/>
+            <RowDefinition Height="3px"/>
+            <RowDefinition Height="44px"/>
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch" Grid.Row="0" Background="#FFF0F0F0">
+            <MenuItem Header="_File">
+                <MenuItem Header="New"     Command="ui:MenuCommands.NewGridCmd" InputGestureText="Ctrl+N"/>
+                <MenuItem Header="Open"    Command="ui:MenuCommands.OpenGridCmd" InputGestureText="Ctrl+O"/>
+                <MenuItem Header="Save"    Command="ui:MenuCommands.SaveGridCmd" InputGestureText="Ctrl+S"/>
+                <MenuItem Header="Save As" Command="ui:MenuCommands.SaveGridAsCmd" InputGestureText="Ctrl+Alt+S"/>
+                <Separator />
+                <MenuItem Header="Import" Command="ui:MenuCommands.ImportGridCmd" InputGestureText="Ctrl+Shift+O"/>
+                <MenuItem Header="Export" Command="ui:MenuCommands.ExportGridCmd" InputGestureText="Ctrl+Shift+S"/>
+                <Separator />
+                <MenuItem Header="_Export Settings">
+                    <MenuItem x:Name="ExportCenterLines" Header="Export with Center Lines" Click="ExportCenterLines_OnClick" />
+                    <MenuItem x:Name="ExportGridLines" Header="Export with Grid Lines"  IsChecked="True" Click="ExportGridLines_OnClick" />
+                    <MenuItem x:Name="ExportBackgroundImage" Header="Export with Background Image"  IsChecked="False" Click="ExportBackgroundImage_OnClick" />
+                </MenuItem>
+
+                <Separator />
+                <MenuItem Header="Exit" Command="ui:MenuCommands.ExitCmd" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem x:Name="UndoButton" Header="Undo" Command="ui:MenuCommands.UndoCmd" InputGestureText="Ctrl+Z"/>
+                <MenuItem x:Name="RedoButton" Header="Redo" Command="ui:MenuCommands.RedoCmd" InputGestureText="Ctrl+Y"/>
+                <Separator />
+                <MenuItem x:Name="ResizeButton" Header="Resize Canvas" Command="ui:MenuCommands.ResizeGridCmd" />
+                <Separator />
+                <MenuItem Header="Select All" Command="ui:MenuCommands.SelectAllCmd" InputGestureText="Ctrl+A"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Zoom In" Command="ui:MenuCommands.ZoomInCmd" InputGestureText="Ctrl+Plus"/>
+                <MenuItem Header="Zoom Out" Command="ui:MenuCommands.ZoomOutCmd" InputGestureText="Ctrl+Minus"/>
+                <Separator />
+                <MenuItem Header="Show Center Lines" Command="ui:MenuCommands.CenterLinesCmd"  x:Name="CenterLinesButton" ToolTip="This will toggle the display of center lines in the X and Y axis." IsCheckable="True" InputGestureText="Ctrl+T"/>
+                <MenuItem Header="Show Grid Lines" Command="ui:MenuCommands.GridLinesCmd"  x:Name="GridLinesButton" ToolTip="This will toggle the display of the background grid." IsCheckable="True" InputGestureText="Ctrl+G"/>
+                <MenuItem Header="Show Background Image" Command="ui:MenuCommands.BackgroundImageCmd"  x:Name="BackgroundImageButton" ToolTip="This will toggle the display of the background image." IsCheckable="True" InputGestureText="Ctrl+B"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Merge Lines" Command="ui:MenuCommands.MergeLinesCmd" ToolTip="This will merge any adjacent, co-linear lines together, creating a single large line in their place" InputGestureText="Ctrl+Shift+M"/>
+                <MenuItem Header="Mirror Tool" Command="ui:MenuCommands.MirrorLinesCmd" ToolTip="This tool will allow you to mirror lines across any X or Y value." InputGestureText="Ctrl+R"/>
+                <Separator />
+                <MenuItem Header="Preferences" Command="ui:MenuCommands.ConfigWindowCmd"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel Grid.Row="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <Separator/>
+        </ToolBarPanel>
+        <ToolBarPanel Height="44px" Grid.Row="2" Orientation="Horizontal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <ToggleButton x:Name="Line_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,1,1,1" Click="ToolMenu_OnChecked" IsChecked="True" ToolTip="Line Tool&#x0a;Draws a line between the selected points">
+                <Image Source="/VGraph;component/images/Line.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Box_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Box Tool&#x0a;Draws a box, with the selected points being opposite corners.">
+                <Image Source="/VGraph;component/images/Box.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Tri_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Triangle Tool&#x0a;Draws a right triangle. The straight line between the selected points forms the hypotenuse.&#x0a;Swapping the end and start points flips the triangle.">
+                <Image Source="/VGraph;component/images/Triangle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Circle Tool&#x0a;Approximates a circle centered on the starting point.">
+                <Image Source="/VGraph;component/images/Circle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Boxy_Circle_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Boxy Circle Tool&#x0a;Approximates a circle made of boxes centered on the starting point.">
+                <Image Source="/VGraph;component/images/Boxy Circle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Ellipse_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Ellipse Tool&#x0a;Approximates an ellipse centered on the starting point.&#x0a;Uses the X and Y differences between that and the ending point as the semi-minor and semi-major axes.">
+                <Image Source="/VGraph;component/images/Ellipse.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="Text_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked" ToolTip="Text Tool&#x0a;Places labels associated with the selected grid point.&#x0a;Labels are exported in images and saved in vgp files,&#x0a;and can have different fonts, colors, and alignments.">
+                <Image Source="/VGraph;component/images/Texttool.png"></Image>
+            </ToggleButton>
+            <CheckBox Content="Odd Mode" x:Name="OddModeCheckbox" Height="32" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="32,0,0,0" ToolTip="Instructs draw tools to center around the center of a square instead of its intersection, if applicable.&#x0a;(Currently supports circle, ellipse, and label tools)." Click="OddMode_OnClick"/>
+            <Button Height="24" Margin="16,0" Click="ColorSelect_OnClick">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <skia:SKElement Grid.Column="0" x:Name="ColorSwatch" Width="16" Height="16" Margin="4,0" PaintSurface="ColorSwatch_OnPaintSurface" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="Line Color" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                </Grid>
+            </Button>
+            <ToggleButton x:Name="Eyedropper_Tool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" ToolTip="Eyedropper Tool&#x0a;Click to activate.&#x0a;Changes the line color to whatever color the next selected line has." Checked="Eyedropper_OnChecked" Unchecked="Eyedropper_OnUnchecked">
+                <Image Source="/VGraph;component/images/Eyedropper.png"></Image>
+            </ToggleButton>
+        </ToolBarPanel>
+    </Grid>
+
+</UserControl>

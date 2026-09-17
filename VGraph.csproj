@@ -29,8 +29,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SkiaSharp" Version="3.119.1" />
     <PackageReference Include="SkiaSharp.Views.WPF" Version="2.80.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Box.png" />
+    <Resource Include="images\Boxy Circle.png" />
+    <Resource Include="images\Circle.png" />
+    <Resource Include="images\Ellipse.png" />
+    <Resource Include="images\Eyedropper.png" />
+    <Resource Include="images\Line.png" />
+    <Resource Include="images\Triangle.png" />
+    <Resource Include="images\Texttool.png" />
   </ItemGroup>
 
   <ItemGroup>
