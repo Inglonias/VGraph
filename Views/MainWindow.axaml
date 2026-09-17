@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:VGraph.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="using:VGraph.Views"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="850" d:DesignHeight="1200"
+        Width="850" Height="1200"
+        x:Class="VGraph.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/VGraph Icon.ico"
+        Title="{Binding CanvasModel.WindowTitle}" Closing="MainWindow_OnClosing">
+        
+    
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+    </Design.DataContext>
+    <Window.KeyBindings>
+        <KeyBinding Gesture="W" Command="{Binding MoveThingsUpCommand}"/>
+        <KeyBinding Gesture="A" Command="{Binding MoveThingsLeftCommand}"/>
+        <KeyBinding Gesture="S" Command="{Binding MoveThingsDownCommand}"/>
+        <KeyBinding Gesture="D" Command="{Binding MoveThingsRightCommand}"/>
+        <KeyBinding Gesture="Delete" Command="{Binding DeleteThingsCommand}"/>
+    </Window.KeyBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64"/>
+            <RowDefinition/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <local:MenuBarControl x:Name="MainMenuBar"></local:MenuBarControl>
+        </DockPanel>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible">
+            <local:MainCanvas HorizontalAlignment="Center" DataContext="{Binding CanvasModel}" x:Name="PrimaryDrawingPanel"/>
+        </ScrollViewer>
+        <Border x:Name="StatusBar" Grid.Row="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding CanvasModel.CursorStatusText}"
+                       Margin="4,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"/>
+                <TextBlock Grid.Column="1" Text="{Binding CanvasModel.ToolStatusText}"
+                           Margin="4,0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
+            </Grid>
+        </Border>
+    </Grid>
+
+</Window>

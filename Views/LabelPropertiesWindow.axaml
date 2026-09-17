@@ -1,0 +1,79 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:VGraph.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="320" d:DesignHeight="280"
+        x:Class="VGraph.Views.LabelPropertiesWindow"
+        Title="LabelPropertiesWindow"
+        x:DataType="vm:LabelPropertiesViewModel"
+        Height="280"
+        Width="320"
+        CanResize="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Text:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox Name="TextBoxLabelText" Grid.Column="1" Margin="10" VerticalContentAlignment="Center" Text="{Binding LabelTextInUi}"/>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Font:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" Margin="10" VerticalAlignment="Center" Name="ComboBoxFonts" FontSize="12" ItemsSource="{Binding InstalledFonts}" SelectedItem="{Binding FontInUi}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="FontFamily">
+                        <TextBlock Text="{Binding Name}" FontFamily="{Binding .}" TextTrimming="CharacterEllipsis"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Label Grid.Column="0" Content="Alignment:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ComboBox Grid.Column="1" VerticalAlignment="Center" ItemsSource="{Binding AlignmentOptions}" SelectedItem="{Binding SelectedAlignmentInUi}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="vm:LabelPropertiesViewModel+AlignmentOption">
+                        <TextBlock Text="{Binding DisplayText}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Grid.Column="2" Content="Size:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <TextBox Name="TextBoxFontSize" Grid.Column="3" HorizontalAlignment="Left" Text="{Binding FontSizeInUi}" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" TextWrapping="NoWrap"  VerticalAlignment="Center" Width="32"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Label Grid.Row="0" Grid.Column="0" Content="Color:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <ColorPicker Grid.Column="1" Margin="10 0" Color="{Binding ChosenColorInUi}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="8" VerticalAlignment="Bottom" IsDefault="True" Click="Okay_OnClick">OK</Button>
+            <Button Grid.Column="1" Margin="8" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_OnClick">Cancel</Button>
+        </Grid>
+    </Grid>
+</Window>

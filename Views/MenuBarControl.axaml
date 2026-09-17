@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:VGraph.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:acp="clr-namespace:Avalonia.Controls;assembly=Avalonia.Controls.ColorPicker"
+             mc:Ignorable="d"
+             x:Class="VGraph.Views.MenuBarControl"
+             x:DataType="vm:MenuBarModel">
+  <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="44"/>
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch" Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="New" HotKey="Ctrl+N" InputGesture="Ctrl+N" Command="{Binding CreateNewGridCommand}"/> <!-- This is a command because it involves the creation of a sub-window -->
+                <MenuItem Header="Open" HotKey="Ctrl+O" InputGesture="Ctrl+O" Click="OpenButton_OnClick"/>
+                <MenuItem Header="Save" HotKey="Ctrl+S" InputGesture="Ctrl+S" Click="SaveButton_OnClick"/>
+                <MenuItem Header="Save As" HotKey="Ctrl+Alt+S" InputGesture="Ctrl+Alt+S" Click="SaveAsButton_OnClick"/>
+                <Separator />
+                <MenuItem Header="Import" HotKey="Ctrl+I" InputGesture="Ctrl+I" Click="ImportButton_OnClick"/>
+                <MenuItem Header="Export" HotKey="Ctrl+Alt+E" InputGesture="Ctrl+Alt+E" Click="ExportButton_OnClick"/>
+                <Separator />
+                <MenuItem Header="Export Settings">
+                    <MenuItem x:Name="ExportCenterLines" Header="Export with Center Lines" ToggleType="CheckBox" IsChecked="False"/>
+                    <MenuItem x:Name="ExportGridLines" Header="Export with Grid Lines" ToggleType="CheckBox" IsChecked="True"  />
+                    <MenuItem x:Name="ExportBackgroundImage" Header="Export with Background Image" ToggleType="CheckBox" IsChecked="False" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem x:Name="UndoButton" Header="Undo" HotKey="Ctrl+Z" InputGesture="Ctrl+Z"  IsEnabled="{Binding UndoEnabled}" Click="UndoButton_OnClick"/>
+                <MenuItem x:Name="RedoButton" Header="Redo" HotKey="Ctrl+Y" InputGesture="Ctrl+Y" IsEnabled="{Binding RedoEnabled}" Click="RedoButton_OnClick"/>
+                <Separator />
+                <MenuItem x:Name="ResizeButton" Header="Resize Canvas" Command="{Binding EditExistingGridCommand}"/> <!-- This is a command because it involves the creation of a sub-window -->
+                <Separator />
+                <MenuItem Header="Select All"/>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="Zoom In" HotKey="Ctrl+Add" InputGesture="Ctrl+Add" Click="ZoomIn_OnClick"/>
+                <MenuItem Header="Zoom Out" HotKey="Ctrl+Subtract" InputGesture="Ctrl+Subtract" Click="ZoomOut_OnClick"/>
+                <Separator />
+                <MenuItem x:Name="CenterLinesButton" Header="Show Center Lines" HotKey="Ctrl+T" InputGesture="Ctrl+T" ToggleType="CheckBox" IsChecked="False" Click="CenterLinesButton_OnClick"/>
+                <MenuItem x:Name="GridLinesButton" Header="Show Grid Lines" HotKey="Ctrl+G" InputGesture="Ctrl+G" ToggleType="CheckBox" IsChecked="True" Click="GridLinesButton_OnClick"/>
+                <MenuItem x:Name="BackgroundImageButton" Header="Show Background Image" HotKey="Ctrl+B" InputGesture="Ctrl+B" ToggleType="CheckBox" IsChecked="True" Click="BackgroundImageButton_OnClick"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Merge Lines" Command="{Binding MergeLinesCommand}"/>
+                <MenuItem Header="Mirror Tool" Click="MirrorTool_OnClick"/>
+                <Separator />
+                <MenuItem Header="Preferences" Click="Preferences_OnClick"/>
+            </MenuItem>
+        </Menu>
+        <DockPanel Grid.Row="1" >
+            <Separator/>
+        </DockPanel>
+        <DockPanel Height="44" Grid.Row="2" >
+            <ToggleButton x:Name="LineTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,1,1,1" IsChecked="True" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Line.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="BoxTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Box.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="TriTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Triangle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="CircleTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Circle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="BoxyCircleTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Boxy Circle.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="EllipseTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Ellipse.png"></Image>
+            </ToggleButton>
+            <ToggleButton x:Name="TextTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="ToolMenu_OnChecked">
+                <Image Source="avares://VGraph/Assets/Texttool.png"></Image>
+            </ToggleButton>
+            <CheckBox Content="Odd Mode" x:Name="OddModeCheckbox" Height="32" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="32,0,0,0" Click="OddMode_OnClick"/>
+            <ColorPicker Margin="10 0" Color="{Binding ChosenColor, Mode=TwoWay}"/>
+            <ToggleButton x:Name="EyedropperTool" Width="32" Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1" Click="EyedropperTool_OnClick">
+                <Image Source="avares://VGraph/Assets/Eyedropper.png"></Image>
+            </ToggleButton>
+        </DockPanel>
+    </Grid>
+</UserControl>
