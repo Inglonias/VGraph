@@ -83,6 +83,7 @@ public partial class MainViewModel : ViewModelBase
         TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
         lineLayer.SelectAllLines();
         textLayer.SelectAllLabels();
+        CanvasModel.IncrementCanvasVersion();
     }
 
     public void SetWindowTitle()
