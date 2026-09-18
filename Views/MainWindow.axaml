@@ -23,6 +23,7 @@
         <KeyBinding Gesture="S" Command="{Binding MoveThingsDownCommand}"/>
         <KeyBinding Gesture="D" Command="{Binding MoveThingsRightCommand}"/>
         <KeyBinding Gesture="Delete" Command="{Binding DeleteThingsCommand}"/>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding SelectAllLinesAndLabelsCommand}"/>
     </Window.KeyBindings>
     <Grid>
         <Grid.RowDefinitions>

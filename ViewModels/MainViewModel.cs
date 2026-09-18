@@ -18,6 +18,7 @@ public partial class MainViewModel : ViewModelBase
     public ICommand MoveThingsDownCommand { get; }
     public ICommand MoveThingsRightCommand { get; }
     public ICommand DeleteThingsCommand { get; }
+    public ICommand SelectAllLinesAndLabelsCommand { get; }
     public MainCanvasModel CanvasModel { get; }
     public event EventHandler<TextLabel>? EditTextLabelEvent;
 
@@ -30,8 +31,8 @@ public partial class MainViewModel : ViewModelBase
         MoveThingsDownCommand = new RelayCommand(MoveThingsDown);
         MoveThingsRightCommand = new RelayCommand(MoveThingsRight);
         DeleteThingsCommand = new RelayCommand(DeleteThings);
+        SelectAllLinesAndLabelsCommand = new RelayCommand(SelectAllLinesAndLabels);
         TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
-        PreviewLayer previewLayer = (PreviewLayer)PageData.Instance.GetDataLayer(PageData.PREVIEW_LAYER);
 
         textLayer.EditTextLabelEvent += (_, targetLabel) => 
             {
@@ -74,6 +75,14 @@ public partial class MainViewModel : ViewModelBase
         lineLayer.DeleteSelectedLines();
         textLayer.DeleteSelectedLabels();
         CanvasModel.IncrementCanvasVersion();
+    }
+
+    public void SelectAllLinesAndLabels()
+    {
+        LineLayer lineLayer = (LineLayer)PageData.Instance.GetDataLayer(PageData.LINE_LAYER);
+        TextLayer textLayer = (TextLayer)PageData.Instance.GetDataLayer(PageData.TEXT_LAYER);
+        lineLayer.SelectAllLines();
+        textLayer.SelectAllLabels();
     }
 
     public void SetWindowTitle()
