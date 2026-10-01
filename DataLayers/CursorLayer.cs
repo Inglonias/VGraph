@@ -101,6 +101,7 @@ namespace VGraph.DataLayers
                 float bottom = Convert.ToSingle(Math.Max(CanvasPoint.Y, ClickDragPoint.Y));
 
                 SKRect rVal = new SKRect(left, top, right, bottom);
+                ForceRedraw();
                 return rVal;
             }
             return SKRect.Empty;
